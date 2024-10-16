@@ -13,13 +13,23 @@ const LIST: AppRouteRecordRaw = {
   },
   children: [
     {
+      path: 'employee-check-table', // The midline path complies with SEO specifications
+      name: 'EmployeeCheckTable',
+      component: () => import('@/views/list/employee-check-table/index.vue'),
+      meta: {
+        locale: 'menu.list.employeeCheckTable',
+        requiresAuth: true,
+        roles: ['branch-admin'],
+      },
+    },
+    {
       path: 'search-table', // The midline path complies with SEO specifications
       name: 'SearchTable',
       component: () => import('@/views/list/search-table/index.vue'),
       meta: {
         locale: 'menu.list.searchTable',
         requiresAuth: true,
-        roles: ['*'],
+        roles: ['admin'],
       },
     },
     {
@@ -29,7 +39,70 @@ const LIST: AppRouteRecordRaw = {
       meta: {
         locale: 'menu.list.cardList',
         requiresAuth: true,
-        roles: ['*'],
+        roles: ['admin'],
+      },
+    },
+    {
+      path: 'BranchTemplateTable', // The midline path complies with SEO specifications
+      name: 'BranchTemplateTable',
+      component: () => import('@/views/list/branch-template-table/index.vue'),
+      meta: {
+        locale: 'menu.list.branchTemplateTable',
+        requiresAuth: true,
+        roles: ['branch-admin'],
+      },
+    },
+    {
+      path: 'BranchEmployeeManagement', // The midline path complies with SEO specifications
+      name: 'BranchEmployeeManagement',
+      component: () => import('@/views/list/branch-employee-management/index.vue'),
+      meta: {
+        locale: 'menu.list.branchEmployeeManagement',
+        requiresAuth: true,
+        roles: ['branch-admin'],
+      },
+    },
+    {
+      path: 'branchCargoList', // The midline path complies with SEO specifications
+      name: 'branchCargoList',
+      component: () => import('@/views/list/branch-cargo-list/index.vue'),
+      meta: {
+        locale: 'menu.list.branchCargoList',
+        requiresAuth: true,
+        roles: ['branch-admin'],
+      },
+    },
+    {
+      path: 'cargoQuery', // The midline path complies with SEO specifications
+      name: 'cargoQuery',
+      component: () => import('@/views/list/cargo-query/index.vue'),
+      meta: {
+        locale: 'menu.list.cargoQuery',
+        requiresAuth: true,
+        roles: ['branch-admin'],
+        hideInMenu: false
+      },
+    },
+    {
+      path: 'branch-warehouse-table', // The midline path complies with SEO specifications
+      name: 'branchWarehouseTable',
+      component: () => import('@/views/list/branch-warehouse-table/index.vue'),
+      meta: {
+        locale: 'menu.list.branchWarehouseTable',
+        requiresAuth: true,
+        roles: ['branch-admin'],
+        hideInMenu: false
+      },
+    },
+    {
+      path: 'branch-device-table', // The midline path complies with SEO specifications
+      name: 'branchDeviceTable',
+      component: () => import('@/views/list/branch-device-table/index.vue'),
+      meta: {
+        locale: 'menu.list.branchDeviceTable',
+        requiresAuth: true,
+        roles: ['branch-admin'],
+        hideInMenu: false
       },
     },
   ],

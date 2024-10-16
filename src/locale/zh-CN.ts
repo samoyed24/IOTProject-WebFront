@@ -8,8 +8,22 @@ import localeMonitor from '@/views/dashboard/monitor/locale/zh-CN'
 import localeCardList from '@/views/list/card/locale/zh-CN'
 import localeSearchTable from '@/views/list/search-table/locale/zh-CN'
 
+import localeEmployeeCheckTable from '@/views/list/employee-check-table/locale/zh-CN'
+
+import localeBranchTemplateTable from '@/views/list/branch-template-table/locale/zh-CN'
+
+import localeBranchEmployeeManagement from '@/views/list/branch-employee-management/locale/zh-CN'
+import localeBranchCargoList from '@/views/list/branch-cargo-list/locale/zh-CN'
+
 import localeGroupForm from '@/views/form/group/locale/zh-CN'
 import localeStepForm from '@/views/form/step/locale/zh-CN'
+import localeWarehouseCreate from '@/views/form/warehouse-create/locale/zh-CN'
+import localeBranchTemplateCreate from '@/views/form/branch-template-create/locale/zh-CN'
+import localeBranchEmployeeAdd from '@/views/form/branch-employee-add/locale/zh-CN'
+import localeCargoQuery from '@/views/list/cargo-query/locale/zh-CN'
+import localeBranchWarehouseTable from '@/views/list/branch-warehouse-table/locale/zh-CN'
+import localeBranchDeviceTable from '@/views/list/branch-device-table/locale/zh-CN'
+
 
 import localeBasicProfile from '@/views/profile/basic/locale/zh-CN'
 
@@ -51,9 +65,19 @@ export default {
   /** simple */
   ...localeMonitor,
   ...localeSearchTable,
+  ...localeEmployeeCheckTable,
+  ...localeBranchTemplateTable,
   ...localeCardList,
   ...localeStepForm,
   ...localeGroupForm,
+  ...localeBranchTemplateCreate,
+  ...localeBranchEmployeeAdd,
+  ...localeBranchEmployeeManagement,
+  ...localeCargoQuery,
+  ...localeWarehouseCreate,
+  ...localeBranchCargoList,
+  ...localeBranchWarehouseTable,
+  ...localeBranchDeviceTable,
   ...localeBasicProfile,
   ...localeDataAnalysis,
   ...localeMultiDAnalysis,

@@ -24,12 +24,38 @@ export interface PolicyListRes {
 }
 
 export function queryPolicyList(params: PolicyParams) {
-  return axios.get<PolicyListRes>('/api/list/policy', {
+  return axios.get<PolicyListRes>('dev-api/api/v1/web-get-records', {
     params,
     paramsSerializer: (obj) => {
       return qs.stringify(obj)
     },
   })
+}
+
+export function getRecordDetails(params: any) {
+  return axios.get('dev-api/bind/get-record-details', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
+    },
+  })
+}
+
+export function queryBranchTemplate(params: any) {
+  return axios.get('dev-api/management/get-templates-under-branch', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
+    },
+  })
+}
+
+export function deleteTemplate(data: any) {
+  return axios.post('dev-api/management/delete-template', data)
+}
+
+export function getTemplateDetails(data: any) {
+  return axios.post('dev-api/bind/get-template-details', data)
 }
 
 export interface ServiceRecord {
@@ -53,4 +79,53 @@ export function queryTheServiceList() {
 
 export function queryRulesPresetList() {
   return axios.get('/api/list/rules-preset')
+}
+
+export function queryEmployeeList(params: any) {
+  return axios.get('dev-api/management/get-employees', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
+    },
+  })
+}
+
+// export function downloadEmployeeTemplate() {
+//   return axios.get('dev-api/management/get-employee-import-template')
+// }
+
+export function queryBranchCargoList(params: any) {
+  return axios.get('dev-api/management/branch-cargo-get', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
+    },
+  })
+}
+
+export function queryCargoCurrentRecords(params: any) {
+  return axios.get('dev-api/management/get-cargo-current-records', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
+    },
+  })
+}
+
+export function queryWarehouses(params: any) {
+  return axios.get('dev-api/management/branch-get-warehouses', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
+    },
+  })
+}
+
+export function queryDevices(params: any) {
+  return axios.get('dev-api/management/branch-get-devices', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
+    },
+  })
 }

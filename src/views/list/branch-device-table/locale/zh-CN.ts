@@ -1,0 +1,36 @@
+export default {
+  'menu.list.branchDeviceTable': '设备管理',
+  'branchDeviceTable.form.search': '查询',
+  'branchDeviceTable.form.reset': '重置',
+  'branchDeviceTable.form.selectDefault': '全部',
+  'branchDeviceTable.operation.create': '新建',
+  'branchDeviceTable.operation.import': '批量导入',
+  'branchDeviceTable.operation.download': '下载',
+  // columns
+  'branchDeviceTable.columns.index': '#',
+  'branchDeviceTable.columns.id': '设备ID',
+  'branchDeviceTable.columns.deviceId': '唯一编码',
+  'branchDeviceTable.columns.deviceType': '设备类型',
+  'branchDeviceTable.form.deviceType.bindrole': '录入/质检',
+  'branchDeviceTable.form.deviceType.check': '读取',
+  'branchDeviceTable.form.deviceType.warehouse_sensor': '库房温控',
+  'branchDeviceTable.form.deviceType.warehouse_guard': '库房守卫',
+  'branchDeviceTable.form.deviceType.transmit': '运输',
+  'branchDeviceTable.columns.is_online': '在线状态',
+  'branchDeviceTable.form.is_online.true': '在线',
+  'branchDeviceTable.form.is_online.false': '离线',
+  'branchDeviceTable.columns.last_online': '上次上线',
+  'branchDeviceTable.columns.register_time': '注册时间',
+  'branchDeviceTable.columns.operations': '操作',
+  'branchDeviceTable.columns.operations.view': '查看',
+
+  // size
+  'branchDeviceTable.size.mini': '迷你',
+  'branchDeviceTable.size.small': '偏小',
+  'branchDeviceTable.size.medium': '中等',
+  'branchDeviceTable.size.large': '偏大',
+  // actions
+  'branchDeviceTable.actions.refresh': '刷新',
+  'branchDeviceTable.actions.density': '密度',
+  'branchDeviceTable.actions.columnSetting': '列设置',
+}

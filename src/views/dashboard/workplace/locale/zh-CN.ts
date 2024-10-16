@@ -33,5 +33,7 @@ export default {
   'workplace.popularContent.image': '图片',
   'workplace.popularContent.video': '视频',
   'workplace.categoriesPercent': '内容类型占比',
-  'workplace.pecs': '个',
+  'workplace.pecs': '件',
+  'workplace.cargoTotal': '总录入货物',
+  'workplace.cargo24Hours': '24小时录入货物'
 }

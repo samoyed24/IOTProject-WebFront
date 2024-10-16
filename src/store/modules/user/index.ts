@@ -3,7 +3,7 @@ import { clearToken, setToken } from '@/utils/auth'
 import { removeRouteListener } from '@/utils/route-listener'
 import { defineStore } from 'pinia'
 import useAppStore from '../app'
-import { UserState } from './types'
+import {RoleType, UserState} from './types'
 
 const useUserStore = defineStore('user', {
   state: (): UserState => ({
@@ -11,18 +11,18 @@ const useUserStore = defineStore('user', {
     avatar: undefined,
     job: undefined,
     organization: undefined,
-    location: undefined,
+    // location: undefined,
     email: undefined,
     introduction: undefined,
-    personalWebsite: undefined,
-    jobName: undefined,
+    // personalWebsite: undefined,
+    // jobName: undefined,
     organizationName: undefined,
-    locationName: undefined,
+    // locationName: undefined,
     phone: undefined,
-    registrationDate: undefined,
-    accountId: undefined,
-    certification: undefined,
-    role: '',
+    // registrationDate: undefined,
+    // accountId: undefined,
+    // certification: undefined,
+    role: '' as RoleType
   }),
 
   getters: {
@@ -34,7 +34,11 @@ const useUserStore = defineStore('user', {
   actions: {
     switchRoles() {
       return new Promise((resolve) => {
-        this.role = this.role === 'user' ? 'admin' : 'user'
+        // this.role = this.role === 'user' ? 'admin' : 'user'
+        if (this.role === "employee") this.role = "system_admin"
+        else if (this.role === "system_admin") this.role = "company_admin"
+        else if (this.role === "company_admin") this.role = "branch_admin"
+        else this.role = "employee"
         resolve(this.role)
       })
     },

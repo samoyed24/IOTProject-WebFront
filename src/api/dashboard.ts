@@ -7,7 +7,7 @@ export interface ContentDataRecord {
 }
 
 export function queryContentData() {
-  return axios.get<ContentDataRecord[]>('/api/content-data')
+  return axios.get<ContentDataRecord[]>('api/content-data')
 }
 
 export interface PopularRecord {
@@ -19,4 +19,13 @@ export interface PopularRecord {
 
 export function queryPopularList(params: { type: string }) {
   return axios.get<TableData[]>('/api/popular/list', { params })
+}
+
+export interface BranchBasicStatistics {
+  totalCount: number,
+  hour24Count: number
+}
+
+export function queryBranchBasicStatistics() {
+  return axios.get("dev-api/management/branch-get-basic-statistics")
 }

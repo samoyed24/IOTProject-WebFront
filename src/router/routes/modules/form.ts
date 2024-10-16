@@ -32,6 +32,36 @@ const FORM: AppRouteRecordRaw = {
         roles: ['admin'],
       },
     },
+    {
+      path: 'branch-template-create',
+      name: 'BranchTemplateCreate',
+      component: () => import('@/views/form/branch-template-create/index.vue'),
+      meta: {
+        locale: 'menu.form.branchTemplateCreate',
+        requiresAuth: true,
+        roles: ['branch-admin'],
+      },
+    },
+    {
+      path: 'warehouse-create',
+      name: 'WarehouseCreate',
+      component: () => import('@/views/form/warehouse-create/index.vue'),
+      meta: {
+        locale: 'menu.form.warehouseCreate',
+        requiresAuth: true,
+        roles: ['branch-admin'],
+      },
+    },
+    {
+      path: 'branch-employee-add',
+      name: 'branchEmployeeAdd',
+      component: () => import('@/views/form/branch-employee-add/index.vue'),
+      meta: {
+        locale: 'menu.form.branchEmployeeAdd',
+        requiresAuth: true,
+        roles: ['branch-admin'],
+      },
+    },
   ],
 }
 

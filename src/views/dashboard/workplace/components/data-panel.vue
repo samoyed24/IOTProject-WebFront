@@ -2,15 +2,23 @@
   <a-grid :cols="24" :row-gap="16" class="panel">
     <a-grid-item class="panel-col" :span="{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12, xxl: 6 }">
       <a-space>
-        <a-avatar :size="54" class="col-avatar">
-          <img
-            alt="avatar"
-            src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/288b89194e657603ff40db39e8072640.svg~tplv-49unhts6dw-image.image"
-          />
-        </a-avatar>
-        <a-statistic :title="$t('workplace.onlineContent')" :value="373.5" :precision="1" :value-from="0" animation show-group-separator>
+        <icon-common :size="50">
+
+        </icon-common>
+<!--        <a-avatar :size="54" class="col-avatar">-->
+<!--          <img-->
+<!--            alt="avatar"-->
+<!--            src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/288b89194e657603ff40db39e8072640.svg~tplv-49unhts6dw-image.image"-->
+<!--          />-->
+<!--        </a-avatar>-->
+        <a-statistic
+            :title="$t('workplace.cargoTotal')"
+            :value="statistics.totalCount"
+            :value-from="0"
+            animation show-group-separator
+        >
           <template #suffix>
-            W+
+<!--            W+-->
             <span class="unit">{{ $t('workplace.pecs') }}</span>
           </template>
         </a-statistic>
@@ -18,13 +26,16 @@
     </a-grid-item>
     <a-grid-item class="panel-col" :span="{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12, xxl: 6 }">
       <a-space>
-        <a-avatar :size="54" class="col-avatar">
-          <img
-            alt="avatar"
-            src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/fdc66b07224cdf18843c6076c2587eb5.svg~tplv-49unhts6dw-image.image"
-          />
-        </a-avatar>
-        <a-statistic :title="$t('workplace.putIn')" :value="368" :value-from="0" animation show-group-separator>
+        <icon-thunderbolt :size="50">
+
+        </icon-thunderbolt>
+<!--        <a-avatar :size="54" class="col-avatar">-->
+<!--          <img-->
+<!--            alt="avatar"-->
+<!--            src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/fdc66b07224cdf18843c6076c2587eb5.svg~tplv-49unhts6dw-image.image"-->
+<!--          />-->
+<!--        </a-avatar>-->
+        <a-statistic :title="$t('workplace.cargo24Hours')" :value="statistics.hour24Count" :value-from="0" animation show-group-separator>
           <template #suffix>
             <span class="unit">{{ $t('workplace.pecs') }}</span>
           </template>
@@ -33,12 +44,12 @@
     </a-grid-item>
     <a-grid-item class="panel-col" :span="{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12, xxl: 6 }">
       <a-space>
-        <a-avatar :size="54" class="col-avatar">
-          <img
-            alt="avatar"
-            src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/77d74c9a245adeae1ec7fb5d4539738d.svg~tplv-49unhts6dw-image.image"
-          />
-        </a-avatar>
+<!--        <a-avatar :size="54" class="col-avatar">-->
+<!--          <img-->
+<!--            alt="avatar"-->
+<!--            src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/77d74c9a245adeae1ec7fb5d4539738d.svg~tplv-49unhts6dw-image.image"-->
+<!--          />-->
+<!--        </a-avatar>-->
         <a-statistic :title="$t('workplace.newDay')" :value="8874" :value-from="0" animation show-group-separator>
           <template #suffix>
             <span class="unit">{{ $t('workplace.pecs') }}</span>
@@ -48,12 +59,12 @@
     </a-grid-item>
     <a-grid-item class="panel-col" :span="{ xs: 12, sm: 12, md: 12, lg: 12, xl: 12, xxl: 6 }" style="border-right: none">
       <a-space>
-        <a-avatar :size="54" class="col-avatar">
-          <img
-            alt="avatar"
-            src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/c8b36e26d2b9bb5dbf9b74dd6d7345af.svg~tplv-49unhts6dw-image.image"
-          />
-        </a-avatar>
+<!--        <a-avatar :size="54" class="col-avatar">-->
+<!--          <img-->
+<!--            alt="avatar"-->
+<!--            src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/c8b36e26d2b9bb5dbf9b74dd6d7345af.svg~tplv-49unhts6dw-image.image"-->
+<!--          />-->
+<!--        </a-avatar>-->
         <a-statistic :title="$t('workplace.newFromYesterday')" :value="2.8" :precision="1" :value-from="0" animation>
           <template #suffix>
             %
@@ -68,7 +79,26 @@
   </a-grid>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { ref } from "vue";
+import {BranchBasicStatistics, queryBranchBasicStatistics} from "@/api/dashboard";
+import ArcoVueIcon from '@arco-design/web-vue/es/icon';
+
+
+
+const statistics = ref<BranchBasicStatistics>({
+  totalCount: 0,
+  hour24Count: 0
+})
+
+const fetchData = async () => {
+  const data = await queryBranchBasicStatistics()
+  statistics.value = data.data
+}
+
+fetchData()
+
+</script>
 
 <style lang="less" scoped>
 .arco-grid.panel {
