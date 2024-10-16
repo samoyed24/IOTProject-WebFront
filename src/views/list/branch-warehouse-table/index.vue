@@ -139,59 +139,29 @@
         <template #index="{ rowIndex }">
           {{ rowIndex + 1 + (pagination.current - 1) * pagination.pageSize }}
         </template>
-        <template #contentType="{ record }">
-          <a-space>
-            <a-avatar v-if="record.contentType === 'img'" :size="16" shape="square">
-              <img
-                alt="avatar"
-                src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/581b17753093199839f2e327e726b157.svg~tplv-49unhts6dw-image.image"
-              />
-            </a-avatar>
-            <a-avatar v-else-if="record.contentType === 'horizontalVideo'" :size="16" shape="square">
-              <img
-                alt="avatar"
-                src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/77721e365eb2ab786c889682cbc721c1.svg~tplv-49unhts6dw-image.image"
-              />
-            </a-avatar>
-            <a-avatar v-else :size="16" shape="square">
-              <img
-                alt="avatar"
-                src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/ea8b09190046da0ea7e070d83c5d1731.svg~tplv-49unhts6dw-image.image"
-              />
-            </a-avatar>
-            {{ $t(`branchWarehouseTable.form.contentType.${record.contentType}`) }}
-          </a-space>
-        </template>
         <template #temperature="{ record }">
           {{ record.temperature.lower }} °C ~ {{ record.temperature.upper }} °C
         </template>
         <template #humidity="{ record }">
           {{ record.humidity.lower }} ~ {{ record.humidity.upper }}
         </template>
-        <template #status="{ record }">
-          <span v-if="record.status === 'offline'" class="circle"></span>
-          <span v-else class="circle pass"></span>
-          {{ $t(`branchWarehouseTable.form.status.${record.status}`) }}
-        </template>
-        <template #operations>
-<!--          <a-button type="text" size="small">-->
-<!--            {{ $t('branchWarehouseTable.columns.operations.view') }}-->
-<!--          </a-button>-->
+        <template #operations="{record}">
           <a-button type="text" size="small">
             {{ $t('branchWarehouseTable.columns.operations.monitor') }}
           </a-button>
           <a-button type="text" size="small">
             {{ $t('branchWarehouseTable.columns.operations.storage') }}
           </a-button>
-          <a-button type="text" size="small">
-            {{ $t('branchWarehouseTable.columns.operations.device') }}
-          </a-button>
-          <a-button type="text" size="small">
+          <a-button type="text" size="small" @click="handleWarehouseSetting(record.id)">
             {{ $t('branchWarehouseTable.columns.operations.setting') }}
           </a-button>
         </template>
       </a-table>
     </a-card>
+    <warehouse-setting
+        ref="child"
+        :warehouse-id="drawerCompProps.warehouseId"
+    />
   </div>
 </template>
 
@@ -205,6 +175,7 @@ import type { SelectOptionData } from '@arco-design/web-vue/es/select/interface'
 import type { TableColumnData } from '@arco-design/web-vue/es/table/interface'
 import cloneDeep from 'lodash/cloneDeep'
 import Sortable from 'sortablejs'
+import WarehouseSetting from './components/warehouse-setting.vue'
 
 type SizeProps = 'mini' | 'small' | 'medium' | 'large'
 type Column = TableColumnData & { checked?: true }
@@ -335,6 +306,11 @@ const fetchData = async (params: PolicyParams = { current: 1, pageSize: 20 }) =>
   }
 }
 
+const drawerCompProps = ref({
+  warehouseId : -1,
+  drawerVisible: false,
+})
+
 const search = () => {
   fetchData({
     ...basePagination,
@@ -369,6 +345,17 @@ const exchangeArray = <T extends Array<any>>(array: T, beforeIdx: number, newIdx
     newArray.splice(beforeIdx, 1, newArray.splice(newIdx, 1, newArray[beforeIdx]).pop())
   }
   return newArray
+}
+
+
+const child = ref()
+
+const handleWarehouseSetting = (warehouseId: number) => {
+  child.value.drawerSwitch(true)
+  drawerCompProps.value = {
+    drawerVisible: true,
+    warehouseId,
+  }
 }
 
 const popupVisibleChange = (val: boolean) => {
