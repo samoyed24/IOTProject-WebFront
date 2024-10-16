@@ -11,6 +11,13 @@ export default mergeConfig(
       fs: {
         strict: true,
       },
+      proxy: {
+          "/dev-api": {
+              target: "http://8.137.83.32",
+              changeOrigin: true,
+              rewrite: (path) => path.replace(/^\/dev-api/, ''),
+          }
+      }
     },
     plugins: [
       eslint({
