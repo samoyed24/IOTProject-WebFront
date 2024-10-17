@@ -147,6 +147,11 @@
           <icon-close-circle-fill v-else style="color: red" />
           {{ $t(`branchDeviceTable.form.is_online.${record.is_online}`) }}
         </template>
+        <template #is_warehouse_bound="{ record }">
+          <icon-check-circle-fill v-if="record.is_warehouse_bound" style="color: green" />
+          <icon-close-circle-fill v-else style="color: red" />
+          {{ $t(`branchDeviceTable.form.is_warehouse_bound.${record.is_warehouse_bound}`) }}
+        </template>
         <template #operations>
           <a-button v-permission="['admin']" type="text" size="small">
             {{ $t('branchDeviceTable.columns.operations.view') }}
@@ -222,10 +227,6 @@ const columns = computed<TableColumnData[]>(() => [
     slotName: 'index',
   },
   {
-    title: t('branchDeviceTable.columns.id'),
-    dataIndex: 'id',
-  },
-  {
     title: t('branchDeviceTable.columns.deviceId'),
     dataIndex: 'deviceId',
   },
@@ -246,6 +247,11 @@ const columns = computed<TableColumnData[]>(() => [
   {
     title: t('branchDeviceTable.columns.register_time'),
     dataIndex: 'register_time',
+  },
+  {
+    title: t('branchDeviceTable.columns.is_warehouse_bound'),
+    dataIndex: 'is_warehouse_bound',
+    slotName: 'is_warehouse_bound',
   },
   {
     title: t('branchDeviceTable.columns.operations'),

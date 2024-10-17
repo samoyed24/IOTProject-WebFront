@@ -1,5 +1,5 @@
 import axios from 'axios'
-import qs from "query-string";
+import qs from 'query-string'
 
 export interface BaseInfoModel {
   activityName: string
@@ -16,19 +16,19 @@ export interface ChannelInfoModel {
 }
 
 export interface TemplateModel {
-  cargoName: string,
-  type: string,
-  description: string,
+  cargoName: string
+  type: string
+  description: string[]
   period: string
 }
 
 export interface WarehousePropertiesModel {
   temperature: {
-    upper: number,
+    upper: number
     lower: number
-  },
+  }
   humid: {
-    upper: number,
+    upper: number
     lower: number
   }
 }
@@ -44,7 +44,7 @@ export function submitBranchTemplateCreateForm(data: FormData) {
 }
 
 export function submitBranchWarehouseRegisterForm(data: FormData) {
-  return axios.post('dev-api/management/branch-warehouse-register', data)
+  return axios.post('dev-api/warehouse/branch-warehouse-register', data)
 }
 
 export function phoneNumberValidate(params: any) {
@@ -52,7 +52,7 @@ export function phoneNumberValidate(params: any) {
     params,
     paramsSerializer: (obj) => {
       return qs.stringify(obj)
-    }
+    },
   })
 }
 

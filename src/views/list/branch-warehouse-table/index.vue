@@ -145,22 +145,24 @@
         <template #humidity="{ record }">
           {{ record.humidity.lower }} ~ {{ record.humidity.upper }}
         </template>
-        <template #operations="{record}">
+        <template #operations="{ record }">
           <a-button type="text" size="small">
             {{ $t('branchWarehouseTable.columns.operations.monitor') }}
           </a-button>
           <a-button type="text" size="small">
             {{ $t('branchWarehouseTable.columns.operations.storage') }}
           </a-button>
-          <a-button type="text" size="small" @click="handleWarehouseSetting(record.id)">
+          <a-button type="text" size="small" @click="handleWarehouseSetting(record.id, record.name)">
             {{ $t('branchWarehouseTable.columns.operations.setting') }}
           </a-button>
         </template>
       </a-table>
     </a-card>
     <warehouse-setting
-        ref="child"
+        v-if="settingShow"
         :warehouse-id="drawerCompProps.warehouseId"
+        @close-event="drawerExistStatusMethod(false)"
+        :warehouse-name="drawerCompProps.warehouseName"
     />
   </div>
 </template>
@@ -246,7 +248,7 @@ const columns = computed<TableColumnData[]>(() => [
   {
     title: t('branchWarehouseTable.columns.humidity'),
     dataIndex: 'humidity',
-    slotName: 'humidity'
+    slotName: 'humidity',
   },
   {
     title: t('branchWarehouseTable.columns.storage'),
@@ -309,6 +311,7 @@ const fetchData = async (params: PolicyParams = { current: 1, pageSize: 20 }) =>
 const drawerCompProps = ref({
   warehouseId : -1,
   drawerVisible: false,
+  warehouseName: '',
 })
 
 const search = () => {
@@ -347,15 +350,20 @@ const exchangeArray = <T extends Array<any>>(array: T, beforeIdx: number, newIdx
   return newArray
 }
 
-
+const settingShow = ref(false)
 const child = ref()
 
-const handleWarehouseSetting = (warehouseId: number) => {
-  child.value.drawerSwitch(true)
+const handleWarehouseSetting = (warehouseId: number, warehouseName: string) => {
+  drawerExistStatusMethod(true)
   drawerCompProps.value = {
     drawerVisible: true,
     warehouseId,
+    warehouseName,
   }
+}
+
+const drawerExistStatusMethod = (drawerStatus: boolean) => {
+  settingShow.value = drawerStatus
 }
 
 const popupVisibleChange = (val: boolean) => {

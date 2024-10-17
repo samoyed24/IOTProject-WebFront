@@ -23,6 +23,12 @@ export interface PolicyListRes {
   total: number
 }
 
+export interface WarehouseDevice {
+  deviceId: string
+  deviceType: string
+  is_online: boolean
+}
+
 export function queryPolicyList(params: PolicyParams) {
   return axios.get<PolicyListRes>('dev-api/api/v1/web-get-records', {
     params,
@@ -58,6 +64,10 @@ export function getTemplateDetails(data: any) {
   return axios.post('dev-api/bind/get-template-details', data)
 }
 
+export function warehouseDeviceBind(data: any) {
+  return axios.post('dev-api/warehouse/warehouse-device-bind', data)
+}
+
 export interface ServiceRecord {
   id: number
   title: string
@@ -90,6 +100,10 @@ export function queryEmployeeList(params: any) {
   })
 }
 
+export function warehouseDeviceInterface(data: any) {
+  return axios.post('dev-api/warehouse/warehouse-device-setting', data)
+}
+
 // export function downloadEmployeeTemplate() {
 //   return axios.get('dev-api/management/get-employee-import-template')
 // }
@@ -113,7 +127,7 @@ export function queryCargoCurrentRecords(params: any) {
 }
 
 export function queryWarehouses(params: any) {
-  return axios.get('dev-api/management/branch-get-warehouses', {
+  return axios.get('dev-api/warehouse/branch-get-warehouses', {
     params,
     paramsSerializer: (obj) => {
       return qs.stringify(obj)
@@ -129,3 +143,13 @@ export function queryDevices(params: any) {
     },
   })
 }
+
+export function warehouseQueryDevices(params: any) {
+  return axios.get('dev-api/warehouse/warehouse-query-devices', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
+    },
+  })
+}
+

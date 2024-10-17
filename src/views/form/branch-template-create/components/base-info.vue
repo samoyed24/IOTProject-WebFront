@@ -82,7 +82,7 @@ const formData = ref<TemplateModel>({
   cargoName: '',
   type: '',
   description: [],
-  period: "",
+  period: '',
 })
 
 const onNextClick = async () => {

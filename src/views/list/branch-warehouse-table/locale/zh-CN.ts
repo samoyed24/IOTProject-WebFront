@@ -34,6 +34,7 @@ export default {
   'branchWarehouseTable.columns.operations.monitor': '实时监控',
   'branchWarehouseTable.columns.operations.device': '设备配置',
   'branchWarehouseTable.columns.operations.setting': '设置',
+  'branchDeviceTable.columns.is_warehouse_bound': '绑定',
 
 
   // size

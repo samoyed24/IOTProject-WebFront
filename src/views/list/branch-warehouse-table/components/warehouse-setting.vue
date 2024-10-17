@@ -1,12 +1,13 @@
 <template>
   <a-drawer
-      :visible="drawerVisible"
-      @close="drawerSwitch(false)"
-      width="50%"
-      @ok="drawerSwitch(false)"
-      @cancel="drawerSwitch(false)"
+    :visible="drawerVisible"
+    width="50%"
+    @close="handleClose"
+    @ok="handleClose"
+    @cancel="handleClose"
+    :title="`${warehouseName} - 仓库设置`"
   >
-    <a-tabs>
+    <a-tabs v-model:active-key="activeTab">
       <a-tab-pane :key="1">
         <template #title>
           <icon-settings></icon-settings>
@@ -19,7 +20,7 @@
           <icon-mobile></icon-mobile>
           设备管理
         </template>
-        <device-management :warehouse-id="warehouseId" />
+        <device-management v-if="activeTab === 2" :warehouse-id="warehouseId" />
       </a-tab-pane>
       <a-tab-pane :key="3">
         <template #title>
@@ -44,25 +45,32 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref, defineExpose } from 'vue'
+import { defineProps, ref, defineExpose, defineEmits, nextTick } from 'vue'
 import DeviceManagement from './device-management.vue'
 
-const drawerVisible = ref(false)
-
+const drawerVisible = ref(true)
+const activeTab = ref(null)
 defineProps({
   warehouseId: {
     type: Number,
     default: null,
   },
+  warehouseName: {
+    type: String,
+    default: '',
+  },
 })
 
-const drawerSwitch = (visible: boolean) => {
-  drawerVisible.value = visible
+const handleClose = () => {
+  drawerVisible.value = false
+  setTimeout(handleDestroyComp, 500)
 }
 
-defineExpose({
-  drawerSwitch,
-})
+const handleDestroyComp = () => {
+  emits('close-event')
+}
+
+const emits = defineEmits(['close-event'])
 </script>
 
 <script lang="ts">
