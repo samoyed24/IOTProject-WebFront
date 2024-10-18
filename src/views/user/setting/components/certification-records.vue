@@ -39,8 +39,8 @@
 </template>
 
 <script lang="ts" setup>
-import { PropType } from 'vue'
-import { CertificationRecord } from '@/api/user-center'
+import type { CertificationRecord } from '@/api/user-center';
+import type { PropType } from 'vue';
 
 defineProps({
   renderData: {

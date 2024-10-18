@@ -197,17 +197,17 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, reactive, watch, nextTick } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { type PolicyParams, type PolicyRecord, queryEmployeeList } from '@/api/list'
 import useLoading from '@/hooks/loading'
-import {queryPolicyList, PolicyRecord, PolicyParams, queryEmployeeList} from '@/api/list'
-import { Pagination } from '@/types/global'
+import type { Pagination } from '@/types/global'
+import { Message } from "@arco-design/web-vue"
 import type { SelectOptionData } from '@arco-design/web-vue/es/select/interface'
 import type { TableColumnData } from '@arco-design/web-vue/es/table/interface'
 import cloneDeep from 'lodash/cloneDeep'
 import Sortable from 'sortablejs'
-import { useRouter } from "vue-router";
-import {Message} from "@arco-design/web-vue";
+import { computed, nextTick, reactive, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useRouter } from "vue-router"
 
 
 const router = useRouter()
@@ -217,12 +217,14 @@ type Column = TableColumnData & { checked?: true }
 
 const generateFormModel = () => {
   return {
-    number: '',
     name: '',
-    contentType: '',
-    filterType: '',
     createdTime: [],
     status: '',
+    telephone: '',
+    email: '',
+    position: '',
+    role: '',
+    id: ''
   }
 }
 const { loading, setLoading } = useLoading(true)

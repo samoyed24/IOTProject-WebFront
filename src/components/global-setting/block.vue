@@ -9,9 +9,9 @@
 </template>
 
 <script lang="ts" setup>
-import { useAppStore } from '@/store'
-import { PropType } from 'vue'
-import FormWrapper from './form-wrapper.vue'
+import { useAppStore } from '@/store';
+import type { PropType } from 'vue';
+import FormWrapper from './form-wrapper.vue';
 
 interface OptionsProps {
   name: string

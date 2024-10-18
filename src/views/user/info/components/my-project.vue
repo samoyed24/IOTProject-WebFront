@@ -41,8 +41,8 @@
 </template>
 
 <script lang="ts" setup>
-import { queryMyProjectList, MyProjectRecord } from '@/api/user-center'
-import useRequest from '@/hooks/request'
+import { queryMyProjectList, type MyProjectRecord } from '@/api/user-center';
+import useRequest from '@/hooks/request';
 
 const defaultValue = Array(6).fill({} as MyProjectRecord)
 const { loading, response: projectList } = useRequest<MyProjectRecord[]>(queryMyProjectList, defaultValue)

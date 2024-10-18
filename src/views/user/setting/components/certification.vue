@@ -6,11 +6,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { queryCertification, UnitCertification, EnterpriseCertificationModel } from '@/api/user-center'
+import { queryCertification, type EnterpriseCertificationModel, type UnitCertification } from '@/api/user-center'
 import useLoading from '@/hooks/loading'
-import EnterpriseCertification from './enterprise-certification.vue'
+import { ref } from 'vue'
 import CertificationRecords from './certification-records.vue'
+import EnterpriseCertification from './enterprise-certification.vue'
 
 const { loading, setLoading } = useLoading(true)
 const data = ref<UnitCertification>({

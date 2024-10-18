@@ -30,15 +30,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import useLoading from '@/hooks/loading'
 import {
-  submitChannelForm,
-  BaseInfoModel,
-  ChannelInfoModel,
-  UnitChannelModel,
-  submitBranchWarehouseRegisterForm
+  submitBranchWarehouseRegisterForm,
+  type BaseInfoModel,
+  type ChannelInfoModel,
+  type UnitChannelModel
 } from '@/api/form'
+import useLoading from '@/hooks/loading'
+import { ref } from 'vue'
 import BaseInfo from './components/base-info.vue'
 import ChannelInfo from './components/channel-info.vue'
 import Success from './components/success.vue'
@@ -49,6 +48,7 @@ const submitModel = ref<UnitChannelModel>({} as UnitChannelModel)
 const submitForm = async () => {
   setLoading(true)
   try {
+    //TODO 类型继承或者名称有问题
     await submitBranchWarehouseRegisterForm(submitModel.value) // The mock api default success
     step.value = 3
     submitModel.value = {} as UnitChannelModel // init

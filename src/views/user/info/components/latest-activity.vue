@@ -28,9 +28,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { queryLatestActivity, LatestActivity } from '@/api/user-center'
-import useLoading from '@/hooks/loading'
+import { queryLatestActivity, type LatestActivity } from '@/api/user-center';
+import useLoading from '@/hooks/loading';
+import { ref } from 'vue';
 
 const { loading, setLoading } = useLoading(true)
 const activityList = ref<LatestActivity[]>(new Array(7).fill({}))

@@ -2,6 +2,18 @@ import type { DescData } from '@arco-design/web-vue/es/descriptions/interface'
 import axios from 'axios'
 import qs from 'query-string'
 
+export interface CargoTemplate {
+  id: number
+  name: string
+  created_by: string
+  type: string
+  created_at: string
+  period: number
+  description: string
+  sample_image: any
+  cargo_name: string
+}
+
 export interface PolicyRecord {
   id: string
   number: number

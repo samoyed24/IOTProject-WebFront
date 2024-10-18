@@ -32,9 +32,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import useLoading from '@/hooks/loading'
-import { queryPopularAuthor, PopularAuthorRes } from '@/api/visualization'
+import { queryPopularAuthor, type PopularAuthorRes } from '@/api/visualization';
+import useLoading from '@/hooks/loading';
+import { ref } from 'vue';
 
 const { loading, setLoading } = useLoading()
 const tableData = ref<PopularAuthorRes>({ list: [] })

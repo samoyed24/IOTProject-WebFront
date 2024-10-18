@@ -18,7 +18,7 @@ export interface ChannelInfoModel {
 export interface TemplateModel {
   cargoName: string
   type: string
-  description: string[]
+  description: string
   period: string
 }
 
@@ -43,7 +43,7 @@ export function submitBranchTemplateCreateForm(data: FormData) {
   return axios.post('dev-api/management/create-branch-template', data)
 }
 
-export function submitBranchWarehouseRegisterForm(data: FormData) {
+export function submitBranchWarehouseRegisterForm(data: any) {
   return axios.post('dev-api/warehouse/branch-warehouse-register', data)
 }
 

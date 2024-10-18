@@ -17,10 +17,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
-import useLoading from '@/hooks/loading'
-import { queryDataChainGrowth, DataChainGrowth } from '@/api/visualization'
-import useChartOption from '@/hooks/chart-option'
+import { queryDataChainGrowth, type DataChainGrowth } from '@/api/visualization';
+import useChartOption from '@/hooks/chart-option';
+import useLoading from '@/hooks/loading';
+import { computed, ref } from 'vue';
 
 const props = defineProps({
   title: {

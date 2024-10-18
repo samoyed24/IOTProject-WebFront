@@ -23,10 +23,10 @@
 </template>
 
 <script lang="ts" setup>
-import { PublicOpinionAnalysis, PublicOpinionAnalysisRes, queryPublicOpinionAnalysis } from '@/api/visualization'
-import useChartOption from '@/hooks/chart-option'
-import useLoading from '@/hooks/loading'
-import { CSSProperties, PropType, ref } from 'vue'
+import { type PublicOpinionAnalysis, type PublicOpinionAnalysisRes, queryPublicOpinionAnalysis } from '@/api/visualization';
+import useChartOption from '@/hooks/chart-option';
+import useLoading from '@/hooks/loading';
+import { type CSSProperties, type PropType, ref } from 'vue';
 
 const barChartOptionsFactory = () => {
   const data = ref<any>([])

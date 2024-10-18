@@ -20,7 +20,7 @@
         <a-button type="secondary" @click="goPrev">
           {{ $t('branchTemplateCreateForm.button.prev') }}
         </a-button>
-        <a-button type="primary" @click="() => {formData.sample_image ? onNextClick() : this.$message.error('图片未上传')}">
+        <a-button type="primary" @click="onNextClick">
           {{ $t('branchTemplateCreateForm.button.next') }}
         </a-button>
       </a-space>
@@ -29,8 +29,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { FormInstance } from '@arco-design/web-vue/es/form'
+import { Message } from '@arco-design/web-vue';
+import type { FormInstance } from '@arco-design/web-vue/es/form';
+import { ref } from 'vue';
 
 const emits = defineEmits(['changeStep'])
 
@@ -42,6 +43,10 @@ const formData = ref({
 })
 
 const onNextClick = async () => {
+  if (!formData.value.sample_image) {
+    Message.error("Image Error")
+    return
+  }
   // const res = await formRef.value?.validate()
   emits('changeStep', 'submit', { ...formData.value })
 }

@@ -26,9 +26,9 @@
 </template>
 
 <script lang="ts" setup>
-import { PropType, computed } from 'vue'
-import { EnterpriseCertificationModel } from '@/api/user-center'
-import type { DescData } from '@arco-design/web-vue/es/descriptions/interface'
+import type { EnterpriseCertificationModel } from '@/api/user-center';
+import type { DescData } from '@arco-design/web-vue/es/descriptions/interface';
+import { type PropType, computed } from 'vue';
 
 const props = defineProps({
   enterpriseInfo: {

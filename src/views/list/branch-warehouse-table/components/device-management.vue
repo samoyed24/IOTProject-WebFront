@@ -28,14 +28,14 @@
           v-model="record.is_active"
           :loading="switchLoading"
           :before-change="
-            (e: boolean) => {
-              handleSwitch(e, record.deviceId)
+            (e: string | number | boolean) => {
+              handleSwitch(e as boolean, record.deviceId)
             }
           "
         ></a-switch>
       </template>
     </a-table>
-    <a-button :long="1" type="primary" @click="modalVisible = true">
+    <a-button :long="true" type="primary" @click="modalVisible = true">
       <template #icon>
         <icon-plus></icon-plus>
       </template>
@@ -69,10 +69,10 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref } from 'vue'
-import { WarehouseDevice, warehouseDeviceBind, warehouseDeviceInterface, warehouseQueryDevices } from '@/api/list'
-import { FormInstance } from '@arco-design/web-vue/es/form'
-import { Message } from '@arco-design/web-vue'
+import { type WarehouseDevice, warehouseDeviceBind, warehouseDeviceInterface, warehouseQueryDevices } from '@/api/list';
+import { Message } from '@arco-design/web-vue';
+import type { FormInstance } from '@arco-design/web-vue/es/form';
+import { defineProps, ref } from 'vue';
 
 const props = defineProps({
   warehouseId: {

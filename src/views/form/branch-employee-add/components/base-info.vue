@@ -45,10 +45,10 @@
 </template>
 
 <script lang="ts" setup>
-import {createApp, ref} from 'vue'
-import { FormInstance } from '@arco-design/web-vue/es/form'
-import { BaseInfoModel, phoneNumberValidate } from '@/api/form'
+import { phoneNumberValidate } from '@/api/form';
 import { Message } from "@arco-design/web-vue";
+import type { FormInstance } from '@arco-design/web-vue/es/form';
+import { ref } from 'vue';
 
 const emits = defineEmits(['changeStep'])
 const formRef = ref<FormInstance>()

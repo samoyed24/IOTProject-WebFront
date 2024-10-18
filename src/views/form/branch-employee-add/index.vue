@@ -30,9 +30,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { submitEmployeeAddForm, type BaseInfoModel, type ChannelInfoModel, type UnitChannelModel } from '@/api/form'
 import useLoading from '@/hooks/loading'
-import {submitChannelForm, BaseInfoModel, ChannelInfoModel, UnitChannelModel, submitEmployeeAddForm} from '@/api/form'
+import { ref } from 'vue'
 import BaseInfo from './components/base-info.vue'
 import ChannelInfo from './components/channel-info.vue'
 import Success from './components/success.vue'

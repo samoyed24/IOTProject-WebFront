@@ -14,7 +14,8 @@
         <a-space :size="18">
           <div>
             <icon-user />
-            <a-typography-text>{{ userInfo.jobName }}</a-typography-text>
+            <!-- 不存在属性，是否修改对应的interface -->
+            <!-- <a-typography-text>{{ userInfo.jobName }}</a-typography-text> -->
           </div>
           <div>
             <icon-home />
@@ -24,7 +25,7 @@
           </div>
           <div>
             <icon-location />
-            <a-typography-text>{{ userInfo.locationName }}</a-typography-text>
+            <!-- <a-typography-text>{{ userInfo.locationName }}</a-typography-text> -->
           </div>
         </a-space>
       </div>
@@ -33,7 +34,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useUserStore } from '@/store'
+import { useUserStore } from '@/store';
 
 const userInfo = useUserStore()
 </script>

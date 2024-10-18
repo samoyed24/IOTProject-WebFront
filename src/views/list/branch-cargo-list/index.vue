@@ -27,7 +27,7 @@
               </a-col>
               <a-col :span="8">
                 <a-form-item field="recorded_time" :label="$t('branchCargoList.form.recorded_time')">
-                  <a-range-picker v-model="formModel.recorded_time" style="width: 100%" />
+                  <a-range-picker v-model="formModel.record_time" style="width: 100%" />
                 </a-form-item>
               </a-col>
             </a-row>
@@ -149,16 +149,16 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, reactive, watch, nextTick } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { queryBranchCargoList, type PolicyParams, type PolicyRecord } from '@/api/list'
 import useLoading from '@/hooks/loading'
-import {queryPolicyList, PolicyRecord, PolicyParams, queryBranchCargoList} from '@/api/list'
-import { Pagination } from '@/types/global'
+import type { Pagination } from '@/types/global'
 import type { SelectOptionData } from '@arco-design/web-vue/es/select/interface'
 import type { TableColumnData } from '@arco-design/web-vue/es/table/interface'
 import cloneDeep from 'lodash/cloneDeep'
 import Sortable from 'sortablejs'
-import {useRouter} from "vue-router";
+import { computed, nextTick, reactive, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useRouter } from "vue-router"
 
 type SizeProps = 'mini' | 'small' | 'medium' | 'large'
 type Column = TableColumnData & { checked?: true }
@@ -166,7 +166,7 @@ type Column = TableColumnData & { checked?: true }
 const generateFormModel = () => {
   return {
     name: '',
-    record_time: '',
+    record_time: [],
     type: '',
     uuid: ''
   }

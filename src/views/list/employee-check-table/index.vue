@@ -165,15 +165,15 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, reactive, watch, nextTick } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { type PolicyParams, type PolicyRecord, getRecordDetails, queryPolicyList } from '@/api/list'
 import useLoading from '@/hooks/loading'
-import { queryPolicyList, PolicyRecord, PolicyParams, getRecordDetails } from '@/api/list'
-import { Pagination } from '@/types/global'
+import type { Pagination } from '@/types/global'
 import type { SelectOptionData } from '@arco-design/web-vue/es/select/interface'
 import type { TableColumnData } from '@arco-design/web-vue/es/table/interface'
 import cloneDeep from 'lodash/cloneDeep'
 import Sortable from 'sortablejs'
+import { computed, nextTick, reactive, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 // import { useRouter } from 'vue-router'
 
 type SizeProps = 'mini' | 'small' | 'medium' | 'large'
@@ -204,11 +204,27 @@ const showColumns = ref<Column[]>([])
 const size = ref<SizeProps>('medium')
 
 
-const detailData = ref([])
+const detailData = ref<Array<any>>([])
 const recordId = ref(-1)
 const recordDetailsShow = ref(false)
 const drawerLoading = ref(false)
-const selectedDetail = ref({})
+
+interface CargoQualityRecords {
+  id: number,
+  cargo_name: string,
+  quality_level: string,
+  recorded_by: string,
+  record_time: string,
+  note:string
+}
+const selectedDetail = ref<CargoQualityRecords>({
+  id: 0,
+  cargo_name: '',
+  quality_level: '',
+  recorded_by: '',
+  record_time: '',
+  note: ''
+})
 
 
 const detailImgSrc = ref("")
@@ -356,10 +372,10 @@ const handleChange = (checked: boolean | (string | boolean | number)[], column: 
     cloneColumns.value = showColumns.value.filter((item) => item.checked)
 }
 
-const handleDrawerChange = (showStatus: boolean, _record: number | null | undefined) => {
+const handleDrawerChange = (showStatus: boolean, _record: number | null | undefined = null) => {
   recordDetailsShow.value = showStatus
   if (_record)
-    recordId.value = _record.number
+    recordId.value = _record
   if (!showStatus)
     detailData.value = []
 }
@@ -370,7 +386,7 @@ const handleDetailsUpdate = async () => {
   let data: any = await getRecordDetails({recordId: recordId.value})
   data = data.data
   selectedDetail.value = data
-  const tagMapping = {
+  const tagMapping: Record<string, string> = {
     "id": "ID",
     "cargo_name": "货物名称",
     "quality_level": "质量等级",

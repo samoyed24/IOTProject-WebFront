@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "ES2020",
+    "target": "ESNext",
+    "module": "ESNext",
     "moduleResolution": "node",
     "strict": true,
     "jsx": "preserve",
@@ -13,7 +13,12 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "lib": ["es2020", "dom"]
+    "lib": ["ESNext", "dom"],
+    "types": ["vue"],
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "jsxImportSource": "vue"
   },
-  "include": ["src/**/*", "src/**/*.vue"]
+  "include": ["src/**/*", "src/**/*.vue"],
+  "exclude": ["node_modules"]
 }

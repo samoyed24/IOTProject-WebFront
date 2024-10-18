@@ -72,16 +72,16 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { FormInstance } from '@arco-design/web-vue/es/form'
-import {BaseInfoModel, TemplateModel} from '@/api/form'
+import type { TemplateModel } from '@/api/form';
+import type { FormInstance } from '@arco-design/web-vue/es/form';
+import { ref } from 'vue';
 
 const emits = defineEmits(['changeStep'])
 const formRef = ref<FormInstance>()
 const formData = ref<TemplateModel>({
   cargoName: '',
   type: '',
-  description: [],
+  description: '',
   period: '',
 })
 

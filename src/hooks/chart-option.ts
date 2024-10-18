@@ -1,5 +1,5 @@
 import { useAppStore } from '@/store'
-import { EChartsOption } from 'echarts'
+import type { EChartsOption } from 'echarts'
 import { computed } from 'vue'
 
 // for code hints

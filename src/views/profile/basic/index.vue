@@ -29,11 +29,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { queryProfileBasic, type ProfileBasicRes } from '@/api/profile'
 import useLoading from '@/hooks/loading'
-import { queryProfileBasic, ProfileBasicRes } from '@/api/profile'
-import ProfileItem from './components/profile-item.vue'
+import { ref } from 'vue'
 import OperationLog from './components/operation-log.vue'
+import ProfileItem from './components/profile-item.vue'
 
 const { loading, setLoading } = useLoading(true)
 const { loading: preLoading, setLoading: preSetLoading } = useLoading(true)

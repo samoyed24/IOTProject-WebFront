@@ -217,16 +217,16 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, reactive, watch, nextTick } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { deleteTemplate, getTemplateDetails, queryBranchTemplate, type CargoTemplate, type PolicyParams, type PolicyRecord } from '@/api/list'
 import useLoading from '@/hooks/loading'
-import {queryBranchTemplate, deleteTemplate, PolicyParams, PolicyRecord, getTemplateDetails} from '@/api/list'
-import { Pagination } from '@/types/global'
+import { type Pagination } from '@/types/global'
 import type { SelectOptionData } from '@arco-design/web-vue/es/select/interface'
 import type { TableColumnData } from '@arco-design/web-vue/es/table/interface'
 import cloneDeep from 'lodash/cloneDeep'
 import Sortable from 'sortablejs'
-import { useRouter } from "vue-router";
+import { computed, nextTick, reactive, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useRouter } from "vue-router"
 
 const router = useRouter()
 
@@ -241,6 +241,7 @@ const generateFormModel = () => {
     created_at: '',
     created_by: '',
     period: '',
+    id: ''
   }
 }
 const { loading, setLoading } = useLoading(true)
@@ -253,7 +254,7 @@ const showColumns = ref<Column[]>([])
 const deleteConfirmRecord = ref()
 const detailSelected = ref(-1)
 
-const templateDetails = ref([])
+const templateDetails = ref<Array<any>>([])
 const detailsNotProcessed = ref({})
 const drawerFirstLoading = ref(false)
 
@@ -389,14 +390,15 @@ const onPageChange = (current: number) => {
 
 const handleDetailShow = async () => {
   drawerFirstLoading.value = true
-  const res: any = await getTemplateDetails({ template_id: detailSelected.value })
-  detailsNotProcessed.value = res.data
-  const typeMapping: object = {
+  const res = await getTemplateDetails({ template_id: detailSelected.value })
+  const resData = res.data as CargoTemplate
+  detailsNotProcessed.value = resData
+  const typeMapping: Record<string, string> = {
     "vegetable": "果蔬",
     "meat": "肉类"
   }
-  res.data.type = typeMapping[res.data.type]
-  const tagMapping = {
+  resData.type = typeMapping[resData.type]
+  const tagMapping: Record<string, string> = {
     "id": "ID",
     "name": "货物名称",
     "created_by": "创建者",

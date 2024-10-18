@@ -1,9 +1,9 @@
-import { LoginData, getUserInfo, login as userLogin, logout as userLogout } from '@/api/user'
+import { type LoginData, getUserInfo, login as userLogin, logout as userLogout } from '@/api/user'
 import { clearToken, setToken } from '@/utils/auth'
 import { removeRouteListener } from '@/utils/route-listener'
 import { defineStore } from 'pinia'
 import useAppStore from '../app'
-import {RoleType, UserState} from './types'
+import type { RoleType, UserState } from './types'
 
 const useUserStore = defineStore('user', {
   state: (): UserState => ({

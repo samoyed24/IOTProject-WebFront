@@ -13,11 +13,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { ToolTipFormatterParams } from '@/types/echarts'
-import useLoading from '@/hooks/loading'
-import { queryContentPublish, ContentPublishRecord } from '@/api/visualization'
+import { queryContentPublish, type ContentPublishRecord } from '@/api/visualization'
 import useChartOption from '@/hooks/chart-option'
+import useLoading from '@/hooks/loading'
+import type { ToolTipFormatterParams } from '@/types/echarts'
+import { ref } from 'vue'
 
 const tooltipItemsHtmlString = (items: ToolTipFormatterParams[]) => {
   return items

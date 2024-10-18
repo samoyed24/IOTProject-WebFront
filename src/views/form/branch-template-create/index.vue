@@ -30,29 +30,40 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import useLoading from '@/hooks/loading'
 import {
-  submitChannelForm,
-  BaseInfoModel,
-  ChannelInfoModel,
-  UnitChannelModel,
-  submitBranchTemplateCreateForm
+  submitBranchTemplateCreateForm,
+  type BaseInfoModel,
+  type ChannelInfoModel,
+  type UnitChannelModel
 } from '@/api/form'
+import type { CargoTemplate } from "@/api/list"
+import useLoading from '@/hooks/loading'
+import { ref } from 'vue'
 import BaseInfo from './components/base-info.vue'
-import UploadImage from './components/upload-image.vue'
 import Success from './components/success.vue'
+import UploadImage from './components/upload-image.vue'
 
 const { loading, setLoading } = useLoading(false)
 const branchTemplateCreate = ref(1)
-const submitModel = ref({})
+// TODO 需要CargoTemplate添加到api
+const submitModel = ref<CargoTemplate>({
+  id: 0,
+  name: '',
+  created_by: '',
+  type: '',
+  created_at: '',
+  period: 0,
+  description: '',
+  sample_image: undefined,
+  cargo_name: ''
+})
 const submitForm = async () => {
   setLoading(true)
   try {
     console.log(submitModel.value)
     const formData = new FormData
     formData.append("data", JSON.stringify({
-      cargo_name: submitModel.value.cargoName,
+      cargo_name: submitModel.value.cargo_name,
       type: submitModel.value.type,
       description: submitModel.value.description,
       period: submitModel.value.period
@@ -60,7 +71,8 @@ const submitForm = async () => {
     formData.append("sample", submitModel.value.sample_image)
     await submitBranchTemplateCreateForm(formData) // The mock api default success
     branchTemplateCreate.value = 3
-    submitModel.value = {} as UnitChannelModel // init
+    // TODO UnitChannelModel 改为 CargoTemplate 不确定后果
+    submitModel.value = {} as CargoTemplate // init
   } catch (err) {
     // you can report use errorHandler or other
   } finally {

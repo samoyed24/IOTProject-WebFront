@@ -113,23 +113,22 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, reactive, watch, nextTick } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { queryCargoCurrentRecords, type PolicyParams, type PolicyRecord } from '@/api/list'
 import useLoading from '@/hooks/loading'
-import {queryPolicyList, PolicyRecord, PolicyParams, queryCargoCurrentRecords} from '@/api/list'
-import { Pagination } from '@/types/global'
-import type { SelectOptionData } from '@arco-design/web-vue/es/select/interface'
+import type { Pagination } from '@/types/global'
 import type { TableColumnData } from '@arco-design/web-vue/es/table/interface'
 import cloneDeep from 'lodash/cloneDeep'
 import Sortable from 'sortablejs'
-import {useRoute, useRouter} from "vue-router";
+import { computed, nextTick, reactive, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useRoute, useRouter } from "vue-router"
 
 type SizeProps = 'mini' | 'small' | 'medium' | 'large'
 type Column = TableColumnData & { checked?: true }
 
 const generateFormModel = () => {
   return {
-    uuid: ""
+    uuid : ""
   }
 }
 const { loading, setLoading } = useLoading(true)
@@ -231,7 +230,7 @@ const onPageChange = (current: number) => {
   fetchData({ ...basePagination, current })
 }
 
-formModel.value.uuid = route.query.uuid
+formModel.value.uuid = route.query.uuid as string
 
 fetchData({
   ...basePagination,

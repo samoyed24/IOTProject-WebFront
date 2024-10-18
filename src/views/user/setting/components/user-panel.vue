@@ -45,11 +45,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import type { FileItem, RequestOption } from '@arco-design/web-vue/es/upload/interfaces'
-import { useUserStore } from '@/store'
 import { userUploadApi } from '@/api/user-center'
+import { useUserStore } from '@/store'
 import type { DescData } from '@arco-design/web-vue/es/descriptions/interface'
+import type { FileItem, RequestOption } from '@arco-design/web-vue/es/upload/interfaces'
+import { ref } from 'vue'
 
 const userStore = useUserStore()
 const file = {
@@ -63,6 +63,7 @@ const renderData = [
     value: userStore.name,
   },
   {
+    // TODO 不存在属性，是否修改对应的interface
     label: 'userSetting.label.certification',
     value: userStore.certification,
   },

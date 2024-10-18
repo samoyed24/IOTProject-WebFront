@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts" setup>
-import { MessageListType, MessageRecord, queryMessageList, setMessageStatus } from '@/api/message'
+import { type MessageListType, type MessageRecord, queryMessageList, setMessageStatus } from '@/api/message'
 import useLoading from '@/hooks/loading'
 import { computed, reactive, ref, toRefs } from 'vue'
 import { useI18n } from 'vue-i18n'

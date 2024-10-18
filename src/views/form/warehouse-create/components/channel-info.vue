@@ -83,12 +83,12 @@
               ]"
               no-style>
             <a-input-number
-                v-model="formData.humidity.lower"
-                :placeholder="$t('warehouseCreate.placeholder.humidity.lower')"
+                v-model="formData.humid.lower"
+                :placeholder="$t('warehouseCreate.placeholder.humidityity.lower')"
                 :precision="3"
                 :step="0.005"
                 :min="0.000"
-                :max="formData.humidity.upper ? formData.humidity.upper : 1.000"
+                :max="formData.humid.upper ? formData.humid.upper : 1.000"
             ></a-input-number>
           </a-form-item>
         </a-col>
@@ -103,11 +103,11 @@
               ]"
               no-style>
             <a-input-number
-                v-model="formData.humidity.upper"
+                v-model="formData.humid.upper"
                 :placeholder="$t('warehouseCreate.placeholder.humidity.upper')"
                 :precision="3"
                 :step="0.005"
-                :min="formData.humidity.lower ? formData.humidity.lower : 0.000"
+                :min="formData.humid.lower ? formData.humid.lower : 0.000"
                 :max="1.000"
             ></a-input-number>
           </a-form-item>
@@ -131,21 +131,21 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { FormInstance } from '@arco-design/web-vue/es/form'
-import {ChannelInfoModel, WarehousePropertiesModel} from '@/api/form'
+import type { WarehousePropertiesModel } from '@/api/form';
+import type { FormInstance } from '@arco-design/web-vue/es/form';
+import { ref } from 'vue';
 
 const emits = defineEmits(['changeStep'])
 
 const formRef = ref<FormInstance>()
 const formData = ref<WarehousePropertiesModel>({
   temperature: {
-    upper: "",
-    lower: "",
+    upper: 0,
+    lower: 0,
   },
-  humidity: {
-    upper: "",
-    lower: ""
+  humid: {
+    upper: 0,
+    lower: 0
   }
 })
 

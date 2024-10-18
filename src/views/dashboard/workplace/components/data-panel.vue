@@ -80,9 +80,8 @@
 </template>
 
 <script lang="ts" setup>
+import { type BranchBasicStatistics, queryBranchBasicStatistics } from "@/api/dashboard";
 import { ref } from "vue";
-import {BranchBasicStatistics, queryBranchBasicStatistics} from "@/api/dashboard";
-import ArcoVueIcon from '@arco-design/web-vue/es/icon';
 
 
 
