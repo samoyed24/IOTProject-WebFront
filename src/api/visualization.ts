@@ -1,5 +1,7 @@
 import type { GeneralChart } from '@/types/global'
 import axios from 'axios'
+import qs from "query-string";
+import type {PolicyListRes} from "@/api/list";
 
 export interface ChartDataRecord {
   x: string
@@ -65,6 +67,25 @@ export interface DataOverviewRes {
   data: Array<{ name: string; value: number[]; count: number }>
 }
 
+export interface WarehouseDevice {
+  warehouseId: number,
+  pastDays: number
+}
+
+export interface WarehouseProps {
+  warehouseName: string,
+  warehouseId: number
+}
+
 export function queryDataOverview() {
   return axios.post<DataOverviewRes>('/api/data-overview')
+}
+
+export function queryWarehouseTemphumid(params: WarehouseDevice) {
+  return axios.get<PolicyListRes>('dev-api/warehouse/get-warehouse-temphumid', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
+    },
+  })
 }

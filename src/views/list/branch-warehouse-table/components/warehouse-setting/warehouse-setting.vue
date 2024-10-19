@@ -5,7 +5,7 @@
     @close="handleClose"
     @ok="handleClose"
     @cancel="handleClose"
-    :title="`${warehouseName} - 仓库设置`"
+    :title="`${warehouseProps.warehouseName} - 仓库设置`"
   >
     <a-tabs v-model:active-key="activeTab">
       <a-tab-pane :key="1">
@@ -13,14 +13,14 @@
           <icon-settings></icon-settings>
           基本参数
         </template>
-        <BasicParameters :warehouse-id="warehouseId" />
+        <BasicParameters :warehouse-id="warehouseProps.warehouseId" />
       </a-tab-pane>
       <a-tab-pane :key="2">
         <template #title>
           <icon-mobile></icon-mobile>
           设备管理
         </template>
-        <device-management v-if="activeTab === 2" :warehouse-id="warehouseId" />
+        <device-management v-if="activeTab === 2" :warehouse-id="warehouseProps.warehouseId" />
       </a-tab-pane>
       <a-tab-pane :key="3">
         <template #title>
@@ -52,14 +52,15 @@ import DeviceManagement from './device-management.vue';
 const drawerVisible = ref(true)
 const activeTab = ref()
 defineProps({
-  warehouseId: {
-    type: Number,
-    default: null,
-  },
-  warehouseName: {
-    type: String,
-    default: '',
-  },
+  warehouseProps: {
+    type: Object,
+    default: () => {
+      return {
+          warehouseName: '',
+          warehouseId: -1
+      }
+    }
+  }
 })
 
 const handleClose = () => {

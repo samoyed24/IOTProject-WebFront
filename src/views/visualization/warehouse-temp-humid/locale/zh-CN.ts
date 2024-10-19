@@ -1,0 +1,16 @@
+export default {
+  'menu.visualization.warehouseTempHumid': '分析页',
+  'warehouseTempHumid.title.publicOpinion': '舆情分析',
+  'warehouseTempHumid.card.title.allVisitors': '访问总人次',
+  'warehouseTempHumid.card.title.contentPublished': '内容发布量',
+  'warehouseTempHumid.card.title.totalComment': '评论总量',
+  'warehouseTempHumid.card.title.totalShare': '分享总量',
+  'warehouseTempHumid.card.yesterday': '较昨日',
+  'warehouseTempHumid.contentPublishRatio': '内容发布比例',
+  'warehouseTempHumid.popularAuthor': '热门作者榜单',
+  'warehouseTempHumid.popularAuthor.column.ranking': '排名',
+  'warehouseTempHumid.popularAuthor.column.author': '作者',
+  'warehouseTempHumid.popularAuthor.column.content': '内容量',
+  'warehouseTempHumid.popularAuthor.column.click': '点击量',
+  'warehouseTempHumid.contentPeriodAnalysis': '内容时段分析',
+}

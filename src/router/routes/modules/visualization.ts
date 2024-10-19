@@ -19,7 +19,7 @@ const VISUALIZATION: AppRouteRecordRaw = {
       meta: {
         locale: 'menu.visualization.dataAnalysis',
         requiresAuth: true,
-        roles: ['admin'],
+        roles: ['branch-admin'],
       },
     },
     {
@@ -29,7 +29,17 @@ const VISUALIZATION: AppRouteRecordRaw = {
       meta: {
         locale: 'menu.visualization.multiDimensionDataAnalysis',
         requiresAuth: true,
-        roles: ['admin'],
+        roles: ['branch-admin'],
+      },
+    },
+    {
+      path: 'warehouse-temp-humid',
+      name: 'warehouseTempHumid',
+      component: () => import('@/views/visualization/warehouse-temp-humid/index.vue'),
+      meta: {
+        locale: 'menu.visualization.warehouseTempHumid',
+        requiresAuth: true,
+        roles: ['branch-admin'],
       },
     },
   ],

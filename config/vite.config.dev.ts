@@ -16,6 +16,11 @@ export default mergeConfig(
               target: "http://8.137.83.32",
               changeOrigin: true,
               rewrite: (path) => path.replace(/^\/dev-api/, ''),
+          },
+          "/iotda-api": {
+              target: "https://26e659c083.st1.iotda-app.cn-north-4.myhuaweicloud.com",
+              changeOrigin: true,
+              rewrite: (path) => path.replace(/^\/iotda-api/, ''),
           }
       }
     },

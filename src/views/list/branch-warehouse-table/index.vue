@@ -146,23 +146,27 @@
           {{ record.humidity.lower }} ~ {{ record.humidity.upper }}
         </template>
         <template #operations="{ record }">
-          <a-button type="text" size="small">
+          <a-button type="text" size="small" @click="handleWarehouseSetting(record.id, record.name, 2)">
             {{ $t('branchWarehouseTable.columns.operations.monitor') }}
           </a-button>
           <a-button type="text" size="small">
             {{ $t('branchWarehouseTable.columns.operations.storage') }}
           </a-button>
-          <a-button type="text" size="small" @click="handleWarehouseSetting(record.id, record.name)">
+          <a-button type="text" size="small" @click="handleWarehouseSetting(record.id, record.name, 1)">
             {{ $t('branchWarehouseTable.columns.operations.setting') }}
           </a-button>
         </template>
       </a-table>
     </a-card>
     <warehouse-setting
-        v-if="settingShow"
-        :warehouse-id="drawerCompProps.warehouseId"
-        @close-event="drawerExistStatusMethod(false)"
-        :warehouse-name="drawerCompProps.warehouseName"
+        v-if="drawerKey === 1"
+        :warehouse-props="drawerCompProps"
+        @close-event="drawerKey = 0"
+    />
+    <warehouse-monitor
+      v-if="drawerKey === 2"
+      :warehouse-props="drawerCompProps"
+      @close-event="drawerKey = 0"
     />
   </div>
 </template>
@@ -177,7 +181,9 @@ import cloneDeep from 'lodash/cloneDeep'
 import Sortable from 'sortablejs'
 import { computed, nextTick, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import WarehouseSetting from './components/warehouse-setting.vue'
+import WarehouseMonitor from "@/views/list/branch-warehouse-table/components/warehouse-monitor/warehouse-monitor.vue";
+
+import WarehouseSetting from './components/warehouse-setting/warehouse-setting.vue'
 
 type SizeProps = 'mini' | 'small' | 'medium' | 'large'
 type Column = TableColumnData & { checked?: true }
@@ -310,7 +316,6 @@ const fetchData = async (params: PolicyParams = { current: 1, pageSize: 20 }) =>
 
 const drawerCompProps = ref({
   warehouseId : -1,
-  drawerVisible: false,
   warehouseName: '',
 })
 
@@ -350,20 +355,16 @@ const exchangeArray = <T extends Array<any>>(array: T, beforeIdx: number, newIdx
   return newArray
 }
 
-const settingShow = ref(false)
 const child = ref()
+const drawerKey = ref(0)
 
-const handleWarehouseSetting = (warehouseId: number, warehouseName: string) => {
-  drawerExistStatusMethod(true)
+
+const handleWarehouseSetting = (warehouseId: number, warehouseName: string, showDrawer: number) => {
+  drawerKey.value = showDrawer
   drawerCompProps.value = {
-    drawerVisible: true,
     warehouseId,
     warehouseName,
   }
-}
-
-const drawerExistStatusMethod = (drawerStatus: boolean) => {
-  settingShow.value = drawerStatus
 }
 
 const popupVisibleChange = (val: boolean) => {
