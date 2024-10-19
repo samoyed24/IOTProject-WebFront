@@ -82,7 +82,7 @@
               <a-upload
                   action="dev-api/management/employee-import"
                   :show-file-list="false"
-                  @success="(res) => { handleImportUpload(res) }"
+                  @success="(res: any) => { handleImportUpload(res) }"
               >
                 <template #upload-button>
                   <a-button>

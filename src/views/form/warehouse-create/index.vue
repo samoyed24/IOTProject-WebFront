@@ -48,7 +48,6 @@ const submitModel = ref<UnitChannelModel>({} as UnitChannelModel)
 const submitForm = async () => {
   setLoading(true)
   try {
-    //TODO 类型继承或者名称有问题
     await submitBranchWarehouseRegisterForm(submitModel.value) // The mock api default success
     step.value = 3
     submitModel.value = {} as UnitChannelModel // init

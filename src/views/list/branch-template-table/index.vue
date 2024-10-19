@@ -18,11 +18,7 @@
               </a-col>
               <a-col :span="8">
                 <a-form-item field="type" :label="$t('branchTemplateTable.form.type')">
-                  <a-select
-                    v-model="formModel.type"
-                    :options="typeOptions"
-                    :placeholder="$t('branchTemplateTable.form.selectDefault')"
-                  />
+                  <a-select v-model="formModel.type" :options="typeOptions" :placeholder="$t('branchTemplateTable.form.selectDefault')" />
                 </a-form-item>
               </a-col>
               <a-col :span="8">
@@ -30,25 +26,25 @@
                   <a-input v-model="formModel.created_by" :placeholder="$t('branchTemplateTable.form.createdBy.placeholder')" />
                 </a-form-item>
               </a-col>
-<!--              <a-col :span="8">-->
-<!--                <a-form-item field="filterType" :label="$t('branchTemplateTable.form.filterType')">-->
-<!--                  <a-select-->
-<!--                    v-model="formModel.filterType"-->
-<!--                    :options="filterTypeOptions"-->
-<!--                    :placeholder="$t('branchTemplateTable.form.selectDefault')"-->
-<!--                  />-->
-<!--                </a-form-item>-->
-<!--              </a-col>-->
-<!--              <a-col :span="8">-->
-<!--                <a-form-item field="createdTime" :label="$t('branchTemplateTable.form.createdTime')">-->
-<!--                  <a-range-picker v-model="formModel.createdTime" style="width: 100%" />-->
-<!--                </a-form-item>-->
-<!--              </a-col>-->
-<!--              <a-col :span="8">-->
-<!--                <a-form-item field="status" :label="$t('branchTemplateTable.form.status')">-->
-<!--                  <a-select v-model="formModel.status" :options="statusOptions" :placeholder="$t('branchTemplateTable.form.selectDefault')" />-->
-<!--                </a-form-item>-->
-<!--              </a-col>-->
+              <!--              <a-col :span="8">-->
+              <!--                <a-form-item field="filterType" :label="$t('branchTemplateTable.form.filterType')">-->
+              <!--                  <a-select-->
+              <!--                    v-model="formModel.filterType"-->
+              <!--                    :options="filterTypeOptions"-->
+              <!--                    :placeholder="$t('branchTemplateTable.form.selectDefault')"-->
+              <!--                  />-->
+              <!--                </a-form-item>-->
+              <!--              </a-col>-->
+              <!--              <a-col :span="8">-->
+              <!--                <a-form-item field="createdTime" :label="$t('branchTemplateTable.form.createdTime')">-->
+              <!--                  <a-range-picker v-model="formModel.createdTime" style="width: 100%" />-->
+              <!--                </a-form-item>-->
+              <!--              </a-col>-->
+              <!--              <a-col :span="8">-->
+              <!--                <a-form-item field="status" :label="$t('branchTemplateTable.form.status')">-->
+              <!--                  <a-select v-model="formModel.status" :options="statusOptions" :placeholder="$t('branchTemplateTable.form.selectDefault')" />-->
+              <!--                </a-form-item>-->
+              <!--              </a-col>-->
             </a-row>
           </a-form>
         </a-col>
@@ -74,19 +70,26 @@
       <a-row style="margin-bottom: 16px">
         <a-col :span="12">
           <a-space>
-            <a-button type="primary" @click="() => { router.push('/form/branch-template-create') }">
+            <a-button
+              type="primary"
+              @click="
+                () => {
+                  router.push('/form/branch-template-create')
+                }
+              "
+            >
               <template #icon>
                 <icon-plus />
               </template>
               {{ $t('branchTemplateTable.operation.create') }}
             </a-button>
-<!--            <a-upload action="/">-->
-<!--              <template #upload-button>-->
-<!--                <a-button>-->
-<!--                  {{ $t('branchTemplateTable.operation.import') }}-->
-<!--                </a-button>-->
-<!--              </template>-->
-<!--            </a-upload>-->
+            <!--            <a-upload action="/">-->
+            <!--              <template #upload-button>-->
+            <!--                <a-button>-->
+            <!--                  {{ $t('branchTemplateTable.operation.import') }}-->
+            <!--                </a-button>-->
+            <!--              </template>-->
+            <!--            </a-upload>-->
           </a-space>
         </a-col>
         <a-col :span="12" style="display: flex; align-items: center; justify-content: end">
@@ -146,24 +149,24 @@
         </template>
         <template #type="{ record }">
           <a-space>
-<!--            <a-avatar v-if="record.contentType === 'img'" :size="16" shape="square">-->
-<!--              <img-->
-<!--                alt="avatar"-->
-<!--                src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/581b17753093199839f2e327e726b157.svg~tplv-49unhts6dw-image.image"-->
-<!--              />-->
-<!--            </a-avatar>-->
-<!--            <a-avatar v-else-if="record.contentType === 'horizontalVideo'" :size="16" shape="square">-->
-<!--              <img-->
-<!--                alt="avatar"-->
-<!--                src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/77721e365eb2ab786c889682cbc721c1.svg~tplv-49unhts6dw-image.image"-->
-<!--              />-->
-<!--            </a-avatar>-->
-<!--            <a-avatar v-else :size="16" shape="square">-->
-<!--              <img-->
-<!--                alt="avatar"-->
-<!--                src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/ea8b09190046da0ea7e070d83c5d1731.svg~tplv-49unhts6dw-image.image"-->
-<!--              />-->
-<!--            </a-avatar>-->
+            <!--            <a-avatar v-if="record.contentType === 'img'" :size="16" shape="square">-->
+            <!--              <img-->
+            <!--                alt="avatar"-->
+            <!--                src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/581b17753093199839f2e327e726b157.svg~tplv-49unhts6dw-image.image"-->
+            <!--              />-->
+            <!--            </a-avatar>-->
+            <!--            <a-avatar v-else-if="record.contentType === 'horizontalVideo'" :size="16" shape="square">-->
+            <!--              <img-->
+            <!--                alt="avatar"-->
+            <!--                src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/77721e365eb2ab786c889682cbc721c1.svg~tplv-49unhts6dw-image.image"-->
+            <!--              />-->
+            <!--            </a-avatar>-->
+            <!--            <a-avatar v-else :size="16" shape="square">-->
+            <!--              <img-->
+            <!--                alt="avatar"-->
+            <!--                src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/ea8b09190046da0ea7e070d83c5d1731.svg~tplv-49unhts6dw-image.image"-->
+            <!--              />-->
+            <!--            </a-avatar>-->
             {{ $t(`branchTemplateTable.form.type.${record.type}`) }}
           </a-space>
         </template>
@@ -175,19 +178,38 @@
         </template>
         <template #operations="{ record }">
           <a-popconfirm
-              :popup-visible="record.id == deleteConfirmRecord"
-              content="该操作不可逆，是否确定？"
-              @cancel="() => { deleteConfirmRecord = -1 }"
-              @ok="handleDeleteTemplate(record.id)"
+            :popup-visible="record.id == deleteConfirmRecord"
+            content="该操作不可逆，是否确定？"
+            @cancel="
+              () => {
+                deleteConfirmRecord = -1
+              }
+            "
+            @ok="handleDeleteTemplate(record.id)"
           >
-            <a-button v-permission="['branch-admin']" type="text" status="danger" size="small"
-              @click="() => { deleteConfirmRecord = record.id }"
+            <a-button
+              v-permission="['branch-admin']"
+              type="text"
+              status="danger"
+              size="small"
+              @click="
+                () => {
+                  deleteConfirmRecord = record.id
+                }
+              "
             >
               {{ $t('branchTemplateTable.columns.operations.delete') }}
             </a-button>
           </a-popconfirm>
-          <a-button v-permission="['branch-admin', 'employee']" type="text" size="small"
-            @click="() => { detailSelected = record.id }"
+          <a-button
+            v-permission="['branch-admin', 'employee']"
+            type="text"
+            size="small"
+            @click="
+              () => {
+                detailSelected = record.id
+              }
+            "
           >
             {{ $t('branchTemplateTable.columns.operations.details') }}
           </a-button>
@@ -198,26 +220,31 @@
       :visible="detailSelected != -1"
       width="35%"
       @ok="detailSelected = -1"
-      @cancel="() => { detailSelected = -1; templateDetails = [] }"
+      @cancel="
+        () => {
+          detailSelected = -1
+          templateDetails = []
+        }
+      "
       @open="handleDetailShow"
-      >
+    >
       <a-spin :loading="drawerFirstLoading">
-        <a-descriptions
-            title="货物模板信息"
-            :data="templateDetails"
-            :column="1"
-        >
-        </a-descriptions>
-        <a-image
-            :src="`/dev-api/bind/get-template-sample-image?id=${detailSelected}`"
-            width="100%" show-loader></a-image>
+        <a-descriptions title="货物模板信息" :data="templateDetails" :column="1"></a-descriptions>
+        <a-image :src="`/dev-api/bind/get-template-sample-image?id=${detailSelected}`" width="100%" show-loader></a-image>
       </a-spin>
     </a-drawer>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { deleteTemplate, getTemplateDetails, queryBranchTemplate, type CargoTemplate, type PolicyParams, type PolicyRecord } from '@/api/list'
+import {
+  deleteTemplate,
+  getTemplateDetails,
+  queryBranchTemplate,
+  type CargoTemplate,
+  type PolicyParams,
+  type PolicyRecord,
+} from '@/api/list'
 import useLoading from '@/hooks/loading'
 import { type Pagination } from '@/types/global'
 import type { SelectOptionData } from '@arco-design/web-vue/es/select/interface'
@@ -226,7 +253,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import Sortable from 'sortablejs'
 import { computed, nextTick, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from "vue-router"
+import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
@@ -241,7 +268,7 @@ const generateFormModel = () => {
     created_at: '',
     created_by: '',
     period: '',
-    id: ''
+    id: '',
   }
 }
 const { loading, setLoading } = useLoading(true)
@@ -335,7 +362,7 @@ const typeOptions = computed<SelectOptionData[]>(() => [
   {
     label: t('branchTemplateTable.form.type.meat'),
     value: 'meat',
-  }
+  },
 ])
 const filterTypeOptions = computed<SelectOptionData[]>(() => [
   {
@@ -372,7 +399,7 @@ const fetchData = async (params: PolicyParams = { current: 1, pageSize: 20 }) =>
 }
 const handleDeleteTemplate = async (id: number) => {
   const data = {
-    id
+    id,
   }
   await deleteTemplate(data)
   await fetchData()
@@ -394,23 +421,23 @@ const handleDetailShow = async () => {
   const resData = res.data as CargoTemplate
   detailsNotProcessed.value = resData
   const typeMapping: Record<string, string> = {
-    "vegetable": "果蔬",
-    "meat": "肉类"
+    vegetable: '果蔬',
+    meat: '肉类',
   }
   resData.type = typeMapping[resData.type]
   const tagMapping: Record<string, string> = {
-    "id": "ID",
-    "name": "货物名称",
-    "created_by": "创建者",
-    "period": "保质期",
-    "created_at": "创建时间",
-    "description": "货物描述",
-    "type": "货物种类"
+    id: 'ID',
+    name: '货物名称',
+    created_by: '创建者',
+    period: '保质期',
+    created_at: '创建时间',
+    description: '货物描述',
+    type: '货物种类',
   }
   Object.keys(res.data).forEach((k) => {
     templateDetails.value.push({
       label: tagMapping[k],
-      value: res.data[k]
+      value: res.data[k],
     })
   })
   drawerFirstLoading.value = false

@@ -165,3 +165,16 @@ export function warehouseQueryDevices(params: any) {
   })
 }
 
+export function getIamToken() {
+  return axios.get('dev-api/huawei/huawei-get-iam-token')
+}
+
+
+// 由于调第三方接口，没有正确返回wrapper，所以用fetch，以防error
+export function warehouseMonitor(token: string, deviceId: string) {
+  return fetch(`iotda-api/v5/iot/624907afb1634bad885e26827aceb360/devices/${deviceId}/shadow`, {
+    headers: {
+      "x-auth-token": token
+    }
+  })
+}
