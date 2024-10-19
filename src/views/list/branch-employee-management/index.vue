@@ -218,7 +218,7 @@ type Column = TableColumnData & { checked?: true }
 const generateFormModel = () => {
   return {
     name: '',
-    createdTime: [],
+    createdTime: [] as string[],
     status: '',
     telephone: '',
     email: '',

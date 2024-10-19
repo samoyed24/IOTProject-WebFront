@@ -3,7 +3,7 @@
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "node",
-    "strict": true,
+    // "strict": true,
     "jsx": "preserve",
     "allowJs": true,
     "sourceMap": true,
@@ -17,7 +17,9 @@
     "types": ["vue"],
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
-    "jsxImportSource": "vue"
+    "jsxImportSource": "vue",
+    "skipLibCheck": false,
+    "noImplicitAny": true
   },
   "include": ["src/**/*", "src/**/*.vue"],
   "exclude": ["node_modules"]

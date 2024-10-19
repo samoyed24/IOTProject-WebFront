@@ -13,7 +13,7 @@
           <icon-settings></icon-settings>
           基本参数
         </template>
-        123
+        <BasicParameters :warehouse-id="warehouseId" />
       </a-tab-pane>
       <a-tab-pane :key="2">
         <template #title>
@@ -45,11 +45,12 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref, defineExpose, defineEmits, nextTick } from 'vue'
-import DeviceManagement from './device-management.vue'
+import { defineEmits, defineProps, ref } from 'vue';
+import BasicParameters from './basic-parameters.vue';
+import DeviceManagement from './device-management.vue';
 
 const drawerVisible = ref(true)
-const activeTab = ref(null)
+const activeTab = ref()
 defineProps({
   warehouseId: {
     type: Number,

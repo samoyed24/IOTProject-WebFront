@@ -7,41 +7,31 @@
           <a-form :model="formModel" :label-col-props="{ span: 6 }" :wrapper-col-props="{ span: 18 }" label-align="left">
             <a-row :gutter="16">
               <a-col :span="8">
-                <a-form-item field="number" :label="$t('branchDeviceTable.form.number')">
-                  <a-input v-model="formModel.number" :placeholder="$t('branchDeviceTable.form.number.placeholder')" />
+                <a-form-item field="deviceId" :label="$t('branchDeviceTable.columns.deviceId')">
+                  <a-input v-model="formModel.deviceId" :placeholder="$t('branchDeviceTable.form.deviceId.placeholder')" />
                 </a-form-item>
               </a-col>
               <a-col :span="8">
-                <a-form-item field="name" :label="$t('branchDeviceTable.form.name')">
-                  <a-input v-model="formModel.name" :placeholder="$t('branchDeviceTable.form.name.placeholder')" />
-                </a-form-item>
-              </a-col>
-              <a-col :span="8">
-                <a-form-item field="contentType" :label="$t('branchDeviceTable.form.contentType')">
+                <a-form-item field="deviceType" :label="$t('branchDeviceTable.columns.deviceType')">
                   <a-select
-                    v-model="formModel.contentType"
-                    :options="contentTypeOptions"
+                    v-model="formModel.deviceType"
+                    :options="deviceTypeOptions"
                     :placeholder="$t('branchDeviceTable.form.selectDefault')"
                   />
                 </a-form-item>
               </a-col>
               <a-col :span="8">
-                <a-form-item field="filterType" :label="$t('branchDeviceTable.form.filterType')">
+                <a-form-item field="is_online" :label="$t('branchDeviceTable.columns.is_online')">
                   <a-select
-                    v-model="formModel.filterType"
-                    :options="filterTypeOptions"
+                    v-model="formModel.is_online"
+                    :options="isOnlineOptions"
                     :placeholder="$t('branchDeviceTable.form.selectDefault')"
                   />
                 </a-form-item>
               </a-col>
               <a-col :span="8">
-                <a-form-item field="createdTime" :label="$t('branchDeviceTable.form.createdTime')">
-                  <a-range-picker v-model="formModel.createdTime" style="width: 100%" />
-                </a-form-item>
-              </a-col>
-              <a-col :span="8">
-                <a-form-item field="status" :label="$t('branchDeviceTable.form.status')">
-                  <a-select v-model="formModel.status" :options="statusOptions" :placeholder="$t('branchDeviceTable.form.selectDefault')" />
+                <a-form-item field="is_warehouse_bound" :label="$t('branchDeviceTable.form.is_warehouse_bound')">
+                  <a-select v-model="formModel.is_warehouse_bound" :options="isWarehouseBoundOptions" :placeholder="$t('branchDeviceTable.form.selectDefault')" />
                 </a-form-item>
               </a-col>
             </a-row>
@@ -178,12 +168,10 @@ type Column = TableColumnData & { checked?: true }
 
 const generateFormModel = () => {
   return {
-    number: '',
-    name: '',
-    contentType: '',
-    filterType: '',
-    createdTime: [],
-    status: '',
+    deviceId: '',
+    deviceType: '',
+    is_online: '',
+    is_warehouse_bound: '',
   }
 }
 const { loading, setLoading } = useLoading(true)
@@ -259,38 +247,46 @@ const columns = computed<TableColumnData[]>(() => [
     slotName: 'operations',
   },
 ])
-const contentTypeOptions = computed<SelectOptionData[]>(() => [
+const deviceTypeOptions = computed<SelectOptionData[]>(() => [
   {
-    label: t('branchDeviceTable.form.contentType.img'),
-    value: 'img',
+    label: t('branchDeviceTable.form.deviceType.bindrole'),
+    value: 'bindrole',
   },
   {
-    label: t('branchDeviceTable.form.contentType.horizontalVideo'),
-    value: 'horizontalVideo',
+    label: t('branchDeviceTable.form.deviceType.check'),
+    value: 'check',
   },
   {
-    label: t('branchDeviceTable.form.contentType.verticalVideo'),
-    value: 'verticalVideo',
-  },
-])
-const filterTypeOptions = computed<SelectOptionData[]>(() => [
-  {
-    label: t('branchDeviceTable.form.filterType.artificial'),
-    value: 'artificial',
+    label: t('branchDeviceTable.form.deviceType.warehouse_sensor'),
+    value: 'warehouse_sensor',
   },
   {
-    label: t('branchDeviceTable.form.filterType.rules'),
-    value: 'rules',
+    label: t('branchDeviceTable.form.deviceType.warehouse_guard'),
+    value: 'warehouse_guard',
+  },
+  {
+    label: t('branchDeviceTable.form.deviceType.transmit'),
+    value: 'transmit',
   },
 ])
-const statusOptions = computed<SelectOptionData[]>(() => [
+const isOnlineOptions = computed<SelectOptionData[]>(() => [
   {
-    label: t('branchDeviceTable.form.status.online'),
-    value: 'online',
+    label: t('branchDeviceTable.form.is_online.true'),
+    value: 'true',
   },
   {
-    label: t('branchDeviceTable.form.status.offline'),
-    value: 'offline',
+    label: t('branchDeviceTable.form.is_online.false'),
+    value: 'false',
+  },
+])
+const isWarehouseBoundOptions = computed<SelectOptionData[]>(() => [
+  {
+    label: t('branchDeviceTable.form.is_warehouse_bound.true'),
+    value: 'true',
+  },
+  {
+    label: t('branchDeviceTable.form.is_warehouse_bound.false'),
+    value: 'false',
   },
 ])
 const fetchData = async (params: PolicyParams = { current: 1, pageSize: 20 }) => {
@@ -310,7 +306,7 @@ const fetchData = async (params: PolicyParams = { current: 1, pageSize: 20 }) =>
 const search = () => {
   fetchData({
     ...basePagination,
-    ...formModel.value,
+    ...formModel.value
   } as unknown as PolicyParams)
 }
 const onPageChange = (current: number) => {

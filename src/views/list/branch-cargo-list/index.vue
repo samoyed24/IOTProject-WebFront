@@ -166,7 +166,7 @@ type Column = TableColumnData & { checked?: true }
 const generateFormModel = () => {
   return {
     name: '',
-    record_time: [],
+    record_time: [] as string[],
     type: '',
     uuid: ''
   }

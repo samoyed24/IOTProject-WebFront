@@ -10,6 +10,7 @@ export default {
   'branchDeviceTable.columns.index': '#',
   'branchDeviceTable.columns.id': '设备ID',
   'branchDeviceTable.columns.deviceId': '唯一编码',
+  'branchDeviceTable.form.deviceId.placeholder': '请输入设备唯一编码',
   'branchDeviceTable.columns.deviceType': '设备类型',
   'branchDeviceTable.form.deviceType.bindrole': '录入/质检',
   'branchDeviceTable.form.deviceType.check': '读取',
@@ -19,6 +20,7 @@ export default {
   'branchDeviceTable.columns.is_online': '在线状态',
   'branchDeviceTable.form.is_online.true': '在线',
   'branchDeviceTable.form.is_online.false': '离线',
+  'branchDeviceTable.form.is_warehouse_bound': '绑定',
   'branchDeviceTable.form.is_warehouse_bound.true': '已绑定',
   'branchDeviceTable.form.is_warehouse_bound.false': '未绑定',
   'branchDeviceTable.columns.last_online': '最后在线',
@@ -35,4 +37,5 @@ export default {
   'branchDeviceTable.actions.refresh': '刷新',
   'branchDeviceTable.actions.density': '密度',
   'branchDeviceTable.actions.columnSetting': '列设置',
+
 }

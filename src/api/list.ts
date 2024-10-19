@@ -41,6 +41,22 @@ export interface WarehouseDevice {
   is_online: boolean
 }
 
+export interface WarehousesInfo {
+  id: number
+  name: string
+  company: string
+  branch: string
+  description: string
+  temperature: {
+    lower: number
+    upper: number
+  }
+  humidity: {
+    lower: number
+    upper: number
+  }
+}
+
 export function queryPolicyList(params: PolicyParams) {
   return axios.get<PolicyListRes>('dev-api/api/v1/web-get-records', {
     params,
@@ -165,3 +181,11 @@ export function warehouseQueryDevices(params: any) {
   })
 }
 
+export function wareHouseGetById(params: any) {
+  return axios.get('dev-api/warehouse/warehouse-get-by-id', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
+    },
+  })
+}

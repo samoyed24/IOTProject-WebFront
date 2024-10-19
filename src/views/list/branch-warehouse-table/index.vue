@@ -188,7 +188,7 @@ const generateFormModel = () => {
     name: '',
     contentType: '',
     filterType: '',
-    createdTime: [],
+    createdTime: [] as string[],
     status: '',
   }
 }
