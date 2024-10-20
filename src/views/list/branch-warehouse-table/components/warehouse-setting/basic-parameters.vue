@@ -71,9 +71,7 @@
               :max="1.0"
               placeholder="湿度上限，0.000~1.000"
               @update:model-value="handleLimitChange"
-            >
-              <!--              <template #suffix>%</template>-->
-            </a-input-number>
+            ></a-input-number>
           </a-form-item>
         </a-space>
       </a-form-item>
@@ -113,7 +111,11 @@
                     :precision="1"
                     :step="0.5"
                     :min="form.temperature.lower"
-                    :max="form.extraOptions.reminderEvent.temperature.upper ? form.extraOptions.reminderEvent.temperature.upper : form.temperature.upper"
+                    :max="
+                      form.extraOptions.reminderEvent.temperature.upper
+                        ? form.extraOptions.reminderEvent.temperature.upper
+                        : form.temperature.upper
+                    "
                     placeholder="温度下限，30~100且位于仓库全局温度阈值之间"
                   >
                     <template #suffix>°C</template>
@@ -308,9 +310,9 @@
 </template>
 
 <script setup lang="ts">
-import {wareHouseGetById, type WarehouseParamSubmit, warehouseParamsUpdate, type WarehousesInfo} from '@/api/list'
-import {Message, Modal} from '@arco-design/web-vue'
-import { reactive, ref, watch } from 'vue'
+import { wareHouseGetById, type WarehouseParamSubmit, warehouseParamsUpdate, type WarehousesInfo } from '@/api/list'
+import { Message, Modal } from '@arco-design/web-vue'
+import {nextTick, reactive, ref, watch} from 'vue'
 
 const getExtraOptionForm = () => {
   return {
@@ -376,13 +378,18 @@ const fetchData = async () => {
   try {
     const params = { warehouseId: props.warehouseId }
     const { data } = await wareHouseGetById(params)
-    console.log(data)
     Object.assign(form, data)
+    if (!form.extraOptions) {
+      form.extraOptions = getExtraOptionForm()
+    }
   } catch {
     // 错误处理逻辑
     Message.error('error')
   } finally {
-    formLoading.value = false
+    await nextTick(() => {
+      formLoading.value = false
+
+    })
   }
 }
 
@@ -421,8 +428,7 @@ const submitForm = async () => {
 }
 
 const handleLimitChange = () => {
-  if (formLoading.value)
-    form.extraOptions.isEnabled = false
+  if (!formLoading.value) form.extraOptions.isEnabled = false
 }
 
 // 监听，关闭事件选项的时候清空额外选项表单
