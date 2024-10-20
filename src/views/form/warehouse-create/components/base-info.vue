@@ -16,13 +16,8 @@
     >
       <a-input v-model="formData.name" :placeholder="$t('warehouseCreate.placeholder.name')" />
     </a-form-item>
-    <a-form-item
-      field="description"
-      :label="$t('warehouseCreate.form.label.description')"
-    >
-      <a-textarea v-model="formData.description" :placeholder="$t('warehouseCreate.placeholder.description')">
-
-      </a-textarea>
+    <a-form-item field="description" :label="$t('warehouseCreate.form.label.description')">
+      <a-textarea v-model="formData.description" :placeholder="$t('warehouseCreate.placeholder.description')"></a-textarea>
     </a-form-item>
     <a-form-item>
       <a-button type="primary" @click="onNextClick">
@@ -33,8 +28,8 @@
 </template>
 
 <script lang="ts" setup>
-import type { FormInstance } from '@arco-design/web-vue/es/form';
-import { ref } from 'vue';
+import type { FormInstance } from '@arco-design/web-vue/es/form'
+import { ref } from 'vue'
 
 const emits = defineEmits(['changeStep'])
 const formRef = ref<FormInstance>()

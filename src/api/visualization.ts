@@ -1,7 +1,7 @@
 import type { GeneralChart } from '@/types/global'
 import axios from 'axios'
-import qs from "query-string";
-import type {PolicyListRes} from "@/api/list";
+import qs from 'query-string'
+import type { PolicyListRes } from '@/api/list'
 
 export interface ChartDataRecord {
   x: string
@@ -68,12 +68,12 @@ export interface DataOverviewRes {
 }
 
 export interface WarehouseDevice {
-  warehouseId: number,
-  pastDays: number
+  warehouseId: number
+  pastHours: number
 }
 
 export interface WarehouseProps {
-  warehouseName: string,
+  warehouseName: string
   warehouseId: number
 }
 

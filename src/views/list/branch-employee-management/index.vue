@@ -38,9 +38,9 @@
               <a-col :span="8">
                 <a-form-item field="role" :label="$t('branchEmployeeManagement.form.role')">
                   <a-select
-                      v-model="formModel.role"
-                      :options="roleOptions"
-                      :placeholder="$t('branchEmployeeManagement.form.selectDefault')"
+                    v-model="formModel.role"
+                    :options="roleOptions"
+                    :placeholder="$t('branchEmployeeManagement.form.selectDefault')"
                   />
                 </a-form-item>
               </a-col>
@@ -70,8 +70,12 @@
         <a-col :span="12">
           <a-space>
             <a-button
-                type="primary"
-                @click="() => { router.push('/form/branch-employee-add') }"
+              type="primary"
+              @click="
+                () => {
+                  router.push('/form/branch-employee-add')
+                }
+              "
             >
               <template #icon>
                 <icon-plus />
@@ -80,9 +84,13 @@
             </a-button>
             <a-spin :loading="uploadLoading">
               <a-upload
-                  action="dev-api/management/employee-import"
-                  :show-file-list="false"
-                  @success="(res: any) => { handleImportUpload(res) }"
+                action="dev-api/management/employee-import"
+                :show-file-list="false"
+                @success="
+                  (res: any) => {
+                    handleImportUpload(res)
+                  }
+                "
               >
                 <template #upload-button>
                   <a-button>
@@ -92,9 +100,7 @@
               </a-upload>
             </a-spin>
 
-            <a-button
-                @click="downloadTemplate"
-            >
+            <a-button @click="downloadTemplate">
               <icon-download />
               {{ $t('branchEmployeeManagement.operation.downloadTemplate') }}
             </a-button>
@@ -157,24 +163,24 @@
         </template>
         <template #position="{ record }">
           <a-space>
-<!--            <a-avatar v-if="record.contentType === 'img'" :size="16" shape="square">-->
-<!--              <img-->
-<!--                alt="avatar"-->
-<!--                src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/581b17753093199839f2e327e726b157.svg~tplv-49unhts6dw-image.image"-->
-<!--              />-->
-<!--            </a-avatar>-->
-<!--            <a-avatar v-else-if="record.contentType === 'horizontalVideo'" :size="16" shape="square">-->
-<!--              <img-->
-<!--                alt="avatar"-->
-<!--                src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/77721e365eb2ab786c889682cbc721c1.svg~tplv-49unhts6dw-image.image"-->
-<!--              />-->
-<!--            </a-avatar>-->
-<!--            <a-avatar v-else :size="16" shape="square">-->
-<!--              <img-->
-<!--                alt="avatar"-->
-<!--                src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/ea8b09190046da0ea7e070d83c5d1731.svg~tplv-49unhts6dw-image.image"-->
-<!--              />-->
-<!--            </a-avatar>-->
+            <!--            <a-avatar v-if="record.contentType === 'img'" :size="16" shape="square">-->
+            <!--              <img-->
+            <!--                alt="avatar"-->
+            <!--                src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/581b17753093199839f2e327e726b157.svg~tplv-49unhts6dw-image.image"-->
+            <!--              />-->
+            <!--            </a-avatar>-->
+            <!--            <a-avatar v-else-if="record.contentType === 'horizontalVideo'" :size="16" shape="square">-->
+            <!--              <img-->
+            <!--                alt="avatar"-->
+            <!--                src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/77721e365eb2ab786c889682cbc721c1.svg~tplv-49unhts6dw-image.image"-->
+            <!--              />-->
+            <!--            </a-avatar>-->
+            <!--            <a-avatar v-else :size="16" shape="square">-->
+            <!--              <img-->
+            <!--                alt="avatar"-->
+            <!--                src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/ea8b09190046da0ea7e070d83c5d1731.svg~tplv-49unhts6dw-image.image"-->
+            <!--              />-->
+            <!--            </a-avatar>-->
             {{ $t(`branchEmployeeManagement.form.position.${record.position}`) }}
           </a-space>
         </template>
@@ -200,15 +206,14 @@
 import { type PolicyParams, type PolicyRecord, queryEmployeeList } from '@/api/list'
 import useLoading from '@/hooks/loading'
 import type { Pagination } from '@/types/global'
-import { Message } from "@arco-design/web-vue"
+import { Message } from '@arco-design/web-vue'
 import type { SelectOptionData } from '@arco-design/web-vue/es/select/interface'
 import type { TableColumnData } from '@arco-design/web-vue/es/table/interface'
 import cloneDeep from 'lodash/cloneDeep'
 import Sortable from 'sortablejs'
 import { computed, nextTick, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from "vue-router"
-
+import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
@@ -224,7 +229,7 @@ const generateFormModel = () => {
     email: '',
     position: '',
     role: '',
-    id: ''
+    id: '',
   }
 }
 const { loading, setLoading } = useLoading(true)
@@ -236,7 +241,6 @@ const showColumns = ref<Column[]>([])
 
 const size = ref<SizeProps>('medium')
 const uploadLoading = ref(false)
-
 
 const basePagination: Pagination = {
   current: 1,
@@ -284,16 +288,16 @@ const columns = computed<TableColumnData[]>(() => [
   {
     title: t('branchEmployeeManagement.columns.position'),
     dataIndex: 'position',
-    slotName: 'position'
+    slotName: 'position',
   },
   {
     title: t('branchEmployeeManagement.columns.role'),
     dataIndex: 'role',
-    slotName: 'role'
+    slotName: 'role',
   },
   {
     title: t('branchEmployeeManagement.columns.email'),
-    dataIndex: 'email'
+    dataIndex: 'email',
   },
   {
     title: t('branchEmployeeManagement.columns.operations'),
@@ -329,7 +333,7 @@ const roleOptions = computed<SelectOptionData[]>(() => [
 const fetchData = async (params: PolicyParams = { current: 1, pageSize: 20 }) => {
   setLoading(true)
   try {
-    const {data} = await queryEmployeeList(params)
+    const { data } = await queryEmployeeList(params)
     renderData.value = data.list
     pagination.current = params.current
     pagination.total = data.total
@@ -351,7 +355,7 @@ const onPageChange = (current: number) => {
 }
 
 const downloadTemplate = () => {
-  const url = "dev-api/management/get-employee-import-template"
+  const url = 'dev-api/management/get-employee-import-template'
   const link = document.createElement('a')
   link.href = url
   link.setAttribute('download', '')

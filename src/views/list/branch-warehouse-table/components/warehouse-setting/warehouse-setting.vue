@@ -1,11 +1,11 @@
 <template>
   <a-drawer
     :visible="drawerVisible"
+    :title="`${warehouseProps.warehouseName} - 仓库设置`"
     width="50%"
-    @close="handleClose"
+    hide-cancel
     @ok="handleClose"
     @cancel="handleClose"
-    :title="`${warehouseProps.warehouseName} - 仓库设置`"
   >
     <a-tabs v-model:active-key="activeTab">
       <a-tab-pane :key="1">
@@ -45,9 +45,11 @@
 </template>
 
 <script setup lang="ts">
-import { defineEmits, defineProps, ref } from 'vue';
-import BasicParameters from './basic-parameters.vue';
-import DeviceManagement from './device-management.vue';
+import { defineEmits, defineProps, ref } from 'vue'
+import { Modal } from '@arco-design/web-vue'
+
+import BasicParameters from './basic-parameters.vue'
+import DeviceManagement from './device-management.vue'
 
 const drawerVisible = ref(true)
 const activeTab = ref()
@@ -56,16 +58,24 @@ defineProps({
     type: Object,
     default: () => {
       return {
-          warehouseName: '',
-          warehouseId: -1
+        warehouseName: '',
+        warehouseId: -1,
       }
-    }
-  }
+    },
+  },
 })
 
 const handleClose = () => {
-  drawerVisible.value = false
-  setTimeout(handleDestroyComp, 500)
+  Modal.confirm({
+    title: '关闭仓库设置',
+    content: '确认关闭吗？未保存的更改将会丢失。',
+    okText: '确认',
+    cancelText: '再想想',
+    onOk() {
+      drawerVisible.value = false
+      setTimeout(handleDestroyComp, 500)
+    },
+  })
 }
 
 const handleDestroyComp = () => {

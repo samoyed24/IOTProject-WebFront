@@ -41,6 +41,38 @@ export interface WarehouseDevice {
   is_online: boolean
 }
 
+export interface ExtraOptions {
+  isEnabled: boolean
+  warningEvent: {
+    enable: boolean
+    temperature: {
+      enable: boolean
+      upper: number
+      lower: number
+    }
+    humidity: {
+      enable: boolean
+      upper: number
+      lower: number
+    }
+  }
+  reminderEvent: {
+    enable: boolean
+    temperature: {
+      enable: boolean
+      upper: number
+      lower: number
+    }
+    humidity: {
+      enable: boolean
+      upper: number
+      lower: number
+    }
+  }
+  seriousEvent: {
+    enable: boolean,
+  }
+}
 export interface WarehousesInfo {
   id: number
   name: string
@@ -55,6 +87,21 @@ export interface WarehousesInfo {
     lower: number
     upper: number
   }
+  extraOptions: ExtraOptions
+}
+
+export interface WarehouseParamSubmit {
+  id: number
+  name: string
+  temperature: {
+    lower: number
+    upper: number
+  }
+  humidity: {
+    lower: number
+    upper: number
+  }
+  extraOptions: ExtraOptions
 }
 
 export function queryPolicyList(params: PolicyParams) {
@@ -132,6 +179,10 @@ export function warehouseDeviceInterface(data: any) {
   return axios.post('dev-api/warehouse/warehouse-device-setting', data)
 }
 
+export function warehouseParamsUpdate(data: WarehouseParamSubmit) {
+  return axios.post('dev-api/warehouse/warehouse-params-update', data)
+}
+
 // export function downloadEmployeeTemplate() {
 //   return axios.get('dev-api/management/get-employee-import-template')
 // }
@@ -198,7 +249,7 @@ export function getIamToken() {
 export function warehouseMonitor(token: string, deviceId: string) {
   return fetch(`iotda-api/v5/iot/624907afb1634bad885e26827aceb360/devices/${deviceId}/shadow`, {
     headers: {
-      "x-auth-token": token
-    }
+      'x-auth-token': token,
+    },
   })
 }

@@ -129,7 +129,7 @@ const fetchData = async () => {
     }
     const { data: chartData } = await queryWarehouseTemphumid(params)
     xAxis.value = chartData.xAxis
-    chartData.data.forEach((el: any) => {
+
       if (el.name === '温度') {
         temperatureData.value = el.value
       } else if (el.name === '湿度') {

@@ -13,58 +13,56 @@
       <a-row :gutter="8">
         <a-col :span="12">
           <a-form-item
-              field="temperature.lower"
-              :rules="[
-                  {
-                    required: true,
-                    message: $t('warehouseCreate.form.error.temperature.lower.required')
-                  }
-              ]"
-              no-style>
+            field="temperature.lower"
+            :rules="[
+              {
+                required: true,
+                message: $t('warehouseCreate.form.error.temperature.lower.required'),
+              },
+            ]"
+            no-style
+          >
             <a-input-number
-                v-model="formData.temperature.lower"
-                :placeholder="$t('warehouseCreate.placeholder.temperature.lower')"
-                :precision="1"
-                :step="0.5"
-                :min="-30.0"
-                :max="formData.temperature.upper ? formData.temperature.upper : 100.0"
+              v-model="formData.temperature.lower"
+              :placeholder="$t('warehouseCreate.placeholder.temperature.lower')"
+              :precision="1"
+              :step="0.5"
+              :min="-30.0"
+              :max="formData.temperature.upper ? formData.temperature.upper : 100.0"
             >
-              <template #suffix>
-                °C
-              </template>
+              <template #suffix>°C</template>
             </a-input-number>
           </a-form-item>
         </a-col>
         <a-col :span="12">
           <a-form-item
-              field="temperature.upper"
-              :rules="[
-                  {
-                    required: true,
-                    message: $t('warehouseCreate.form.error.temperature.upper.required')
-                  }
-              ]"
-              no-style>
+            field="temperature.upper"
+            :rules="[
+              {
+                required: true,
+                message: $t('warehouseCreate.form.error.temperature.upper.required'),
+              },
+            ]"
+            no-style
+          >
             <a-input-number
-                v-model="formData.temperature.upper"
-                :placeholder="$t('warehouseCreate.placeholder.temperature.upper')"
-                :precision="1"
-                :step="0.5"
-                :min="formData.temperature.lower ? formData.temperature.lower : -30.0"
-                :max="100"
+              v-model="formData.temperature.upper"
+              :placeholder="$t('warehouseCreate.placeholder.temperature.upper')"
+              :precision="1"
+              :step="0.5"
+              :min="formData.temperature.lower ? formData.temperature.lower : -30.0"
+              :max="100"
             >
-              <template #suffix>
-                °C
-              </template>
+              <template #suffix>°C</template>
             </a-input-number>
           </a-form-item>
         </a-col>
       </a-row>
     </a-form-item>
     <a-form-item
-        field="humidity"
-        :label="$t('warehouseCreate.form.label.humidity')"
-        :rules="[
+      field="humidity"
+      :label="$t('warehouseCreate.form.label.humidity')"
+      :rules="[
         {
           required: true,
           message: $t('warehouseCreate.form.error.humidity.required'),
@@ -74,41 +72,43 @@
       <a-row :gutter="8">
         <a-col :span="12">
           <a-form-item
-              field="humidity.lower"
-              :rules="[
-                  {
-                    required: true,
-                    message: $t('warehouseCreate.form.error.humidity.lower.required')
-                  }
-              ]"
-              no-style>
+            field="humidity.lower"
+            :rules="[
+              {
+                required: true,
+                message: $t('warehouseCreate.form.error.humidity.lower.required'),
+              },
+            ]"
+            no-style
+          >
             <a-input-number
-                v-model="formData.humid.lower"
-                :placeholder="$t('warehouseCreate.placeholder.humidityity.lower')"
-                :precision="3"
-                :step="0.005"
-                :min="0.000"
-                :max="formData.humid.upper ? formData.humid.upper : 1.000"
+              v-model="formData.humid.lower"
+              :placeholder="$t('warehouseCreate.placeholder.humidityity.lower')"
+              :precision="3"
+              :step="0.005"
+              :min="0.0"
+              :max="formData.humid.upper ? formData.humid.upper : 1.0"
             ></a-input-number>
           </a-form-item>
         </a-col>
         <a-col :span="12">
           <a-form-item
-              field="humidity.upper"
-              :rules="[
-                  {
-                    required: true,
-                    message: $t('warehouseCreate.form.error.humidity.upper.required')
-                  }
-              ]"
-              no-style>
+            field="humidity.upper"
+            :rules="[
+              {
+                required: true,
+                message: $t('warehouseCreate.form.error.humidity.upper.required'),
+              },
+            ]"
+            no-style
+          >
             <a-input-number
-                v-model="formData.humid.upper"
-                :placeholder="$t('warehouseCreate.placeholder.humidity.upper')"
-                :precision="3"
-                :step="0.005"
-                :min="formData.humid.lower ? formData.humid.lower : 0.000"
-                :max="1.000"
+              v-model="formData.humid.upper"
+              :placeholder="$t('warehouseCreate.placeholder.humidity.upper')"
+              :precision="3"
+              :step="0.005"
+              :min="formData.humid.lower ? formData.humid.lower : 0.0"
+              :max="1.0"
             ></a-input-number>
           </a-form-item>
         </a-col>
@@ -131,9 +131,9 @@
 </template>
 
 <script lang="ts" setup>
-import type { WarehousePropertiesModel } from '@/api/form';
-import type { FormInstance } from '@arco-design/web-vue/es/form';
-import { ref } from 'vue';
+import type { WarehousePropertiesModel } from '@/api/form'
+import type { FormInstance } from '@arco-design/web-vue/es/form'
+import { ref } from 'vue'
 
 const emits = defineEmits(['changeStep'])
 
@@ -145,8 +145,8 @@ const formData = ref<WarehousePropertiesModel>({
   },
   humid: {
     upper: 0,
-    lower: 0
-  }
+    lower: 0,
+  },
 })
 
 const onNextClick = async () => {

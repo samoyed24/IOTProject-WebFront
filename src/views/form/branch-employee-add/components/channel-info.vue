@@ -1,17 +1,16 @@
 <template>
   <a-form ref="formRef" :model="formData" class="form" :label-col-props="{ span: 6 }" :wrapper-col-props="{ span: 18 }">
     <a-form-item
-        field="name"
-        :label="$t('branchEmployeeAdd.form.label.name')"
-        :rules="[{ required: true, message: $t('branchEmployeeAdd.form.error.name.required') }]"
+      field="name"
+      :label="$t('branchEmployeeAdd.form.label.name')"
+      :rules="[{ required: true, message: $t('branchEmployeeAdd.form.error.name.required') }]"
     >
-      <a-input v-model="formData.name" :placeholder="$t('branchEmployeeAdd.placeholder.name')">
-      </a-input>
+      <a-input v-model="formData.name" :placeholder="$t('branchEmployeeAdd.placeholder.name')"></a-input>
     </a-form-item>
     <a-form-item
-        field="role"
-        :label="$t('branchEmployeeAdd.form.label.role')"
-        :rules="[{ required: true, message: $t('branchEmployeeAdd.form.error.role.required') }]"
+      field="role"
+      :label="$t('branchEmployeeAdd.form.label.role')"
+      :rules="[{ required: true, message: $t('branchEmployeeAdd.form.error.role.required') }]"
     >
       <a-select v-model="formData.role" :placeholder="$t('branchEmployeeAdd.placeholder.role')">
         <a-option value="storage">仓储</a-option>
@@ -20,19 +19,14 @@
       </a-select>
     </a-form-item>
     <a-form-item
-        field="password"
-        :label="$t('branchEmployeeAdd.form.label.password')"
-        :rules="[
-            { required: true, message: $t('branchEmployeeAdd.form.error.password.required') },
-            { match: /^\w{8,32}$/, message: $t('branchEmployeeAdd.form.error.password.pattern') },
-            ]"
+      field="password"
+      :label="$t('branchEmployeeAdd.form.label.password')"
+      :rules="[
+        { required: true, message: $t('branchEmployeeAdd.form.error.password.required') },
+        { match: /^\w{8,32}$/, message: $t('branchEmployeeAdd.form.error.password.pattern') },
+      ]"
     >
-      <a-input
-          v-model="formData.password"
-          :placeholder="$t('branchEmployeeAdd.placeholder.password')"
-          type="password"
-      >
-      </a-input>
+      <a-input v-model="formData.password" :placeholder="$t('branchEmployeeAdd.placeholder.password')" type="password"></a-input>
     </a-form-item>
     <a-form-item>
       <a-space>
@@ -48,8 +42,8 @@
 </template>
 
 <script lang="ts" setup>
-import type { FormInstance } from '@arco-design/web-vue/es/form';
-import { ref } from 'vue';
+import type { FormInstance } from '@arco-design/web-vue/es/form'
+import { ref } from 'vue'
 
 const emits = defineEmits(['changeStep'])
 
@@ -57,7 +51,7 @@ const formRef = ref<FormInstance>()
 const formData = ref({
   name: '',
   role: '',
-  password: ''
+  password: '',
 })
 
 const onNextClick = async () => {
