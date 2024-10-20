@@ -82,12 +82,12 @@
             no-style
           >
             <a-input-number
-              v-model="formData.humid.lower"
-              :placeholder="$t('warehouseCreate.placeholder.humidityity.lower')"
+              v-model="formData.humidity.lower"
+              :placeholder="$t('warehouseCreate.placeholder.humidity.lower')"
               :precision="3"
               :step="0.005"
               :min="0.0"
-              :max="formData.humid.upper ? formData.humid.upper : 1.0"
+              :max="formData.humidity.upper ? formData.humidity.upper : 1.0"
             ></a-input-number>
           </a-form-item>
         </a-col>
@@ -103,11 +103,11 @@
             no-style
           >
             <a-input-number
-              v-model="formData.humid.upper"
+              v-model="formData.humidity.upper"
               :placeholder="$t('warehouseCreate.placeholder.humidity.upper')"
               :precision="3"
               :step="0.005"
-              :min="formData.humid.lower ? formData.humid.lower : 0.0"
+              :min="formData.humidity.lower ? formData.humidity.lower : 0.0"
               :max="1.0"
             ></a-input-number>
           </a-form-item>
@@ -140,12 +140,12 @@ const emits = defineEmits(['changeStep'])
 const formRef = ref<FormInstance>()
 const formData = ref<WarehousePropertiesModel>({
   temperature: {
-    upper: 0,
-    lower: 0,
+    upper: null,
+    lower: null,
   },
-  humid: {
-    upper: 0,
-    lower: 0,
+  humidity: {
+    upper: null,
+    lower: null,
   },
 })
 
