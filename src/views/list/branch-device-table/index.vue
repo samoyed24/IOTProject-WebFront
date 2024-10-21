@@ -7,6 +7,11 @@
           <a-form :model="formModel" :label-col-props="{ span: 6 }" :wrapper-col-props="{ span: 18 }" label-align="left">
             <a-row :gutter="16">
               <a-col :span="8">
+                <a-form-item field="deviceName" label="设备名称">
+                  <a-input v-model="formModel.deviceName" placeholder="请输入设备名称" />
+                </a-form-item>
+              </a-col>
+              <a-col :span="8">
                 <a-form-item field="deviceId" :label="$t('branchDeviceTable.columns.deviceId')">
                   <a-input v-model="formModel.deviceId" :placeholder="$t('branchDeviceTable.form.deviceId.placeholder')" />
                 </a-form-item>
@@ -129,6 +134,25 @@
         <template #index="{ rowIndex }">
           {{ rowIndex + 1 + (pagination.current - 1) * pagination.pageSize }}
         </template>
+        <template #deviceName="{ record }">
+          <a-input :disabled="editingDevice !== record.deviceId" v-model="record.deviceName">
+            <template #append>
+              <a-button @click="editingDevice = record.deviceId" v-if="editingDevice !== record.deviceId">
+                <template #icon>
+                  <icon-edit></icon-edit>
+                </template>
+              </a-button>
+              <a-button :loading="record.deviceId == loadingSaveButton" @click="handleEditSave(record)" v-else>
+                <template #icon>
+                  <icon-save></icon-save>
+                </template>
+              </a-button>
+            </template>
+          </a-input>
+        </template>
+        <template #deviceId="{ record }">
+          <a-button @click="showDeviceId(record.deviceId)">查看</a-button>
+        </template>
         <template #deviceType="{ record }">
           {{ $t(`branchDeviceTable.form.deviceType.${record.deviceType}`) }}
         </template>
@@ -153,7 +177,7 @@
 </template>
 
 <script lang="ts" setup>
-import { queryDevices, type PolicyParams, type PolicyRecord } from '@/api/list'
+import {queryDevices, type PolicyParams, type PolicyRecord, deviceSettingsChange} from '@/api/list'
 import useLoading from '@/hooks/loading'
 import type { Pagination } from '@/types/global'
 import type { SelectOptionData } from '@arco-design/web-vue/es/select/interface'
@@ -162,12 +186,14 @@ import cloneDeep from 'lodash/cloneDeep'
 import Sortable from 'sortablejs'
 import { computed, nextTick, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import {Message, Modal, type ModalConfig} from "@arco-design/web-vue";
 
 type SizeProps = 'mini' | 'small' | 'medium' | 'large'
 type Column = TableColumnData & { checked?: true }
 
 const generateFormModel = () => {
   return {
+    deviceName: '',
     deviceId: '',
     deviceType: '',
     is_online: '',
@@ -215,8 +241,14 @@ const columns = computed<TableColumnData[]>(() => [
     slotName: 'index',
   },
   {
+    title: '设备名称',
+    dataIndex: 'deviceName',
+    slotName: 'deviceName',
+  },
+  {
     title: t('branchDeviceTable.columns.deviceId'),
     dataIndex: 'deviceId',
+    slotName: 'deviceId',
   },
   {
     title: t('branchDeviceTable.columns.deviceType'),
@@ -226,7 +258,7 @@ const columns = computed<TableColumnData[]>(() => [
   {
     title: t('branchDeviceTable.columns.is_online'),
     dataIndex: 'is_online',
-    slotName: 'is_online'
+    slotName: 'is_online',
   },
   {
     title: t('branchDeviceTable.columns.last_online'),
@@ -322,6 +354,15 @@ const handleSelectDensity = (val: string | number | Record<string, any> | undefi
   size.value = val as SizeProps
 }
 
+const showDeviceId = (deviceId: string) => {
+  Modal.info({
+    title: '设备唯一编码',
+    content: deviceId,
+    hideCancel: true,
+    okText: '好的',
+  })
+}
+
 const handleChange = (checked: boolean | (string | boolean | number)[], column: Column, index: number) => {
   if (!checked) {
     cloneColumns.value = showColumns.value.filter((item) => item.dataIndex !== column.dataIndex)
@@ -337,6 +378,26 @@ const exchangeArray = <T extends Array<any>>(array: T, beforeIdx: number, newIdx
     newArray.splice(beforeIdx, 1, newArray.splice(newIdx, 1, newArray[beforeIdx]).pop())
   }
   return newArray
+}
+
+const editingDevice = ref(null)
+const loadingSaveButton = ref(null)
+
+const handleEditSave = async (record: any) => {
+  loadingSaveButton.value = record.deviceId
+  try {
+    await deviceSettingsChange({
+      deviceId: record.deviceId,
+      deviceName: record.deviceName
+    })
+    Message.success("操作成功")
+  } catch(err) {
+    Message.error(err)
+  } finally {
+    editingDevice.value = null
+    loadingSaveButton.value = null
+    await fetchData()
+  }
 }
 
 const popupVisibleChange = (val: boolean) => {

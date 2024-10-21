@@ -107,7 +107,7 @@ const fetchToken = async () => {
   }
 }
 
-let devices: string[] = reactive([])
+const devices = reactive([])
 const selectedDeviceId = ref()
 const deviceSelectLoading = ref(true)
 const statLoading = ref(true)
@@ -118,15 +118,18 @@ const fetchDevices = async () => {
       warehouseId: props.warehouseProps.warehouseId,
     })
     const fetchDevices = data.list
-    devices = []
     fetchDevices.forEach((device: any) => {
       if (device.deviceType === 'warehouse_sensor') {
-        devices.push(device.deviceId)
+        devices.push({
+          label: `${device.deviceName}(${device.deviceId})`,
+          value: device.deviceId,
+        })
       }
     })
     if (devices) {
-      const first: string = devices[0]
+      const first: string = devices[0].value
       selectedDeviceId.value = first
+      // console.log(devices)
     }
   } catch {
     //
