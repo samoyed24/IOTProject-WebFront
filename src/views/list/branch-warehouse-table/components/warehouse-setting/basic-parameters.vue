@@ -388,7 +388,6 @@ const fetchData = async () => {
   } finally {
     await nextTick(() => {
       formLoading.value = false
-
     })
   }
 }
@@ -417,9 +416,10 @@ const submitForm = async () => {
     extraOptions: form.extraOptions,
   }
   submitLoading.value = true
+  Message.info('提交并向设备同步中，当设备较多时，提交时间可能较长，请耐心等待...')
   try {
     await warehouseParamsUpdate(data)
-    Message.success('提交成功')
+    Message.success('提交并同步成功，请留意站内信的同步结果通知')
   } catch (err) {
     Message.error(err)
   } finally {
