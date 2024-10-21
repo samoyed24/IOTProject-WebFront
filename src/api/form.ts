@@ -27,7 +27,7 @@ export interface WarehousePropertiesModel {
     upper: number
     lower: number
   }
-  humid: {
+  humidity: {
     upper: number
     lower: number
   }

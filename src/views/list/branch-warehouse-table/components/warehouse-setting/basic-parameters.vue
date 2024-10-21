@@ -80,7 +80,7 @@
           <icon-info-circle-fill />
           修改仓库的温湿度阈值后，预警事件数据将会重置，请在仓库全局温湿度阈值配置完成后配置此部分。
         </template>
-        <a-switch v-model="form.extraOptions.isEnabled"></a-switch>
+        <a-switch v-model="form.extraOptions.isEnabled" @update:model-value="console.log(form)"></a-switch>
       </a-form-item>
       <a-space v-if="form.extraOptions.isEnabled" direction="vertical" fill>
         <a-form-item field="extraOptions.reminderEvent.enable">
@@ -310,9 +310,9 @@
 </template>
 
 <script setup lang="ts">
-import { wareHouseGetById, type WarehouseParamSubmit, warehouseParamsUpdate, type WarehousesInfo } from '@/api/list'
-import { Message, Modal } from '@arco-design/web-vue'
-import {nextTick, reactive, ref, watch} from 'vue'
+import { wareHouseGetById, type WarehouseParamSubmit, warehouseParamsUpdate, type WarehousesInfo } from '@/api/list';
+import { Message, Modal } from '@arco-design/web-vue';
+import { nextTick, reactive, ref, watch } from 'vue';
 
 const getExtraOptionForm = () => {
   return {
@@ -375,6 +375,7 @@ const props = defineProps({
   },
 })
 const fetchData = async () => {
+  formLoading.value = true
   try {
     const params = { warehouseId: props.warehouseId }
     const { data } = await wareHouseGetById(params)
@@ -388,7 +389,6 @@ const fetchData = async () => {
   } finally {
     await nextTick(() => {
       formLoading.value = false
-
     })
   }
 }
