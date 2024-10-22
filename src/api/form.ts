@@ -16,7 +16,7 @@ export interface ChannelInfoModel {
 }
 
 export interface TemplateModel {
-  cargoName: string
+  cargo_name: string
   type: string
   description: string
   period: string

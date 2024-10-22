@@ -33,8 +33,7 @@
 import {
   submitBranchTemplateCreateForm,
   type BaseInfoModel,
-  type ChannelInfoModel,
-  type UnitChannelModel
+  type ChannelInfoModel
 } from '@/api/form'
 import type { CargoTemplate } from "@/api/list"
 import useLoading from '@/hooks/loading'
@@ -45,7 +44,6 @@ import UploadImage from './components/upload-image.vue'
 
 const { loading, setLoading } = useLoading(false)
 const branchTemplateCreate = ref(1)
-// TODO 需要CargoTemplate添加到api
 const submitModel = ref<CargoTemplate>({
   id: 0,
   name: '',
@@ -71,7 +69,6 @@ const submitForm = async () => {
     formData.append("sample", submitModel.value.sample_image)
     await submitBranchTemplateCreateForm(formData) // The mock api default success
     branchTemplateCreate.value = 3
-    // TODO UnitChannelModel 改为 CargoTemplate 不确定后果
     submitModel.value = {} as CargoTemplate // init
   } catch (err) {
     // you can report use errorHandler or other
@@ -90,6 +87,7 @@ const changeStep = (direction: string | number, model: BaseInfoModel | ChannelIn
       ...submitModel.value,
       ...model,
     }
+    console.log(submitModel.value)
     if (direction === 'submit') {
       submitForm()
       return
