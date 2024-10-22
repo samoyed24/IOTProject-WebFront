@@ -140,7 +140,7 @@
           {{ rowIndex + 1 + (pagination.current - 1) * pagination.pageSize }}
         </template>
         <template #temperature="{ record }">
-          {{ record.temperature.lower }} °C ~ {{ record.temperature.upper }} °C
+          {{ record.temperature_pivot }} °C
         </template>
         <template #humidity="{ record }">
           {{ record.humidity.lower }} ~ {{ record.humidity.upper }}
@@ -247,7 +247,7 @@ const columns = computed<TableColumnData[]>(() => [
     dataIndex: 'name',
   },
   {
-    title: t('branchWarehouseTable.columns.temperature'),
+    title: '温度基准',
     dataIndex: 'temperature',
     slotName: 'temperature',
   },

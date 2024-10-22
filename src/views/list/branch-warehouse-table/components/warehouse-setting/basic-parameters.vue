@@ -17,37 +17,71 @@
       >
         <a-input v-model="form.name" placeholder="请输入仓库名称，50字以内"></a-input>
       </a-form-item>
-      <a-form-item field="temperature" :label="$t('branchWarehouseTable.columns.temperature')" :content-flex="false" :merge-props="false">
-        <a-space direction="vertical" fill>
-          <a-form-item field="temperature.lower" label="下限" :rules="[{ required: true, message: '请输入温度下限' }]">
-            <a-input-number
-              v-model="form.temperature.lower"
-              :precision="1"
-              :step="0.5"
-              :min="-30"
-              :max="form.temperature.upper ? form.temperature.upper : 100"
-              placeholder="温度下限，30~100"
-              @update:model-value="handleLimitChange"
-            >
-              <template #suffix>°C</template>
-            </a-input-number>
-          </a-form-item>
-          <a-form-item field="temperature.upper" label="上限" :rules="[{ required: true, message: '请输入温度上限' }]">
-            <a-input-number
-              v-model="form.temperature.upper"
-              :precision="1"
-              :step="0.5"
-              :min="form.temperature.lower ? form.temperature.lower : -30"
-              :max="100"
-              placeholder="温度上限，30~100"
-              @update:model-value="handleLimitChange"
-            >
-              <template #suffix>°C</template>
-            </a-input-number>
-          </a-form-item>
-        </a-space>
+      <!--      <a-form-item field="temperature" :label="$t('branchWarehouseTable.columns.temperature')" :content-flex="false" :merge-props="false">-->
+      <!--        <a-space direction="vertical" fill>-->
+      <!--          <a-form-item field="temperature.lower" label="下限" :rules="[{ required: true, message: '请输入温度下限' }]">-->
+      <!--            <a-input-number-->
+      <!--              v-model="form.temperature.lower"-->
+      <!--              :precision="1"-->
+      <!--              :step="0.5"-->
+      <!--              :min="-30"-->
+      <!--              :max="form.temperature.upper ? form.temperature.upper : 100"-->
+      <!--              placeholder="温度下限，30~100"-->
+      <!--              @update:model-value="handleLimitChange"-->
+      <!--            >-->
+      <!--              <template #suffix>°C</template>-->
+      <!--            </a-input-number>-->
+      <!--          </a-form-item>-->
+      <!--          <a-form-item field="temperature.upper" label="上限" :rules="[{ required: true, message: '请输入温度上限' }]">-->
+      <!--            <a-input-number-->
+      <!--              v-model="form.temperature.upper"-->
+      <!--              :precision="1"-->
+      <!--              :step="0.5"-->
+      <!--              :min="form.temperature.lower ? form.temperature.lower : -30"-->
+      <!--              :max="100"-->
+      <!--              placeholder="温度上限，30~100"-->
+      <!--              @update:model-value="handleLimitChange"-->
+      <!--            >-->
+      <!--              <template #suffix>°C</template>-->
+      <!--            </a-input-number>-->
+      <!--          </a-form-item>-->
+      <!--        </a-space>-->
+      <!--      </a-form-item>-->
+      <a-form-item label="开启温度调控">
+        <a-switch v-model="tempHumidShow.temperature"></a-switch>
       </a-form-item>
-      <a-form-item field="humid" :label="$t('branchWarehouseTable.columns.humidity')" :content-flex="false" :merge-props="false">
+      <a-form-item
+        v-if="tempHumidShow.temperature"
+        field="temperature_pivot"
+        label="温度基准"
+        :rules="[
+          {
+            required: true,
+            message: '请输入温度基准',
+          },
+        ]"
+      >
+        <a-input-number
+          v-model="form.temperature_pivot"
+          :precision="1"
+          :step="0.5"
+          :max="100"
+          :min="-30"
+          placeholder="请输入温度基准，-30~100"
+        >
+          <template #suffix>°C</template>
+        </a-input-number>
+      </a-form-item>
+      <a-form-item label="开启湿度调控">
+        <a-switch v-model="tempHumidShow.humidity"></a-switch>
+      </a-form-item>
+      <a-form-item
+        v-if="tempHumidShow.humidity"
+        field="humid"
+        :label="$t('branchWarehouseTable.columns.humidity')"
+        :content-flex="false"
+        :merge-props="false"
+      >
         <a-space direction="vertical" fill>
           <a-form-item field="humidity.lower" label="下限" :rules="[{ required: true, message: '请输入湿度下限' }]">
             <a-input-number
@@ -110,13 +144,9 @@
                     v-model="form.extraOptions.reminderEvent.temperature.lower"
                     :precision="1"
                     :step="0.5"
-                    :min="form.temperature.lower"
-                    :max="
-                      form.extraOptions.reminderEvent.temperature.upper
-                        ? form.extraOptions.reminderEvent.temperature.upper
-                        : form.temperature.upper
-                    "
-                    placeholder="温度下限，30~100且位于仓库全局温度阈值之间"
+                    :min="-30"
+                    :max="form.extraOptions.reminderEvent.temperature.upper ? form.extraOptions.reminderEvent.temperature.upper : 100"
+                    placeholder="温度下限，-30~100"
                   >
                     <template #suffix>°C</template>
                   </a-input-number>
@@ -130,13 +160,9 @@
                     v-model="form.extraOptions.reminderEvent.temperature.upper"
                     :precision="1"
                     :step="0.5"
-                    :min="
-                      form.extraOptions.reminderEvent.temperature.lower
-                        ? form.extraOptions.reminderEvent.temperature.lower
-                        : form.temperature.lower
-                    "
-                    :max="form.temperature.upper"
-                    placeholder="温度上限，30~100且位于仓库全局温度阈值之间"
+                    :min="form.extraOptions.reminderEvent.temperature.lower ? form.extraOptions.reminderEvent.temperature.lower : -30"
+                    :max="100"
+                    placeholder="温度上限，-30~100"
                   >
                     <template #suffix>°C</template>
                   </a-input-number>
@@ -159,11 +185,9 @@
                     v-model="form.extraOptions.reminderEvent.humidity.lower"
                     :precision="3"
                     :step="0.01"
-                    :min="form.humidity.lower"
-                    :max="
-                      form.extraOptions.reminderEvent.humidity.upper ? form.extraOptions.reminderEvent.humidity.upper : form.humidity.upper
-                    "
-                    placeholder="湿度下限，0.000~1.000且位于仓库全局湿度阈值之间"
+                    :min="0.0"
+                    :max="form.extraOptions.reminderEvent.humidity.upper ? form.extraOptions.reminderEvent.humidity.upper : 1.0"
+                    placeholder="湿度下限，0.000~1.000"
                   ></a-input-number>
                 </a-form-item>
                 <a-form-item
@@ -175,11 +199,9 @@
                     v-model="form.extraOptions.reminderEvent.humidity.upper"
                     :precision="3"
                     :step="0.01"
-                    :min="
-                      form.extraOptions.reminderEvent.humidity.lower ? form.extraOptions.reminderEvent.humidity.lower : form.humidity.lower
-                    "
-                    :max="form.humidity.upper"
-                    placeholder="湿度上限，0.000~1.000且位于仓库全局湿度阈值之间"
+                    :min="form.extraOptions.reminderEvent.humidity.lower ? form.extraOptions.reminderEvent.humidity.lower : 0.0"
+                    :max="1.0"
+                    placeholder="湿度上限，0.000~1.000"
                   ></a-input-number>
                 </a-form-item>
               </a-space>
@@ -213,13 +235,9 @@
                     v-model="form.extraOptions.warningEvent.temperature.lower"
                     :precision="1"
                     :step="0.5"
-                    :min="form.temperature.lower"
-                    :max="
-                      form.extraOptions.warningEvent.temperature.upper
-                        ? form.extraOptions.warningEvent.temperature.upper
-                        : form.temperature.upper
-                    "
-                    placeholder="温度下限，30~100且位于仓库全局温度阈值之间"
+                    :min="-30"
+                    :max="form.extraOptions.warningEvent.temperature.upper ? form.extraOptions.warningEvent.temperature.upper : 100"
+                    placeholder="温度下限，-30~100"
                   >
                     <template #suffix>°C</template>
                   </a-input-number>
@@ -233,13 +251,9 @@
                     v-model="form.extraOptions.warningEvent.temperature.upper"
                     :precision="1"
                     :step="0.5"
-                    :min="
-                      form.extraOptions.warningEvent.temperature.lower
-                        ? form.extraOptions.warningEvent.temperature.lower
-                        : form.temperature.lower
-                    "
-                    :max="form.temperature.upper"
-                    placeholder="温度上限，30~100且位于仓库全局温度阈值之间"
+                    :min="form.extraOptions.warningEvent.temperature.lower ? form.extraOptions.warningEvent.temperature.lower : -30"
+                    :max="100"
+                    placeholder="温度上限，-30~100"
                   >
                     <template #suffix>°C</template>
                   </a-input-number>
@@ -262,11 +276,9 @@
                     v-model="form.extraOptions.warningEvent.humidity.lower"
                     :precision="3"
                     :step="0.01"
-                    :min="form.humidity.lower"
-                    :max="
-                      form.extraOptions.warningEvent.humidity.upper ? form.extraOptions.warningEvent.humidity.upper : form.humidity.upper
-                    "
-                    placeholder="湿度下限，0.000~1.000且位于仓库湿度阈值之间"
+                    :min="0.0"
+                    :max="form.extraOptions.warningEvent.humidity.upper ? form.extraOptions.warningEvent.humidity.upper : 1.0"
+                    placeholder="湿度下限，0.000~1.000"
                   ></a-input-number>
                 </a-form-item>
                 <a-form-item
@@ -278,11 +290,9 @@
                     v-model="form.extraOptions.warningEvent.humidity.upper"
                     :precision="3"
                     :step="0.01"
-                    :min="
-                      form.extraOptions.warningEvent.humidity.lower ? form.extraOptions.warningEvent.humidity.lower : form.humidity.lower
-                    "
-                    :max="form.humidity.upper"
-                    placeholder="湿度下限，0.000~1.000且位于仓库湿度阈值之间"
+                    :min="form.extraOptions.warningEvent.humidity.lower ? form.extraOptions.warningEvent.humidity.lower : 0.0"
+                    :max="1.0"
+                    placeholder="湿度下限，0.000~1.000"
                   ></a-input-number>
                 </a-form-item>
               </a-space>
@@ -298,11 +308,88 @@
             <icon-exclamation-circle-fill style="color: red" />
             开启严重预警事件
           </template>
-          <template v-if="form.extraOptions.seriousEvent.enable" #extra>
-            此预警事件无需其他配置，当温湿度超过仓库设置的温湿度阈值时，自动触发此预警事件。
-          </template>
           <a-switch v-model="form.extraOptions.seriousEvent.enable"></a-switch>
         </a-form-item>
+        <a-space v-if="form.extraOptions.seriousEvent.enable" direction="vertical" fill>
+          <a-form-item field="extraOptions.seriousEvent.temperature.enable" label="温度预警">
+            <a-switch v-model="form.extraOptions.seriousEvent.temperature.enable"></a-switch>
+          </a-form-item>
+          <a-space v-if="form.extraOptions.seriousEvent.temperature.enable" direction="vertical" fill>
+            <a-form-item field="extraOptions.seriousEvent.temperature" label="温度" :content-flex="false" :merge-props="false">
+              <a-space direction="vertical" fill>
+                <a-form-item
+                  field="extraOptions.seriousEvent.temperature.lower"
+                  label="下限"
+                  :rules="[{ required: true, message: '请输入温度下限' }]"
+                >
+                  <a-input-number
+                    v-model="form.extraOptions.seriousEvent.temperature.lower"
+                    :precision="1"
+                    :step="0.5"
+                    :min="-30"
+                    :max="form.extraOptions.seriousEvent.temperature.upper ? form.extraOptions.seriousEvent.temperature.upper : 100"
+                    placeholder="温度下限，-30~100"
+                  >
+                    <template #suffix>°C</template>
+                  </a-input-number>
+                </a-form-item>
+                <a-form-item
+                  field="extraOptions.seriousEvent.temperature.upper"
+                  label="上限"
+                  :rules="[{ required: true, message: '请输入温度上限' }]"
+                >
+                  <a-input-number
+                    v-model="form.extraOptions.seriousEvent.temperature.upper"
+                    :precision="1"
+                    :step="0.5"
+                    :min="form.extraOptions.seriousEvent.temperature.lower ? form.extraOptions.seriousEvent.temperature.lower : -30"
+                    :max="100"
+                    placeholder="温度上限，-30~100"
+                  >
+                    <template #suffix>°C</template>
+                  </a-input-number>
+                </a-form-item>
+              </a-space>
+            </a-form-item>
+          </a-space>
+          <a-form-item field="extraOptions.seriousEvent.humidity.enable" label="湿度预警">
+            <a-switch v-model="form.extraOptions.seriousEvent.humidity.enable"></a-switch>
+          </a-form-item>
+          <a-space v-if="form.extraOptions.seriousEvent.humidity.enable" direction="vertical" fill>
+            <a-form-item field="extraOptions.seriousEvent.humidity" label="湿度" :content-flex="false" :merge-props="false">
+              <a-space direction="vertical" fill>
+                <a-form-item
+                  field="extraOptions.seriousEvent.humidity.lower"
+                  label="下限"
+                  :rules="[{ required: true, message: '请输入湿度下限' }]"
+                >
+                  <a-input-number
+                    v-model="form.extraOptions.seriousEvent.humidity.lower"
+                    :precision="3"
+                    :step="0.01"
+                    :min="0.0"
+                    :max="form.extraOptions.seriousEvent.humidity.upper ? form.extraOptions.seriousEvent.humidity.upper : 1.0"
+                    placeholder="湿度下限，0.000~1.000"
+                  ></a-input-number>
+                </a-form-item>
+                <a-form-item
+                  field="extraOptions.seriousEvent.humidity.upper"
+                  label="上限"
+                  :rules="[{ required: true, message: '请输入湿度上限' }]"
+                >
+                  <a-input-number
+                    v-model="form.extraOptions.seriousEvent.humidity.upper"
+                    :precision="3"
+                    :step="0.01"
+                    :min="form.extraOptions.seriousEvent.humidity.lower ? form.extraOptions.seriousEvent.humidity.lower : 0.0"
+                    :max="1.0"
+                    placeholder="湿度下限，0.000~1.000"
+                  ></a-input-number>
+                </a-form-item>
+              </a-space>
+            </a-form-item>
+          </a-space>
+        </a-space>
       </a-space>
       <a-button type="primary" :loading="submitLoading" @click="handleSubmit">提交更改</a-button>
     </a-form>
@@ -312,7 +399,7 @@
 <script setup lang="ts">
 import { wareHouseGetById, type WarehouseParamSubmit, warehouseParamsUpdate, type WarehousesInfo } from '@/api/list'
 import { Message, Modal } from '@arco-design/web-vue'
-import {nextTick, reactive, ref, watch} from 'vue'
+import { nextTick, reactive, ref, watch } from 'vue'
 
 const getExtraOptionForm = () => {
   return {
@@ -345,6 +432,16 @@ const getExtraOptionForm = () => {
     },
     seriousEvent: {
       enable: false as boolean,
+      temperature: {
+        enable: false as boolean,
+        upper: null as number,
+        lower: null as number,
+      },
+      humidity: {
+        enable: false as boolean,
+        upper: null as number,
+        lower: null as number,
+      },
     },
   }
 }
@@ -352,10 +449,7 @@ const getExtraOptionForm = () => {
 const form: WarehousesInfo = reactive({
   id: null,
   name: null,
-  temperature: {
-    lower: null,
-    upper: null,
-  },
+  temperature_pivot: null,
   humidity: {
     lower: null,
     upper: null,
@@ -367,6 +461,11 @@ const form: WarehousesInfo = reactive({
 })
 
 const formLoading = ref(true)
+
+const tempHumidShow = reactive({
+  temperature: null,
+  humidity: null,
+})
 
 const props = defineProps({
   warehouseId: {
@@ -382,6 +481,8 @@ const fetchData = async () => {
     if (!form.extraOptions) {
       form.extraOptions = getExtraOptionForm()
     }
+    if (form.temperature_pivot) tempHumidShow.temperature = true
+    if (form.humidity.lower && form.humidity.upper) tempHumidShow.humidity = true
   } catch {
     // 错误处理逻辑
     Message.error('error')
@@ -407,12 +508,15 @@ const handleSubmit = () => {
 
 const submitForm = async () => {
   const res = await formRef.value?.validate()
-  if (res) return
+  if (res) {
+    Message.error('表单不完整，请再次检查后提交')
+    return
+  }
   const data: WarehouseParamSubmit = {
     id: form.id,
     name: form.name,
-    temperature: form.temperature,
-    humidity: form.humidity,
+    temperature_pivot: tempHumidShow.temperature ? form.temperature_pivot : null,
+    humidity: tempHumidShow.humidity ? form.humidity : null,
     extraOptions: form.extraOptions,
   }
   submitLoading.value = true

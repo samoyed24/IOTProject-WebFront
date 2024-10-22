@@ -1,65 +1,74 @@
 <template>
   <a-form ref="formRef" :model="formData" class="form" :label-col-props="{ span: 6 }" :wrapper-col-props="{ span: 18 }">
+    <a-form-item label="开启温度调控">
+      <a-switch v-model="formOptions.temperature"></a-switch>
+    </a-form-item>
     <a-form-item
-      field="temperature"
-      :label="$t('warehouseCreate.form.label.temperature')"
+      v-if="formOptions.temperature"
+      field="temperature_pivot"
+      label="温度基准"
       :rules="[
         {
           required: true,
-          message: $t('warehouseCreate.form.error.advertisingSource.required'),
+          message: '请补充温度基准',
         },
       ]"
     >
-      <a-row :gutter="8">
-        <a-col :span="12">
-          <a-form-item
-            field="temperature.lower"
-            :rules="[
-              {
-                required: true,
-                message: $t('warehouseCreate.form.error.temperature.lower.required'),
-              },
-            ]"
-            no-style
-          >
-            <a-input-number
-              v-model="formData.temperature.lower"
-              :placeholder="$t('warehouseCreate.placeholder.temperature.lower')"
-              :precision="1"
-              :step="0.5"
-              :min="-30.0"
-              :max="formData.temperature.upper ? formData.temperature.upper : 100.0"
-            >
-              <template #suffix>°C</template>
-            </a-input-number>
-          </a-form-item>
-        </a-col>
-        <a-col :span="12">
-          <a-form-item
-            field="temperature.upper"
-            :rules="[
-              {
-                required: true,
-                message: $t('warehouseCreate.form.error.temperature.upper.required'),
-              },
-            ]"
-            no-style
-          >
-            <a-input-number
-              v-model="formData.temperature.upper"
-              :placeholder="$t('warehouseCreate.placeholder.temperature.upper')"
-              :precision="1"
-              :step="0.5"
-              :min="formData.temperature.lower ? formData.temperature.lower : -30.0"
-              :max="100"
-            >
-              <template #suffix>°C</template>
-            </a-input-number>
-          </a-form-item>
-        </a-col>
-      </a-row>
+      <!--  <a-row :gutter="8">-->
+      <!--   <a-col :span="12">-->
+      <!--      <a-form-item-->
+      <!--        field="temperature_pivot"-->
+      <!--        :rules="[-->
+      <!--          {-->
+      <!--            required: true,-->
+      <!--            message: '请补充温度基准',-->
+      <!--          },-->
+      <!--        ]"-->
+      <!--        no-style-->
+      <!--      >-->
+      <!--        -->
+      <!--      </a-form-item>-->
+      <a-input-number
+        v-model="formData.temperature_pivot"
+        placeholder="温度基准，-30~100"
+        :precision="1"
+        :step="0.5"
+        :min="-30.0"
+        :max="100.0"
+      >
+        <template #suffix>°C</template>
+      </a-input-number>
+      <!--        </a-col>-->
+      <!--        <a-col :span="12">-->
+      <!--          <a-form-item-->
+      <!--            field="temperature.upper"-->
+      <!--            :rules="[-->
+      <!--              {-->
+      <!--                required: true,-->
+      <!--                message: $t('warehouseCreate.form.error.temperature.upper.required'),-->
+      <!--              },-->
+      <!--            ]"-->
+      <!--            no-style-->
+      <!--          >-->
+      <!--            <a-input-number-->
+      <!--              v-model="formData.temperature.upper"-->
+      <!--              :placeholder="$t('warehouseCreate.placeholder.temperature.upper')"-->
+      <!--              :precision="1"-->
+      <!--              :step="0.5"-->
+      <!--              :min="formData.temperature.lower ? formData.temperature.lower : -30.0"-->
+      <!--              :max="100"-->
+      <!--            >-->
+      <!--              <template #suffix>°C</template>-->
+      <!--            </a-input-number>-->
+      <!--          </a-form-item>-->
+      <!--        </a-col>-->
+      <!--      </a-row>-->
+    </a-form-item>
+    <a-form-item label="开启湿度调控">
+      <a-switch v-model="formOptions.humidity"></a-switch>
     </a-form-item>
     <a-form-item
+      v-if="formOptions.humidity"
       field="humidity"
       :label="$t('warehouseCreate.form.label.humidity')"
       :rules="[
@@ -133,16 +142,18 @@
 <script lang="ts" setup>
 import type { WarehousePropertiesModel } from '@/api/form'
 import type { FormInstance } from '@arco-design/web-vue/es/form'
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 
 const emits = defineEmits(['changeStep'])
 
+const formOptions = reactive({
+  temperature: false,
+  humidity: false,
+})
+
 const formRef = ref<FormInstance>()
 const formData = ref<WarehousePropertiesModel>({
-  temperature: {
-    upper: null,
-    lower: null,
-  },
+  temperature_pivot: null,
   humidity: {
     upper: null,
     lower: null,

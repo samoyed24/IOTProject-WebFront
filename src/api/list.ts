@@ -70,7 +70,17 @@ export interface ExtraOptions {
     }
   }
   seriousEvent: {
-    enable: boolean,
+    enable: boolean
+    temperature: {
+      enable: boolean
+      upper: number
+      lower: number
+    }
+    humidity: {
+      enable: boolean
+      upper: number
+      lower: number
+    }
   }
 }
 export interface WarehousesInfo {
@@ -79,10 +89,7 @@ export interface WarehousesInfo {
   company: string
   branch: string
   description: string
-  temperature: {
-    lower: number
-    upper: number
-  }
+  temperature_pivot: number
   humidity: {
     lower: number
     upper: number
@@ -93,10 +100,7 @@ export interface WarehousesInfo {
 export interface WarehouseParamSubmit {
   id: number
   name: string
-  temperature: {
-    lower: number
-    upper: number
-  }
+  temperature_pivot: number
   humidity: {
     lower: number
     upper: number

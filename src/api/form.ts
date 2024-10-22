@@ -23,10 +23,11 @@ export interface TemplateModel {
 }
 
 export interface WarehousePropertiesModel {
-  temperature: {
-    upper: number
-    lower: number
-  }
+  // temperature: {
+  //   upper: number
+  //   lower: number
+  // }
+  temperature_pivot: number
   humid: {
     upper: number
     lower: number
