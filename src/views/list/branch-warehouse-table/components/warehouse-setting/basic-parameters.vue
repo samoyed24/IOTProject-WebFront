@@ -474,6 +474,7 @@ const props = defineProps({
   },
 })
 const fetchData = async () => {
+  formLoading.value = true
   try {
     const params = { warehouseId: props.warehouseId }
     const { data } = await wareHouseGetById(params)

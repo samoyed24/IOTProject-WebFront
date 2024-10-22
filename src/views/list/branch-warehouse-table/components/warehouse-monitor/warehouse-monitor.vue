@@ -7,7 +7,7 @@
     @close="handleClose"
     @cancel="handleClose"
   >
-    <a-form>
+    <a-form :model="{}">
       <a-form-item label="请选择监控设备">
         <a-select v-model="selectedDeviceId" :options="devices" :loading="deviceSelectLoading" @change="fetchShadow"></a-select>
       </a-form-item>
@@ -63,10 +63,9 @@
 </template>
 
 <script setup lang="ts">
-import { defineEmits, defineProps, nextTick, reactive, ref } from 'vue'
-import { getIamToken, warehouseMonitor, warehouseQueryDevices } from '@/api/list'
-import useChartOption from '@/hooks/chart-option'
-import { queryWarehouseTemphumid } from '@/api/visualization'
+import { getIamToken, warehouseMonitor, warehouseQueryDevices } from '@/api/list';
+import { queryWarehouseTemphumid } from '@/api/visualization';
+import { defineEmits, defineProps, reactive, ref } from 'vue';
 // import { Message } from '@arco-design/web-vue'
 
 const props = defineProps({

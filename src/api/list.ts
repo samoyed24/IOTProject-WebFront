@@ -31,8 +31,17 @@ export interface PolicyParams extends Partial<PolicyRecord> {
 }
 
 export interface PolicyListRes {
-  list: PolicyRecord[]
-  total: number
+  x: number[],
+  data: [
+    {
+      name: string,
+      value: number[]
+    },
+    {
+      name: string,
+      value: number[]
+    }
+  ]
 }
 
 export interface WarehouseDevice {

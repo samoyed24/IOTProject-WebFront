@@ -1,7 +1,7 @@
 <template>
   <a-form ref="formRef" :model="formData" class="form" :label-col-props="{ span: 6 }" :wrapper-col-props="{ span: 18 }">
     <a-form-item
-      field="cargoName"
+      field="cargo_name"
       :label="$t('branchTemplateCreateForm.form.label.cargoName')"
       :rules="[
         {
@@ -14,7 +14,7 @@
         },
       ]"
     >
-      <a-input v-model="formData.cargoName" :placeholder="$t('branchTemplateCreateForm.placeholder.cargoName')" />
+      <a-input v-model="formData.cargo_name" :placeholder="$t('branchTemplateCreateForm.placeholder.cargoName')" />
     </a-form-item>
     <a-form-item
       field="type"
@@ -79,7 +79,7 @@ import { ref } from 'vue';
 const emits = defineEmits(['changeStep'])
 const formRef = ref<FormInstance>()
 const formData = ref<TemplateModel>({
-  cargoName: '',
+  cargo_name: '',
   type: '',
   description: '',
   period: '',

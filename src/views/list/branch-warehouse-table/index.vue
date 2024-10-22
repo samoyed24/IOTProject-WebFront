@@ -7,41 +7,38 @@
           <a-form :model="formModel" :label-col-props="{ span: 6 }" :wrapper-col-props="{ span: 18 }" label-align="left">
             <a-row :gutter="16">
               <a-col :span="8">
-                <a-form-item field="number" :label="$t('branchWarehouseTable.form.number')">
-                  <a-input v-model="formModel.number" :placeholder="$t('branchWarehouseTable.form.number.placeholder')" />
+                <a-form-item field="id" label="仓库ID">
+                  <a-input-number v-model="formModel.id" placeholder="请输入仓库ID" />
                 </a-form-item>
               </a-col>
               <a-col :span="8">
-                <a-form-item field="name" :label="$t('branchWarehouseTable.form.name')">
-                  <a-input v-model="formModel.name" :placeholder="$t('branchWarehouseTable.form.name.placeholder')" />
+                <a-form-item field="name" label="仓库名称">
+                  <a-input v-model="formModel.name" placeholder="请输入仓库名称" />
                 </a-form-item>
               </a-col>
               <a-col :span="8">
-                <a-form-item field="contentType" :label="$t('branchWarehouseTable.form.contentType')">
-                  <a-select
-                    v-model="formModel.contentType"
-                    :options="contentTypeOptions"
-                    :placeholder="$t('branchWarehouseTable.form.selectDefault')"
-                  />
+                <a-form-item field="storage" label="存货量">
+                  <a-input-number v-model="formModel.storage" placeholder="请输入仓库存货量" />
                 </a-form-item>
               </a-col>
-              <a-col :span="8">
-                <a-form-item field="filterType" :label="$t('branchWarehouseTable.form.filterType')">
-                  <a-select
-                    v-model="formModel.filterType"
-                    :options="filterTypeOptions"
-                    :placeholder="$t('branchWarehouseTable.form.selectDefault')"
-                  />
+              <a-col :span="12">
+                <a-form-item field="temperature" label="温度">
+                  <a-form-item field="lower" label="下限">
+                    <a-input-number v-model="formModel.temperature_lower" placeholder="请输入温度下限" />
+                  </a-form-item>
+                  <a-form-item field="upper" label="上限">
+                    <a-input-number v-model="formModel.temperature_upper" placeholder="请输入温度上限" />
+                  </a-form-item>
                 </a-form-item>
               </a-col>
-              <a-col :span="8">
-                <a-form-item field="createdTime" :label="$t('branchWarehouseTable.form.createdTime')">
-                  <a-range-picker v-model="formModel.createdTime" style="width: 100%" />
-                </a-form-item>
-              </a-col>
-              <a-col :span="8">
-                <a-form-item field="status" :label="$t('branchWarehouseTable.form.status')">
-                  <a-select v-model="formModel.status" :options="statusOptions" :placeholder="$t('branchWarehouseTable.form.selectDefault')" />
+              <a-col :span="12">
+                <a-form-item field="humidity" label="湿度">
+                  <a-form-item field="lower" label="下限">
+                    <a-input-number v-model="formModel.humidity_lower" placeholder="请输入湿度下限" />
+                  </a-form-item>
+                  <a-form-item field="upper" label="上限">
+                    <a-input-number v-model="formModel.humidity_upper" placeholder="请输入湿度上限" />
+                  </a-form-item>
                 </a-form-item>
               </a-col>
             </a-row>
@@ -175,13 +172,13 @@
 import { queryWarehouses, type PolicyParams, type PolicyRecord } from '@/api/list'
 import useLoading from '@/hooks/loading'
 import { type Pagination } from '@/types/global'
+import WarehouseMonitor from "@/views/list/branch-warehouse-table/components/warehouse-monitor/warehouse-monitor.vue"
 import type { SelectOptionData } from '@arco-design/web-vue/es/select/interface'
 import type { TableColumnData } from '@arco-design/web-vue/es/table/interface'
 import cloneDeep from 'lodash/cloneDeep'
 import Sortable from 'sortablejs'
 import { computed, nextTick, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import WarehouseMonitor from "@/views/list/branch-warehouse-table/components/warehouse-monitor/warehouse-monitor.vue";
 
 import WarehouseSetting from './components/warehouse-setting/warehouse-setting.vue'
 
@@ -190,12 +187,13 @@ type Column = TableColumnData & { checked?: true }
 
 const generateFormModel = () => {
   return {
-    number: '',
+    id: null as number,
     name: '',
-    contentType: '',
-    filterType: '',
-    createdTime: [] as string[],
-    status: '',
+    storage: null as number,
+    temperature_lower: null as number,
+    temperature_upper: null as number,
+    humidity_lower: null as number,
+    humidity_upper: null as number
   }
 }
 const { loading, setLoading } = useLoading(true)
@@ -264,40 +262,6 @@ const columns = computed<TableColumnData[]>(() => [
     title: t('branchWarehouseTable.columns.operations'),
     dataIndex: 'operations',
     slotName: 'operations',
-  },
-])
-const contentTypeOptions = computed<SelectOptionData[]>(() => [
-  {
-    label: t('branchWarehouseTable.form.contentType.img'),
-    value: 'img',
-  },
-  {
-    label: t('branchWarehouseTable.form.contentType.horizontalVideo'),
-    value: 'horizontalVideo',
-  },
-  {
-    label: t('branchWarehouseTable.form.contentType.verticalVideo'),
-    value: 'verticalVideo',
-  },
-])
-const filterTypeOptions = computed<SelectOptionData[]>(() => [
-  {
-    label: t('branchWarehouseTable.form.filterType.artificial'),
-    value: 'artificial',
-  },
-  {
-    label: t('branchWarehouseTable.form.filterType.rules'),
-    value: 'rules',
-  },
-])
-const statusOptions = computed<SelectOptionData[]>(() => [
-  {
-    label: t('branchWarehouseTable.form.status.online'),
-    value: 'online',
-  },
-  {
-    label: t('branchWarehouseTable.form.status.offline'),
-    value: 'offline',
   },
 ])
 const fetchData = async (params: PolicyParams = { current: 1, pageSize: 20 }) => {
