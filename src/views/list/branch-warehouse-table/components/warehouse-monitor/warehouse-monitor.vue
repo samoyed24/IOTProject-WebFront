@@ -7,65 +7,88 @@
     @close="handleClose"
     @cancel="handleClose"
   >
-    <a-form :model="{}">
-      <a-form-item label="请选择监控设备">
-        <a-select v-model="selectedDeviceId" :options="devices" :loading="deviceSelectLoading" @change="fetchShadow"></a-select>
-      </a-form-item>
-    </a-form>
-    <div v-if="selectedDeviceId">
-      <a-row justify="center" :gutter="12">
-        <a-col :span="12" flex="20%"></a-col>
-        <a-col :span="12" flex="auto">
-          <a-spin :loading="statLoading">
-            <!--            <icon-info size="20px" />-->
+    <a-tabs>
+      <a-tab-pane :key="1">
+        <template #title>
+          <icon-dashboard />
+          温湿度面板
+        </template>
+        <a-form :model="{}">
+          <a-form-item label="请选择监控设备">
+            <a-select v-model="selectedDeviceId" :options="devices" :loading="deviceSelectLoading" @change="fetchShadow"></a-select>
+          </a-form-item>
+        </a-form>
+        <div v-if="selectedDeviceId">
+          <a-row justify="center" :gutter="12">
+            <a-col :span="12" flex="20%"></a-col>
+            <a-col :span="12" flex="auto">
+              <a-spin :loading="statLoading">
+                <!--            <icon-info size="20px" />-->
 
-            <a-statistic title="实时温度" :value="tempHumid.temperature / 10" :precision="1">
-              <template #suffix>°C</template>
-            </a-statistic>
+                <a-statistic title="实时温度" :value="tempHumid.temperature / 10" :precision="1">
+                  <template #suffix>°C</template>
+                </a-statistic>
+              </a-spin>
+            </a-col>
+            <a-col :span="12" flex="auto">
+              <a-spin :loading="statLoading">
+                <!--            <icon-info size="20px" />-->
+                <a-statistic title="实时湿度" :value="tempHumid.humidity / 10" :precision="1">
+                  <template #suffix>%</template>
+                </a-statistic>
+              </a-spin>
+            </a-col>
+            <!--        <a-col :span="12" flex="auto">-->
+            <!--          <a-spin :loading="statLoading">-->
+            <!--            &lt;!&ndash;            <icon-info size="20px" />&ndash;&gt;-->
+            <!--            <a-statistic title="风扇转速" :value="tempHumid.fanSpeed">-->
+            <!--              <template #suffix>转/秒</template>-->
+            <!--            </a-statistic>-->
+            <!--          </a-spin>-->
+            <!--        </a-col>-->
+          </a-row>
+          <a-row justify="center" :gutter="12">
+            <a-statistic title="最后更新时间" :value="tempHumid.event_time" format="YYYY-MM-DD HH:mm:ss"></a-statistic>
+          </a-row>
+          <div style="margin-top: 30px; display: flex; flex-direction: row; align-items: center; justify-content: center">
+            <a-radio-group v-model="timeSelect" type="button" @update:model-value="fetchChartData">
+              <a-radio :value="0.016">1分钟</a-radio>
+              <a-radio :value="0.083">5分钟</a-radio>
+              <a-radio :value="0.333">20分钟</a-radio>
+              <a-radio :value="2">2小时</a-radio>
+              <a-radio :value="6">6小时</a-radio>
+              <a-radio :value="12">12小时</a-radio>
+              <a-radio :value="24">24小时</a-radio>
+              <a-radio :value="72">3天</a-radio>
+              <a-radio :value="168">7天</a-radio>
+            </a-radio-group>
+
+            <a-switch v-model="autoChartUpdate">
+              <template #unchecked>自动更新关闭</template>
+              <template #checked>自动更新开启</template>
+            </a-switch>
+          </div>
+          <a-spin :loading="chartLoading" style="width: 100%">
+            <Chart v-if="chartShow" ref="chartInstance" :options="chartOption" height="400px"></Chart>
           </a-spin>
-        </a-col>
-        <a-col :span="12" flex="auto">
-          <a-spin :loading="statLoading">
-            <!--            <icon-info size="20px" />-->
-            <a-statistic title="实时湿度" :value="tempHumid.humidity / 10" :precision="1">
-              <template #suffix>%</template>
-            </a-statistic>
-          </a-spin>
-        </a-col>
-      </a-row>
-      <a-row justify="center" :gutter="12">
-        <a-statistic title="最后更新时间" :value="tempHumid.event_time" format="YYYY-MM-DD HH:mm:ss"></a-statistic>
-      </a-row>
-      <div style="margin-top: 30px; display: flex; flex-direction: row; align-items: center; justify-content: center">
-        <a-radio-group v-model="timeSelect" type="button" @update:model-value="fetchChartData">
-          <a-radio :value="0.016">1分钟</a-radio>
-          <a-radio :value="0.083">5分钟</a-radio>
-          <a-radio :value="0.333">20分钟</a-radio>
-          <a-radio :value="2">2小时</a-radio>
-          <a-radio :value="6">6小时</a-radio>
-          <a-radio :value="12">12小时</a-radio>
-          <a-radio :value="24">24小时</a-radio>
-          <a-radio :value="72">3天</a-radio>
-          <a-radio :value="168">7天</a-radio>
-        </a-radio-group>
+        </div>
+      </a-tab-pane>
 
-        <a-switch v-model="autoChartUpdate">
-          <template #unchecked>自动更新关闭</template>
-          <template #checked>自动更新开启</template>
-        </a-switch>
-
-      </div>
-      <a-spin :loading="chartLoading" style="width: 100%">
-        <Chart v-if="chartShow" ref="chartInstance" :options="chartOption" height="400px"></Chart>
-      </a-spin>
-    </div>
+      <a-tab-pane :key="2">
+        <template #title>
+          <icon-clock-circle />
+          <!--            </icon-clock-circle>-->
+          事件记录
+        </template>
+      </a-tab-pane>
+    </a-tabs>
   </a-drawer>
 </template>
 
 <script setup lang="ts">
-import { getIamToken, warehouseMonitor, warehouseQueryDevices } from '@/api/list';
-import { queryWarehouseTemphumid } from '@/api/visualization';
-import { defineEmits, defineProps, reactive, ref } from 'vue';
+import { getIamToken, warehouseMonitor, warehouseQueryDevices } from '@/api/list'
+import { queryWarehouseTemphumid } from '@/api/visualization'
+import { defineEmits, defineProps, reactive, ref } from 'vue'
 // import { Message } from '@arco-design/web-vue'
 
 const props = defineProps({
@@ -141,6 +164,7 @@ const tempHumid = reactive({
   temperature: null as number,
   humidity: null as number,
   event_time: null as Date,
+  fanSpeed: null as number,
 })
 
 const intervalId = ref(0)
@@ -157,6 +181,7 @@ const fetchShadow = async () => {
           tempHumid.event_time = eventTime
           tempHumid.temperature = shadow.reported.properties.Temperature
           tempHumid.humidity = shadow.reported.properties.Humidity
+          tempHumid.fanSpeed = shadow.reported.properties.FanSpeed
           if (autoChartUpdate.value) fetchChartData()
         }
       })
