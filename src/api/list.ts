@@ -267,6 +267,32 @@ export function warehouseEventDetails(params: any) {
   })
 }
 
+export function warehouseGetAdmin(params: any) {
+  return axios.get('dev-api/warehouse/warehouse-get-admin', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
+    },
+  })
+}
+
+export function warehouseQueryEmployees(params: any) {
+  return axios.get('dev-api/warehouse/warehouse-query-employees-by-keywords', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
+    },
+  })
+}
+
+export function warehouseAddAdmin(data: any) {
+  return axios.post('dev-api/warehouse/warehouse-add-admin', data)
+}
+
+export function warehouseCancelAdmin(data: any) {
+  return axios.post('dev-api/warehouse/warehouse-cancel-admin', data)
+}
+
 export function wareHouseGetById(params: any) {
   return axios.get('dev-api/warehouse/warehouse-get-by-id', {
     params,

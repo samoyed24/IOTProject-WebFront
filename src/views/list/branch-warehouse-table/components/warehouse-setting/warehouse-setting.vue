@@ -3,6 +3,7 @@
     :visible="drawerVisible"
     :title="`${warehouseProps.warehouseName} - 仓库设置`"
     width="50%"
+    :footer="false"
     hide-cancel
     @ok="handleClose"
     @cancel="handleClose"

@@ -137,44 +137,38 @@
           {{ rowIndex + 1 + (pagination.current - 1) * pagination.pageSize }}
         </template>
         <template #temperature="{ record }">
-         <template v-if="record.temperature_pivot">
-           {{ record.temperature_pivot }} °C
-         </template>
-          <template v-else>
-            未设置
-          </template>
+          <template v-if="record.temperature_pivot">{{ record.temperature_pivot }} °C</template>
+          <template v-else>未设置</template>
         </template>
         <template #humidity="{ record }">
-          <template v-if="record.humidity.lower">
-            {{ record.humidity.lower }} ~ {{ record.humidity.upper }}
-          </template>
-          <template v-else>
-            未设置
-          </template>
+          <template v-if="record.humidity.lower">{{ record.humidity.lower }} ~ {{ record.humidity.upper }}</template>
+          <template v-else>未设置</template>
         </template>
         <template #operations="{ record }">
-          <a-button type="text" size="small" @click="handleWarehouseSetting(record.id, record.name, 2)">
+          <a-button type="secondary" status="success" size="small" @click="handleWarehouseSetting(record.id, record.name, 2)">
             {{ $t('branchWarehouseTable.columns.operations.monitor') }}
           </a-button>
-          <a-button type="text" size="small">
+          <a-button type="secondary" status="success" size="small">
             {{ $t('branchWarehouseTable.columns.operations.storage') }}
           </a-button>
-          <a-button type="text" size="small" @click="handleWarehouseSetting(record.id, record.name, 1)">
+          <a-button type="secondary" status="success" size="small" @click="handleWarehouseSetting(record.id, record.name, 1)">
             {{ $t('branchWarehouseTable.columns.operations.setting') }}
+          </a-button>
+          <a-button
+            v-permission="['branch-admin']"
+            type="secondary"
+            status="warning"
+            size="small"
+            @click="handleWarehouseSetting(record.id, record.name, 3)"
+          >
+            管理人员设置
           </a-button>
         </template>
       </a-table>
     </a-card>
-    <warehouse-setting
-        v-if="drawerKey === 1"
-        :warehouse-props="drawerCompProps"
-        @close-event="drawerKey = 0"
-    />
-    <warehouse-monitor
-      v-if="drawerKey === 2"
-      :warehouse-props="drawerCompProps"
-      @close-event="drawerKey = 0"
-    />
+    <warehouse-setting v-if="drawerKey === 1" :warehouse-props="drawerCompProps" @close-event="drawerKey = 0" />
+    <warehouse-monitor v-if="drawerKey === 2" :warehouse-props="drawerCompProps" @close-event="drawerKey = 0" />
+    <warehouse-admin-setting v-if="drawerKey === 3" :warehouse-props="drawerCompProps" @close-event="drawerKey = 0" />
   </div>
 </template>
 
@@ -182,9 +176,10 @@
 import { queryWarehouses, type PolicyParams, type PolicyRecord } from '@/api/list'
 import useLoading from '@/hooks/loading'
 import { type Pagination } from '@/types/global'
-import WarehouseMonitor from "@/views/list/branch-warehouse-table/components/warehouse-monitor/warehouse-monitor.vue"
+import WarehouseMonitor from '@/views/list/branch-warehouse-table/components/warehouse-monitor/warehouse-monitor.vue'
 import type { SelectOptionData } from '@arco-design/web-vue/es/select/interface'
 import type { TableColumnData } from '@arco-design/web-vue/es/table/interface'
+import WarehouseAdminSetting from '@/views/list/branch-warehouse-table/components/warehouse-admin-setting.vue'
 import cloneDeep from 'lodash/cloneDeep'
 import Sortable from 'sortablejs'
 import { computed, nextTick, reactive, ref, watch } from 'vue'
@@ -203,7 +198,7 @@ const generateFormModel = () => {
     temperature_lower: null as number,
     temperature_upper: null as number,
     humidity_lower: null as number,
-    humidity_upper: null as number
+    humidity_upper: null as number,
   }
 }
 const { loading, setLoading } = useLoading(true)
@@ -289,7 +284,7 @@ const fetchData = async (params: PolicyParams = { current: 1, pageSize: 20 }) =>
 }
 
 const drawerCompProps = ref({
-  warehouseId : -1,
+  warehouseId: -1,
   warehouseName: '',
 })
 
@@ -332,8 +327,8 @@ const exchangeArray = <T extends Array<any>>(array: T, beforeIdx: number, newIdx
 const child = ref()
 const drawerKey = ref(0)
 
-
 const handleWarehouseSetting = (warehouseId: number, warehouseName: string, showDrawer: number) => {
+  // console.log(1)
   drawerKey.value = showDrawer
   drawerCompProps.value = {
     warehouseId,
