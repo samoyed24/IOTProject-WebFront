@@ -123,7 +123,7 @@
             温湿度超出阈值时，将会发出提醒级别的预警事件，此事件将以站内信的方式通知仓库管理人员。
           </template>
           <template #label>
-            <icon-exclamation-circle-fill />
+            <icon-exclamation-circle-fill style="color: #0040bf" />
             开启提醒预警事件
           </template>
           <a-switch v-model="form.extraOptions.reminderEvent.enable"></a-switch>

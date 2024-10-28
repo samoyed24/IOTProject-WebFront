@@ -137,10 +137,20 @@
           {{ rowIndex + 1 + (pagination.current - 1) * pagination.pageSize }}
         </template>
         <template #temperature="{ record }">
-          {{ record.temperature_pivot }} °C
+         <template v-if="record.temperature_pivot">
+           {{ record.temperature_pivot }} °C
+         </template>
+          <template v-else>
+            未设置
+          </template>
         </template>
         <template #humidity="{ record }">
-          {{ record.humidity.lower }} ~ {{ record.humidity.upper }}
+          <template v-if="record.humidity.lower">
+            {{ record.humidity.lower }} ~ {{ record.humidity.upper }}
+          </template>
+          <template v-else>
+            未设置
+          </template>
         </template>
         <template #operations="{ record }">
           <a-button type="text" size="small" @click="handleWarehouseSetting(record.id, record.name, 2)">

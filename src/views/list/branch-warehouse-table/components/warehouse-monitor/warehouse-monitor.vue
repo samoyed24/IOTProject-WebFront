@@ -1,7 +1,7 @@
 <template>
   <a-drawer
     :visible="drawerVisible"
-    width="60%"
+    width="80%"
     :title="`${warehouseProps.warehouseName} - 实时监控`"
     @ok="handleClose"
     @close="handleClose"
@@ -86,10 +86,10 @@
               <a-form :model="formModel" :label-col-props="{ span: 6 }" :wrapper-col-props="{ span: 18 }" label-align="left">
                 <a-row :gutter="16">
                   <a-col :span="8">
-                    <a-form-item field="isResolve" label="状态">
-                      <a-select v-model="formModel.isResolve" placeholder="事件是否解决" @change="search">
+                    <a-form-item field="is_resolved" label="状态">
+                      <a-select v-model="formModel.is_resolved" placeholder="事件是否解决" @change="search">
                         <a-option :value="true">已解决</a-option>
-                        <a-option :value="false">为解决</a-option>
+                        <a-option :value="false">未解决</a-option>
                       </a-select>
                     </a-form-item>
                   </a-col>
@@ -104,13 +104,13 @@
                         </a-option>
                         <a-option :value="1">
                           <template #icon>
-                            <icon-info-circle-fill style="color: #0040bf;"></icon-info-circle-fill>
+                            <icon-info-circle-fill style="color: #0040bf"></icon-info-circle-fill>
                           </template>
                           提醒事件
                         </a-option>
                         <a-option :value="2">
                           <template #icon>
-                            <icon-info-circle-fill style="color: orange;"></icon-info-circle-fill>
+                            <icon-info-circle-fill style="color: orange"></icon-info-circle-fill>
                           </template>
                           警告事件
                         </a-option>
@@ -127,7 +127,7 @@
               </a-form>
             </a-col>
             <a-divider style="height: 40px" direction="vertical" />
-            <a-col :span="12" :flex="'40px'" style="text-align: right" >
+            <a-col :span="12" :flex="'40px'" style="text-align: right">
               <a-button @click="reset">
                 <template #icon>
                   <icon-refresh />
@@ -149,10 +149,10 @@
             size="medium"
             @page-change="onPageChange"
           >
-            <template #name-filter="{ filterValue, setFilterValue, handleFilterConfirm, handleFilterReset}">
+            <template #name-filter="{ filterValue, setFilterValue, handleFilterConfirm, handleFilterReset }">
               <div class="custom-filter">
                 <a-space direction="vertical">
-                  <a-input :model-value="filterValue[0]" @input="(value)=>setFilterValue([value])" />
+                  <a-input :model-value="filterValue[0]" @input="(value) => setFilterValue([value])" />
                   <div class="custom-filter-footer">
                     <a-button @click="handleFilterConfirm">Confirm</a-button>
                     <a-button @click="handleFilterReset">Reset</a-button>
@@ -160,22 +160,78 @@
                 </a-space>
               </div>
             </template>
+            <template #level="{ record }">
+              <template v-if="record.level == 0">
+                <icon-info-circle-fill style="color: gray" />
+                一般事件
+              </template>
+              <template v-else-if="record.level == 1">
+                <icon-info-circle-fill style="color: #0040bf" />
+                提醒事件
+              </template>
+              <template v-else-if="record.level == 2">
+                <icon-info-circle-fill style="color: orange" />
+                警告事件
+              </template>
+              <template v-else-if="record.level == 3">
+                <icon-info-circle-fill style="color: red" />
+                严重事件
+              </template>
+            </template>
+            <template #is_resolved="{ record }">
+              <template v-if="!record.is_resolved">
+                <icon-question-circle-fill />
+                未解决
+              </template>
+              <template v-else>
+                <icon-check-circle-fill style="color: green" />
+                已解决
+              </template>
+            </template>
+            <template #operations="{ record }">
+              <a-button v-if="!record.is_resolved" type="text" @click="handleResolveMark(record.id)">标记解决</a-button>
+              <a-button v-else type="text" :disabled="record.level < 2" @click="handleShowDetails(record.id)">详情</a-button>
+            </template>
           </a-table>
         </a-card>
       </a-tab-pane>
     </a-tabs>
+    <EventMarkResolved
+      v-if="resolveViewVisible"
+      :warehouse-event-id="resolveMarkProps.warehouseEventId"
+      :warehouse-id="resolveMarkProps.warehouseId"
+      @close-event="
+        () => {
+          resolveViewVisible = false
+          search()
+        }
+      "
+    />
+    <EventResolveDetails
+      v-if="markDetailsShow"
+      :warehouse-event-id="resolveMarkProps.warehouseEventId"
+      :warehouse-id="resolveMarkProps.warehouseId"
+      @close-event="
+        () => {
+          markDetailsShow = false
+        }
+      "
+    />
   </a-drawer>
 </template>
 
 <script setup lang="ts">
-import { getIamToken, warehouseGetEvents, warehouseMonitor, warehouseQueryDevices, type PolicyParams, type PolicyRecord } from '@/api/list';
-import { queryWarehouseTemphumid } from '@/api/visualization';
-import useLoading from '@/hooks/loading';
-import type { Pagination } from '@/types/global';
-import { IconSearch } from '@arco-design/web-vue/es/icon';
-import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
-import cloneDeep from 'lodash/cloneDeep';
-import { computed, defineEmits, defineProps, h, reactive, ref, watch } from 'vue';
+import { getIamToken, warehouseGetEvents, warehouseMonitor, warehouseQueryDevices, type PolicyParams, type PolicyRecord } from '@/api/list'
+import { queryWarehouseTemphumid } from '@/api/visualization'
+import useLoading from '@/hooks/loading'
+import type { Pagination } from '@/types/global'
+import { IconSearch } from '@arco-design/web-vue/es/icon'
+import type { TableColumnData } from '@arco-design/web-vue/es/table/interface'
+import cloneDeep from 'lodash/cloneDeep'
+import { computed, defineEmits, defineProps, h, reactive, ref, watch } from 'vue'
+import EventMarkResolved from '@/views/list/branch-warehouse-table/components/warehouse-monitor/event-mark-resolved.vue'
+import EventResolveDetails
+  from "@/views/list/branch-warehouse-table/components/warehouse-monitor/event-resolve-details.vue";
 // import { Message } from '@arco-design/web-vue'
 
 type Column = TableColumnData & { checked?: true }
@@ -183,7 +239,7 @@ type Column = TableColumnData & { checked?: true }
 const generateFormModel = () => {
   return {
     warehouseId: props.warehouseProps.warehouseId,
-    isResolve: null as string,
+    is_resolved: null as boolean,
     level: null as number,
   }
 }
@@ -220,6 +276,7 @@ const fetchData = async (params: PolicyParams = { current: 1, pageSize: 20 }) =>
   try {
     const { data } = await warehouseGetEvents(params)
     renderData.value = data.list
+    console.log(renderData.value)
     pagination.current = params.current
     pagination.total = data.total
   } catch (err) {
@@ -231,13 +288,14 @@ const fetchData = async (params: PolicyParams = { current: 1, pageSize: 20 }) =>
 
 const reset = () => {
   formModel.value = generateFormModel()
+  search()
 }
 
- const search = () => {
-   fetchData({
-     ...basePagination,
-     ...formModel.value,
-   } as unknown as PolicyParams)
+const search = () => {
+  fetchData({
+    ...basePagination,
+    ...formModel.value,
+  } as unknown as PolicyParams)
 }
 search()
 
@@ -245,75 +303,88 @@ const onPageChange = (current: number) => {
   fetchData({ ...basePagination, current })
 }
 
-
 const columns = computed<TableColumnData[]>(() => [
-
+  // {
+  //   title: 'id',
+  //   dataIndex: 'id',
+  //   slotName: 'id',
+  //   sortable: {
+  //     sortDirections: ['ascend', 'descend'],
+  //   },
+  // },
+  // {
+  //   title: '标题',
+  //   dataIndex: 'title',
+  //   filterable: {
+  //     filter: (value, record) => record.name.includes(value),
+  //     slotName: 'name-filter',
+  //     icon: () => h(IconSearch),
+  //   },
+  // },
   {
-    title: 'id',
-    dataIndex: 'id',
-    slotName: 'id',
-    sortable: {
-      sortDirections: ['ascend', 'descend']
-    }
-  },
-  {
-    title: '标题',
-    dataIndex: 'title',
-    filterable: {
-      filter: (value, record) => record.name.includes(value),
-      slotName: 'name-filter',
-      icon: () => h(IconSearch)
-    }
-  },
-  {
-    title: '信息',
-    dataIndex: 'message'
+    title: '事件',
+    dataIndex: 'message',
   },
   {
     title: '等级',
     dataIndex: 'level',
     sortable: {
-      sortDirections: ['ascend', 'descend']
+      sortDirections: ['ascend', 'descend'],
     },
     filterable: {
       filters: [
-        { text: '一般', value: '0'},
-        { text: '提醒', value: '1'},
-        { text: '警告', value: '2'},
-        { text: '严重', value: '3'}
+        { text: '一般', value: '0' },
+        { text: '提醒', value: '1' },
+        { text: '警告', value: '2' },
+        { text: '严重', value: '3' },
       ],
-      filter: (value, record) => {return record.level == Number(value)},
-      multiple:true
-    }
+      filter: (value, record) => {
+        return record.level === Number(value)
+      },
+      multiple: true,
+    },
+    slotName: 'level',
   },
   {
     title: '状态',
-    dataIndex: 'is_resolve',
+    dataIndex: 'is_resolved',
+    slotName: 'is_resolved',
     sortable: {
-      sortDirections: ['ascend', 'descend']
+      sortDirections: ['ascend', 'descend'],
     },
     filterable: {
       filters: [
-        { text: '已解决', value: 'true'},
-        { text: '未解决', value:'false'}
+        { text: '已解决', value: true },
+        { text: '未解决', value: false },
       ],
-      filter: (value, record) => {return record.isResolve == Boolean(value) },
-      multiple:true
-    }
+      filter: (value, record) => {
+        return true
+      },
+      multiple: true,
+    },
   },
   {
     title: '发送者',
     dataIndex: 'sender',
     filterable: {
       filters: [
-        { text: '设备', value: 'device'},
-        { text: '人员', value:'employee'}
+        { text: '设备', value: 'device' },
+        { text: '人员', value: 'employee' },
       ],
-      filter: (value, record) => {return true},
-      multiple:true
-    }
-  }
-
+      filter: (value, record) => {
+        return true
+      },
+      multiple: true,
+    },
+  },
+  {
+    title: '记录时间',
+    dataIndex: 'time',
+  },
+  {
+    title: '操作',
+    slotName: 'operations',
+  },
 ])
 
 watch(
@@ -327,7 +398,6 @@ watch(
   },
   { deep: true, immediate: true }
 )
-
 
 const handleClose = () => {
   drawerVisible.value = false
@@ -577,6 +647,27 @@ let chartOption = reactive({
   ],
 })
 
+const resolveViewVisible = ref(false)
+
+const markDetailsShow = ref(false)
+
+const resolveMarkProps = reactive({
+  warehouseId: null as number,
+  warehouseEventId: null as number,
+})
+
+const handleResolveMark = (eventId: number) => {
+  resolveMarkProps.warehouseId = props.warehouseProps.warehouseId
+  resolveMarkProps.warehouseEventId = eventId
+  resolveViewVisible.value = true
+}
+
+const handleShowDetails = (eventId: number) => {
+  resolveMarkProps.warehouseId = props.warehouseProps.warehouseId
+  resolveMarkProps.warehouseEventId = eventId
+  markDetailsShow.value = true
+}
+
 fetchToken().then(() => {
   fetchDevices().then(() => {
     if (selectedDeviceId.value) {
@@ -596,6 +687,7 @@ export default {
 </script>
 
 <style scoped lang="less"></style>
+
 <style>
 .custom-filter {
   padding: 20px;

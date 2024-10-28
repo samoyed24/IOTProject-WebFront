@@ -31,16 +31,16 @@ export interface PolicyParams extends Partial<PolicyRecord> {
 }
 
 export interface PolicyListRes {
-  x: number[],
+  x: number[]
   data: [
     {
-      name: string,
+      name: string
       value: number[]
     },
     {
-      name: string,
+      name: string
       value: number[]
-    }
+    },
   ]
 }
 
@@ -247,6 +247,19 @@ export function warehouseQueryDevices(params: any) {
 
 export function warehouseGetEvents(params: any) {
   return axios.get('dev-api/warehouse/warehouse-get-events', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
+    },
+  })
+}
+
+export function warehouseEventMark(data: any) {
+  return axios.post('dev-api/warehouse/warehouse-event-mark', data)
+}
+
+export function warehouseEventDetails(params: any) {
+  return axios.get('dev-api/warehouse/warehouse-event-details', {
     params,
     paramsSerializer: (obj) => {
       return qs.stringify(obj)
