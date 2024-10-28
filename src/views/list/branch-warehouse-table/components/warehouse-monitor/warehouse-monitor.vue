@@ -80,16 +80,115 @@
           <!--            </icon-clock-circle>-->
           事件记录
         </template>
+        <a-card class="general-card" title="">
+          <a-row>
+            <a-col :flex="1">
+              <a-form :model="formModel" :label-col-props="{ span: 6 }" :wrapper-col-props="{ span: 18 }" label-align="left">
+                <a-row :gutter="16">
+                  <a-col :span="8">
+                    <a-form-item field="isResolve" label="状态">
+                      <a-select v-model="formModel.isResolve" placeholder="事件是否解决" @change="search">
+                        <a-option :value="true">已解决</a-option>
+                        <a-option :value="false">为解决</a-option>
+                      </a-select>
+                    </a-form-item>
+                  </a-col>
+                  <a-col :span="8">
+                    <a-form-item field="level" label="等级">
+                      <a-select v-model="formModel.level" placeholder="事件等级" @change="search">
+                        <a-option :value="0">
+                          <template #icon>
+                            <icon-info-circle-fill style="color: gray"></icon-info-circle-fill>
+                          </template>
+                          一般事件
+                        </a-option>
+                        <a-option :value="1">
+                          <template #icon>
+                            <icon-info-circle-fill style="color: #0040bf;"></icon-info-circle-fill>
+                          </template>
+                          提醒事件
+                        </a-option>
+                        <a-option :value="2">
+                          <template #icon>
+                            <icon-info-circle-fill style="color: orange;"></icon-info-circle-fill>
+                          </template>
+                          警告事件
+                        </a-option>
+                        <a-option :value="3">
+                          <template #icon>
+                            <icon-info-circle-fill style="color: red"></icon-info-circle-fill>
+                          </template>
+                          严重事件
+                        </a-option>
+                      </a-select>
+                    </a-form-item>
+                  </a-col>
+                </a-row>
+              </a-form>
+            </a-col>
+            <a-divider style="height: 40px" direction="vertical" />
+            <a-col :span="12" :flex="'40px'" style="text-align: right" >
+              <a-button @click="reset">
+                <template #icon>
+                  <icon-refresh />
+                </template>
+                {{ $t('branchWarehouseTable.form.reset') }}
+              </a-button>
+              <!-- <a-tooltip :content="$t('branchWarehouseTable.actions.refresh')">
+                <div class="action-icon" @click="search"><icon-refresh size="18" /></div>
+              </a-tooltip> -->
+            </a-col>
+          </a-row>
+          <a-table
+            row-key="id"
+            :loading="loading"
+            :pagination="pagination"
+            :columns="cloneColumns as TableColumnData[]"
+            :data="renderData"
+            :bordered="false"
+            size="medium"
+            @page-change="onPageChange"
+          >
+            <template #name-filter="{ filterValue, setFilterValue, handleFilterConfirm, handleFilterReset}">
+              <div class="custom-filter">
+                <a-space direction="vertical">
+                  <a-input :model-value="filterValue[0]" @input="(value)=>setFilterValue([value])" />
+                  <div class="custom-filter-footer">
+                    <a-button @click="handleFilterConfirm">Confirm</a-button>
+                    <a-button @click="handleFilterReset">Reset</a-button>
+                  </div>
+                </a-space>
+              </div>
+            </template>
+          </a-table>
+        </a-card>
       </a-tab-pane>
     </a-tabs>
   </a-drawer>
 </template>
 
 <script setup lang="ts">
-import { getIamToken, warehouseMonitor, warehouseQueryDevices } from '@/api/list'
-import { queryWarehouseTemphumid } from '@/api/visualization'
-import { defineEmits, defineProps, reactive, ref } from 'vue'
+import { getIamToken, warehouseGetEvents, warehouseMonitor, warehouseQueryDevices, type PolicyParams, type PolicyRecord } from '@/api/list';
+import { queryWarehouseTemphumid } from '@/api/visualization';
+import useLoading from '@/hooks/loading';
+import type { Pagination } from '@/types/global';
+import { IconSearch } from '@arco-design/web-vue/es/icon';
+import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
+import cloneDeep from 'lodash/cloneDeep';
+import { computed, defineEmits, defineProps, h, reactive, ref, watch } from 'vue';
 // import { Message } from '@arco-design/web-vue'
+
+type Column = TableColumnData & { checked?: true }
+
+const generateFormModel = () => {
+  return {
+    warehouseId: props.warehouseProps.warehouseId,
+    isResolve: null as string,
+    level: null as number,
+  }
+}
+
+const { loading, setLoading } = useLoading(true)
 
 const props = defineProps({
   warehouseProps: {
@@ -104,6 +203,128 @@ const props = defineProps({
 })
 
 const drawerVisible = ref(true)
+const renderData = ref<PolicyRecord[]>([])
+const formModel = ref(generateFormModel())
+const cloneColumns = ref<Column[]>([])
+const showColumns = ref<Column[]>([])
+const basePagination: Pagination = {
+  current: 1,
+  pageSize: 20,
+}
+const pagination = reactive({
+  ...basePagination,
+})
+
+const fetchData = async (params: PolicyParams = { current: 1, pageSize: 20 }) => {
+  setLoading(true)
+  try {
+    const { data } = await warehouseGetEvents(params)
+  } catch (err) {
+    // you can report use errorHandler or other
+  } finally {
+    setLoading(false)
+  }
+}
+
+const reset = () => {
+  formModel.value = generateFormModel()
+}
+
+ const search = () => {
+   fetchData({
+     ...basePagination,
+     ...formModel.value,
+   } as unknown as PolicyParams)
+}
+search()
+
+const onPageChange = (current: number) => {
+  fetchData({ ...basePagination, current })
+}
+
+
+const columns = computed<TableColumnData[]>(() => [
+
+  {
+    title: 'id',
+    dataIndex: 'id',
+    slotName: 'id',
+    sortable: {
+      sortDirections: ['ascend', 'descend']
+    }
+  },
+  {
+    title: '标题',
+    dataIndex: 'title',
+    filterable: {
+      filter: (value, record) => record.name.includes(value),
+      slotName: 'name-filter',
+      icon: () => h(IconSearch)
+    }
+  },
+  {
+    title: '信息',
+    dataIndex: 'message'
+  },
+  {
+    title: '等级',
+    dataIndex: 'level',
+    sortable: {
+      sortDirections: ['ascend', 'descend']
+    },
+    filterable: {
+      filters: [
+        { text: '一般', value: '0'},
+        { text: '提醒', value: '1'},
+        { text: '警告', value: '2'},
+        { text: '严重', value: '3'}
+      ],
+      filter: (value, record) => {return record.level == Number(value)},
+      multiple:true
+    }
+  },
+  {
+    title: '状态',
+    dataIndex: 'is_resolve',
+    sortable: {
+      sortDirections: ['ascend', 'descend']
+    },
+    filterable: {
+      filters: [
+        { text: '已解决', value: 'true'},
+        { text: '未解决', value:'false'}
+      ],
+      filter: (value, record) => {return true},
+      multiple:true
+    }
+  },
+  {
+    title: '发送者',
+    dataIndex: 'sender',
+    filterable: {
+      filters: [
+        { text: '设备', value: 'device'},
+        { text: '人员', value:'employee'}
+      ],
+      filter: (value, record) => {return true},
+      multiple:true
+    }
+  }
+
+])
+
+watch(
+  () => columns.value,
+  (val) => {
+    cloneColumns.value = cloneDeep(val)
+    cloneColumns.value.forEach((item, index) => {
+      item.checked = true
+    })
+    showColumns.value = cloneDeep(cloneColumns.value)
+  },
+  { deep: true, immediate: true }
+)
+
 
 const handleClose = () => {
   drawerVisible.value = false
@@ -372,3 +593,17 @@ export default {
 </script>
 
 <style scoped lang="less"></style>
+<style>
+.custom-filter {
+  padding: 20px;
+  background: var(--color-bg-5);
+  border: 1px solid var(--color-neutral-3);
+  border-radius: var(--border-radius-medium);
+  box-shadow: 0 2px 5px rgb(0 0 0 / 10%);
+}
+
+.custom-filter-footer {
+  display: flex;
+  justify-content: space-between;
+}
+</style>

@@ -245,6 +245,15 @@ export function warehouseQueryDevices(params: any) {
   })
 }
 
+export function warehouseGetEvents(params: any) {
+  return axios.get('dev-api/warehouse/warehouse-get-events', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
+    },
+  })
+}
+
 export function wareHouseGetById(params: any) {
   return axios.get('dev-api/warehouse/warehouse-get-by-id', {
     params,
