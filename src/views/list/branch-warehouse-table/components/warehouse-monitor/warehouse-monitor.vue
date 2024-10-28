@@ -219,6 +219,9 @@ const fetchData = async (params: PolicyParams = { current: 1, pageSize: 20 }) =>
   setLoading(true)
   try {
     const { data } = await warehouseGetEvents(params)
+    renderData.value = data.list
+    pagination.current = params.current
+    pagination.total = data.total
   } catch (err) {
     // you can report use errorHandler or other
   } finally {
@@ -294,7 +297,7 @@ const columns = computed<TableColumnData[]>(() => [
         { text: '已解决', value: 'true'},
         { text: '未解决', value:'false'}
       ],
-      filter: (value, record) => {return true},
+      filter: (value, record) => {return record.isResolve == Boolean(value) },
       multiple:true
     }
   },
