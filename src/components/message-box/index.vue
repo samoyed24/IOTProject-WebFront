@@ -32,7 +32,7 @@ interface TabItem {
   avatar?: string
 }
 const { loading, setLoading } = useLoading(true)
-const messageType = ref('message')
+const messageType = ref('notice')
 const { t } = useI18n()
 const messageData = reactive<{
   renderList: MessageRecord[]
@@ -43,18 +43,18 @@ const messageData = reactive<{
 })
 toRefs(messageData)
 const tabList: TabItem[] = [
-  {
-    key: 'message',
-    title: t('messageBox.tab.title.message'),
-  },
+  // {
+  //   key: 'message',
+  //   title: t('messageBox.tab.title.message'),
+  // },
   {
     key: 'notice',
     title: t('messageBox.tab.title.notice'),
   },
-  {
-    key: 'todo',
-    title: t('messageBox.tab.title.todo'),
-  },
+  // {
+  //   key: 'todo',
+  //   title: t('messageBox.tab.title.todo'),
+  // },
 ]
 async function fetchSourceData() {
   setLoading(true)

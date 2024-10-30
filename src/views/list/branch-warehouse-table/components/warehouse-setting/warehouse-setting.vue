@@ -28,6 +28,7 @@
           <icon-safe></icon-safe>
           安全管理
         </template>
+        <safety-management></safety-management>
       </a-tab-pane>
       <a-tab-pane :key="4">
         <template #title>
@@ -51,6 +52,7 @@ import { Modal } from '@arco-design/web-vue'
 
 import BasicParameters from './basic-parameters.vue'
 import DeviceManagement from './device-management.vue'
+import SafetyManagement from './safety-management.vue'
 
 const drawerVisible = ref(true)
 const activeTab = ref()

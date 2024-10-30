@@ -88,7 +88,7 @@
                   <a-col :span="8">
                     <a-form-item field="is_resolved" label="状态">
                       <a-select v-model="formModel.is_resolved" placeholder="事件是否解决" @change="search">
-                        <a-option :value="true">已解决</a-option>
+                        <a-option :value="true">完成</a-option>
                         <a-option :value="false">未解决</a-option>
                       </a-select>
                     </a-form-item>
@@ -120,6 +120,15 @@
                           </template>
                           严重事件
                         </a-option>
+                      </a-select>
+                    </a-form-item>
+                  </a-col>
+                  <a-col :span="8">
+                    <a-form-item field="title" label="类型">
+                      <a-select v-model="formModel.title" placeholder="事件类型" @change="search">
+                        <a-option>库房环境预警</a-option>
+                        <a-option>库房安全预警</a-option>
+                        <a-option>库房参数变化</a-option>
                       </a-select>
                     </a-form-item>
                   </a-col>
@@ -185,7 +194,7 @@
               </template>
               <template v-else>
                 <icon-check-circle-fill style="color: green" />
-                已解决
+                完成
               </template>
             </template>
             <template #operations="{ record }">
@@ -230,8 +239,7 @@ import type { TableColumnData } from '@arco-design/web-vue/es/table/interface'
 import cloneDeep from 'lodash/cloneDeep'
 import { computed, defineEmits, defineProps, h, reactive, ref, watch } from 'vue'
 import EventMarkResolved from '@/views/list/branch-warehouse-table/components/warehouse-monitor/event-mark-resolved.vue'
-import EventResolveDetails
-  from "@/views/list/branch-warehouse-table/components/warehouse-monitor/event-resolve-details.vue";
+import EventResolveDetails from '@/views/list/branch-warehouse-table/components/warehouse-monitor/event-resolve-details.vue'
 // import { Message } from '@arco-design/web-vue'
 
 type Column = TableColumnData & { checked?: true }
@@ -241,6 +249,7 @@ const generateFormModel = () => {
     warehouseId: props.warehouseProps.warehouseId,
     is_resolved: null as boolean,
     level: null as number,
+    title: null as string,
   }
 }
 
@@ -276,7 +285,7 @@ const fetchData = async (params: PolicyParams = { current: 1, pageSize: 20 }) =>
   try {
     const { data } = await warehouseGetEvents(params)
     renderData.value = data.list
-    console.log(renderData.value)
+    // console.log(renderData.value)
     pagination.current = params.current
     pagination.total = data.total
   } catch (err) {
@@ -312,18 +321,20 @@ const columns = computed<TableColumnData[]>(() => [
   //     sortDirections: ['ascend', 'descend'],
   //   },
   // },
-  // {
-  //   title: '标题',
-  //   dataIndex: 'title',
-  //   filterable: {
-  //     filter: (value, record) => record.name.includes(value),
-  //     slotName: 'name-filter',
-  //     icon: () => h(IconSearch),
-  //   },
-  // },
+  {
+    title: '类型',
+    dataIndex: 'title',
+    // filterable: {
+    // filter: (value, record) => record.name.includes(value),
+    // slotName: 'name-filter',
+    // icon: () => h(IconSearch),
+    // },
+  },
   {
     title: '事件',
     dataIndex: 'message',
+    slotName: 'message',
+    width: 300,
   },
   {
     title: '等级',
@@ -354,7 +365,7 @@ const columns = computed<TableColumnData[]>(() => [
     },
     filterable: {
       filters: [
-        { text: '已解决', value: true },
+        { text: '完成', value: true },
         { text: '未解决', value: false },
       ],
       filter: (value, record) => {

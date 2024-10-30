@@ -9,10 +9,10 @@
       }"
     >
       <template #extra>
-        <a-tag v-if="item.messageType === 0" color="gray">未开始</a-tag>
-        <a-tag v-else-if="item.messageType === 1" color="green">已开通</a-tag>
-        <a-tag v-else-if="item.messageType === 2" color="blue">进行中</a-tag>
-        <a-tag v-else-if="item.messageType === 3" color="red">即将到期</a-tag>
+        <a-tag v-if="item.messageType === 0" color="gray">一般</a-tag>
+        <a-tag v-else-if="item.messageType === 1" color="blue">提醒</a-tag>
+        <a-tag v-else-if="item.messageType === 2" color="orange">警告</a-tag>
+        <a-tag v-else-if="item.messageType === 3" color="red">严重</a-tag>
       </template>
       <div class="item-wrap" @click="onItemClick(item)">
         <a-list-item-meta>
