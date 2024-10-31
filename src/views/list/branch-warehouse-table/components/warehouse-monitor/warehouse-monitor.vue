@@ -38,14 +38,14 @@
                 </a-statistic>
               </a-spin>
             </a-col>
-            <!--        <a-col :span="12" flex="auto">-->
-            <!--          <a-spin :loading="statLoading">-->
-            <!--            &lt;!&ndash;            <icon-info size="20px" />&ndash;&gt;-->
-            <!--            <a-statistic title="风扇转速" :value="tempHumid.fanSpeed">-->
-            <!--              <template #suffix>转/秒</template>-->
-            <!--            </a-statistic>-->
-            <!--          </a-spin>-->
-            <!--        </a-col>-->
+            <a-col :span="12" flex="auto">
+              <a-spin :loading="statLoading">
+                <!--            <icon-info size="20px" />-->
+                <a-statistic title="风扇转速" :value="tempHumid.fanSpeed">
+                  <template #suffix>转/分</template>
+                </a-statistic>
+              </a-spin>
+            </a-col>
           </a-row>
           <a-row justify="center" :gutter="12">
             <a-statistic title="最后更新时间" :value="tempHumid.event_time" format="YYYY-MM-DD HH:mm:ss"></a-statistic>
@@ -128,7 +128,7 @@
                       <a-select v-model="formModel.title" placeholder="事件类型" @change="search">
                         <a-option>库房环境预警</a-option>
                         <a-option>库房安全预警</a-option>
-                        <a-option>库房参数变化</a-option>
+                        <a-option>库房参数改变</a-option>
                       </a-select>
                     </a-form-item>
                   </a-col>

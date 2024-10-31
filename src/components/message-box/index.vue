@@ -1,21 +1,27 @@
 <template>
   <a-spin style="display: block" :loading="loading">
-    <a-tabs v-model:activeKey="messageType" type="rounded" destroy-on-hide>
-      <a-tab-pane v-for="item in tabList" :key="item.key">
-        <template #title>
-          <span>{{ item.title }}{{ formatUnreadLength(item.key) }}</span>
+    <a-scrollbar style="height: 300px; overflow: auto;">
+      <a-tabs v-model:activeKey="messageType" type="rounded" destroy-on-hide>
+        <a-tab-pane v-for="item in tabList" :key="item.key">
+          <template #title>
+            <span>{{ item.title }}{{ formatUnreadLength(item.key) }}</span>
+          </template>
+          <a-result v-if="!renderList.length" status="404">
+            <template #subtitle>{{ $t('messageBox.noContent') }}</template>
+          </a-result>
+          <List :render-list="renderList" :unread-count="unreadCount" @item-click="handleItemClick" />
+        </a-tab-pane>
+        <template #extra>
+
+          <!--        <a-button type="text" @click="emptyList">-->
+          <!--          {{ $t('messageBox.tab.button') }}-->
+          <!--        </a-button>-->
         </template>
-        <a-result v-if="!renderList.length" status="404">
-          <template #subtitle>{{ $t('messageBox.noContent') }}</template>
-        </a-result>
-        <List :render-list="renderList" :unread-count="unreadCount" @item-click="handleItemClick" />
-      </a-tab-pane>
-      <template #extra>
-        <a-button type="text" @click="emptyList">
-          {{ $t('messageBox.tab.button') }}
-        </a-button>
-      </template>
-    </a-tabs>
+      </a-tabs>
+    </a-scrollbar>
+
+    <a-button type="primary" long>查看更多</a-button>
+
   </a-spin>
 </template>
 
@@ -24,6 +30,7 @@ import { type MessageListType, type MessageRecord, queryMessageList, setMessageS
 import useLoading from '@/hooks/loading'
 import { computed, reactive, ref, toRefs } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { updateList } from '@/components/navbar/index.vue'
 import List from './list.vue'
 
 interface TabItem {
@@ -68,9 +75,9 @@ async function fetchSourceData() {
   }
 }
 async function readMessage(data: MessageListType) {
-  const ids = data.map((item) => item.id)
-  await setMessageStatus({ ids })
-  fetchSourceData()
+  await setMessageStatus({ eventId: data[0].id })
+  await fetchSourceData()
+  updateList(messageData.messageList.length)
 }
 const renderList = computed(() => {
   return messageData.messageList.filter((item) => messageType.value === item.type)

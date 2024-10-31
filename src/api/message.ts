@@ -22,7 +22,7 @@ interface MessageStatus {
 }
 
 export function setMessageStatus(data: MessageStatus) {
-  return axios.post<MessageListType>('/api/message/read', data)
+  return axios.post<MessageListType>('dev-api/event/event-is-read', data)
 }
 
 export interface ChatRecord {

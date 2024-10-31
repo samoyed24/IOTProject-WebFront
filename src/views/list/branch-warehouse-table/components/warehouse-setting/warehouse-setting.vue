@@ -42,6 +42,12 @@
           订单管理
         </template>
       </a-tab-pane>
+      <a-tab-pane :key="6">
+        <template #title>
+          <icon-thunderbolt />
+          能源管理
+        </template>
+      </a-tab-pane>
     </a-tabs>
   </a-drawer>
 </template>

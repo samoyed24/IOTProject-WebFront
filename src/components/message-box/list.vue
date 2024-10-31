@@ -49,12 +49,14 @@
     </a-list-item>
     <template #footer>
       <a-space fill :size="0" :class="{ 'add-border-top': renderList.length < showMax }">
-        <div class="footer-wrap">
-          <a-link @click="allRead">{{ $t('messageBox.allRead') }}</a-link>
-        </div>
-        <div class="footer-wrap">
-          <a-link>{{ $t('messageBox.viewMore') }}</a-link>
-        </div>
+
+        <!--        <div class="footer-wrap">-->
+        <!--          <a-link @click="allRead">{{ $t('messageBox.allRead') }}</a-link>-->
+        <!--        </div>-->
+
+        <!--        <div class="footer-wrap">-->
+        <!--          <a-link>{{ $t('messageBox.viewMore') }}</a-link>-->
+        <!--        </div>-->
       </a-space>
     </template>
     <div v-if="renderList.length && renderList.length < 3" :style="{ height: (showMax - renderList.length) * 86 + 'px' }"></div>
@@ -62,8 +64,8 @@
 </template>
 
 <script lang="ts" setup>
-import type { MessageListType, MessageRecord } from '@/api/message';
-import type { PropType } from 'vue';
+import type { MessageListType, MessageRecord } from '@/api/message'
+import type { PropType } from 'vue'
 
 const props = defineProps({
   renderList: {

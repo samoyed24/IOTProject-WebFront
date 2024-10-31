@@ -52,7 +52,7 @@
       <li>
         <a-tooltip :content="$t('settings.navbar.alerts')">
           <div class="message-box-trigger">
-            <a-badge :count="9" dot>
+            <a-badge :count="messageCount">
               <a-button class="nav-btn" type="outline" :shape="'circle'" @click="setPopoverVisible">
                 <icon-notification />
               </a-button>
@@ -166,6 +166,7 @@
 </template>
 
 <script lang="ts" setup>
+import { queryMessageList } from '@/api/message'
 import useLocale from '@/hooks/locale'
 import useUser from '@/hooks/user'
 import { LOCALE_OPTIONS } from '@/locale'
@@ -216,6 +217,19 @@ const setPopoverVisible = () => {
   })
   refBtn.value.dispatchEvent(event)
 }
+
+
+const fetchMessage = async () => {
+  try {
+    const { data } = await queryMessageList()
+    messageCount.value = data.length
+  } catch (err) {
+    Message.error(`获取信息失败：${err}`)
+  }
+}
+
+fetchMessage()
+
 const handleLogout = () => {
   logout()
 }
@@ -238,6 +252,26 @@ const switchGit = () => {
 const open = (val: string) => {
   window.open(`https://vuejs-core.cn/${val}`)
 }
+
+</script>
+
+<script lang="ts">
+
+// import {ref} from "vue";
+
+// import {ref} from "vue";
+
+const messageCount = ref(0)
+
+export const updateList = (messageLength: number) => {
+  messageCount.value = messageLength
+}
+
+export default {
+  // messageCount: 0,
+
+}
+
 </script>
 
 <style scoped lang="less">
