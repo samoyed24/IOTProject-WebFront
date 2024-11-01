@@ -1,7 +1,7 @@
 <template>
   <a-spin style="display: block" :loading="loading">
-    <a-scrollbar style="height: 300px; overflow: auto;">
-      <a-tabs v-model:activeKey="messageType" type="rounded" destroy-on-hide>
+    <a-scrollbar style="height: 300px; overflow: auto">
+      <a-tabs v-model:active-key="messageType" type="rounded" destroy-on-hide>
         <a-tab-pane v-for="item in tabList" :key="item.key">
           <template #title>
             <span>{{ item.title }}{{ formatUnreadLength(item.key) }}</span>
@@ -9,28 +9,23 @@
           <a-result v-if="!renderList.length" status="404">
             <template #subtitle>{{ $t('messageBox.noContent') }}</template>
           </a-result>
-          <List :render-list="renderList" :unread-count="unreadCount" @item-click="handleItemClick" />
+          <List :render-list="renderList" :unread-count="unreadCount" />
         </a-tab-pane>
-        <template #extra>
-
-          <!--        <a-button type="text" @click="emptyList">-->
-          <!--          {{ $t('messageBox.tab.button') }}-->
-          <!--        </a-button>-->
-        </template>
       </a-tabs>
     </a-scrollbar>
 
-    <a-button type="primary" long>查看更多</a-button>
-
+    <a-button type="primary" long="long" @click="setDetailsShow(true)">查看更多</a-button>
   </a-spin>
 </template>
 
 <script lang="ts" setup>
 import { type MessageListType, type MessageRecord, queryMessageList, setMessageStatus } from '@/api/message'
 import useLoading from '@/hooks/loading'
+import MessageDetails from '@/components/message-box/message-details.vue'
+import { Message } from '@arco-design/web-vue'
 import { computed, reactive, ref, toRefs } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { updateList } from '@/components/navbar/index.vue'
+import { setDetailsShow, updateList } from '@/components/navbar/index.vue'
 import List from './list.vue'
 
 interface TabItem {
@@ -48,27 +43,25 @@ const messageData = reactive<{
   renderList: [],
   messageList: [],
 })
+
 toRefs(messageData)
 const tabList: TabItem[] = [
-  // {
-  //   key: 'message',
-  //   title: t('messageBox.tab.title.message'),
-  // },
   {
     key: 'notice',
     title: t('messageBox.tab.title.notice'),
   },
-  // {
-  //   key: 'todo',
-  //   title: t('messageBox.tab.title.todo'),
-  // },
 ]
+
 async function fetchSourceData() {
   setLoading(true)
   try {
-    const { data } = await queryMessageList()
-    messageData.messageList = data
+    const { data } = await queryMessageList({
+      isRead: false,
+    })
+    messageData.messageList = data.list
+    updateList(messageData.messageList.length)
   } catch (err) {
+    Message.error(`信息获取失败：${err}`)
     // you can report use errorHandler or other
   } finally {
     setLoading(false)
@@ -77,7 +70,7 @@ async function fetchSourceData() {
 async function readMessage(data: MessageListType) {
   await setMessageStatus({ eventId: data[0].id })
   await fetchSourceData()
-  updateList(messageData.messageList.length)
+  updateList(messageData.messageList.length) // 调用Navbar部件更新a-badge红点信息数量
 }
 const renderList = computed(() => {
   return messageData.messageList.filter((item) => messageType.value === item.type)
@@ -95,9 +88,6 @@ const formatUnreadLength = (type: string) => {
 }
 const handleItemClick = (items: MessageListType) => {
   if (renderList.value.length) readMessage([...items])
-}
-const emptyList = () => {
-  messageData.messageList = []
 }
 fetchSourceData()
 </script>

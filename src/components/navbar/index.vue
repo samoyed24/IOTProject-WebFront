@@ -162,6 +162,7 @@
         </a-dropdown>
       </li>
     </ul>
+    <message-details ref="detailsRef" :visible="detailsVisible" @close-event="setDetailsShow(false)" />
   </div>
 </template>
 
@@ -174,6 +175,7 @@ import { useAppStore, useUserStore } from '@/store'
 import { Message } from '@arco-design/web-vue'
 import { useDark, useFullscreen, useToggle } from '@vueuse/core'
 import { computed, inject, ref } from 'vue'
+import MessageDetails from '@/components/message-box/message-details.vue'
 import MessageBox from '../message-box/index.vue'
 
 const appStore = useAppStore()
@@ -218,11 +220,12 @@ const setPopoverVisible = () => {
   refBtn.value.dispatchEvent(event)
 }
 
-
 const fetchMessage = async () => {
   try {
-    const { data } = await queryMessageList()
-    messageCount.value = data.length
+    const { data } = await queryMessageList({
+      isRead: false,
+    })
+    messageCount.value = data.list.length
   } catch (err) {
     Message.error(`获取信息失败：${err}`)
   }
@@ -252,26 +255,27 @@ const switchGit = () => {
 const open = (val: string) => {
   window.open(`https://vuejs-core.cn/${val}`)
 }
-
 </script>
 
 <script lang="ts">
-
 // import {ref} from "vue";
-
-// import {ref} from "vue";
-
+// 不要在这里Import，会报错
 const messageCount = ref(0)
 
-export const updateList = (messageLength: number) => {
-  messageCount.value = messageLength
+export const updateList = (messageLength: number | null = null) => {
+  if (messageLength === null) messageCount.value -= 1
+  else messageCount.value = messageLength
+}
+
+const detailsVisible = ref(false)
+
+export const setDetailsShow = (show: boolean) => {
+  detailsVisible.value = show
 }
 
 export default {
   // messageCount: 0,
-
 }
-
 </script>
 
 <style scoped lang="less">

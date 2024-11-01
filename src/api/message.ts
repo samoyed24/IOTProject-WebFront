@@ -1,4 +1,5 @@
 import axios from 'axios'
+import qs from "query-string";
 
 export interface MessageRecord {
   id: number
@@ -13,15 +14,20 @@ export interface MessageRecord {
 }
 export type MessageListType = MessageRecord[]
 
-export function queryMessageList() {
-  return axios.get<MessageListType>('dev-api/event/query-person-event')
+export function queryMessageList(params: any = {}) {
+  return axios.get('dev-api/event/query-person-event', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
+    },
+  })
 }
 
 interface MessageStatus {
   ids: number[]
 }
 
-export function setMessageStatus(data: MessageStatus) {
+export function setMessageStatus(data: { eventId: number }) {
   return axios.post<MessageListType>('dev-api/event/event-is-read', data)
 }
 
