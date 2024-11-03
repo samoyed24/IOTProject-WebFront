@@ -21,7 +21,6 @@
         <a-popconfirm content="确定？" @ok="handleUnbind(record.deviceId)" :ok-loading="unbindLoading">
           <a-button status="danger">解绑</a-button>
         </a-popconfirm>
-
       </template>
       <template #is_active="{ record }">
         <a-switch

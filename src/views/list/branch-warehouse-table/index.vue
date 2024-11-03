@@ -145,7 +145,10 @@
           <template v-else>未设置</template>
         </template>
         <template #operations="{ record }">
-          <a-button type="secondary" status="success" size="small" @click="handleWarehouseSetting(record.id, record.name, 2)">
+          <a-button type="primary" size="small" @click="handleWarehouseSetting(record.id, record.name, 4)">
+            控制面板
+          </a-button>
+          <a-button type="primary" status="success" size="small" @click="handleWarehouseSetting(record.id, record.name, 2)">
             {{ $t('branchWarehouseTable.columns.operations.monitor') }}
           </a-button>
           <a-button type="secondary" status="success" size="small">
@@ -169,6 +172,7 @@
     <warehouse-setting v-if="drawerKey === 1" :warehouse-props="drawerCompProps" @close-event="drawerKey = 0" />
     <warehouse-monitor v-if="drawerKey === 2" :warehouse-props="drawerCompProps" @close-event="drawerKey = 0" />
     <warehouse-admin-setting v-if="drawerKey === 3" :warehouse-props="drawerCompProps" @close-event="drawerKey = 0" />
+    <control-panel v-if="drawerKey === 4" :warehouse-props="drawerCompProps" @close-event="drawerKey = 0" />
   </div>
 </template>
 
@@ -179,6 +183,7 @@ import { type Pagination } from '@/types/global'
 import WarehouseMonitor from '@/views/list/branch-warehouse-table/components/warehouse-monitor/warehouse-monitor.vue'
 import type { SelectOptionData } from '@arco-design/web-vue/es/select/interface'
 import type { TableColumnData } from '@arco-design/web-vue/es/table/interface'
+import ControlPanel from '@/views/list/branch-warehouse-table/components/control-panel/index.vue'
 import WarehouseAdminSetting from '@/views/list/branch-warehouse-table/components/warehouse-admin-setting.vue'
 import cloneDeep from 'lodash/cloneDeep'
 import Sortable from 'sortablejs'

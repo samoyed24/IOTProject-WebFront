@@ -19,13 +19,13 @@
           </a-form-item>
         </a-form>
         <div v-if="selectedDeviceId">
-          <a-row justify="center" :gutter="12">
+          <a-row justify="center" :gutter="[12, 30]">
             <a-col :span="12" flex="20%"></a-col>
             <a-col :span="12" flex="auto">
               <a-spin :loading="statLoading">
                 <!--            <icon-info size="20px" />-->
-
                 <a-statistic title="实时温度" :value="tempHumid.temperature / 10" :precision="1">
+<!--                  <template #title></template>-->
                   <template #suffix>°C</template>
                 </a-statistic>
               </a-spin>
@@ -38,16 +38,35 @@
                 </a-statistic>
               </a-spin>
             </a-col>
+            <!--            <a-col :span="12" flex="auto">-->
+            <!--              <a-spin :loading="statLoading">-->
+            <!--                &lt;!&ndash;            <icon-info size="20px" />&ndash;&gt;-->
+            <!--                <a-statistic title="风扇转速" :value="tempHumid.fanSpeed">-->
+            <!--                  <template #suffix>转/分</template>-->
+            <!--                </a-statistic>-->
+            <!--              </a-spin>-->
+            <!--            </a-col>-->
+          </a-row>
+          <a-row justify="center" :gutter="[12, 30]">
+            <a-col :span="12" flex="20%"></a-col>
             <a-col :span="12" flex="auto">
               <a-spin :loading="statLoading">
                 <!--            <icon-info size="20px" />-->
-                <a-statistic title="风扇转速" :value="tempHumid.fanSpeed">
+                <a-statistic title="热端风扇转速" :value="tempHumid.HotFanSpeed">
+                  <template #suffix>转/分</template>
+                </a-statistic>
+              </a-spin>
+            </a-col>
+            <a-col :span="12" flex="auto">
+              <a-spin :loading="statLoading">
+                <!--            <icon-info size="20px" />-->
+                <a-statistic title="冷端风扇转速" :value="tempHumid.ColdFanSpeed">
                   <template #suffix>转/分</template>
                 </a-statistic>
               </a-spin>
             </a-col>
           </a-row>
-          <a-row justify="center" :gutter="12">
+          <a-row justify="center" :gutter="[12, 30]">
             <a-statistic title="最后更新时间" :value="tempHumid.event_time" format="YYYY-MM-DD HH:mm:ss"></a-statistic>
           </a-row>
           <div style="margin-top: 30px; display: flex; flex-direction: row; align-items: center; justify-content: center">
@@ -161,7 +180,7 @@
             <template #name-filter="{ filterValue, setFilterValue, handleFilterConfirm, handleFilterReset }">
               <div class="custom-filter">
                 <a-space direction="vertical">
-                  <a-input :model-value="filterValue[0]" @input="(value) => setFilterValue([value])" />
+                  <a-input :model-value="filterValue[0]" @input="(value: any) => setFilterValue([value])" />
                   <div class="custom-filter-footer">
                     <a-button @click="handleFilterConfirm">Confirm</a-button>
                     <a-button @click="handleFilterReset">Reset</a-button>
@@ -339,54 +358,54 @@ const columns = computed<TableColumnData[]>(() => [
   {
     title: '等级',
     dataIndex: 'level',
-    sortable: {
-      sortDirections: ['ascend', 'descend'],
-    },
-    filterable: {
-      filters: [
-        { text: '一般', value: '0' },
-        { text: '提醒', value: '1' },
-        { text: '警告', value: '2' },
-        { text: '严重', value: '3' },
-      ],
-      filter: (value, record) => {
-        return record.level === Number(value)
-      },
-      multiple: true,
-    },
+    // sortable: {
+    //   sortDirections: ['ascend', 'descend'],
+    // },
+    // filterable: {
+    //   filters: [
+    //     { text: '一般', value: '0' },
+    //     { text: '提醒', value: '1' },
+    //     { text: '警告', value: '2' },
+    //     { text: '严重', value: '3' },
+    //   ],
+    //   filter: (value, record) => {
+    //     return record.level === Number(value)
+    //   },
+    //   multiple: true,
+    // },
     slotName: 'level',
   },
   {
     title: '状态',
     dataIndex: 'is_resolved',
     slotName: 'is_resolved',
-    sortable: {
-      sortDirections: ['ascend', 'descend'],
-    },
-    filterable: {
-      filters: [
-        { text: '完成', value: true },
-        { text: '未解决', value: false },
-      ],
-      filter: (value, record) => {
-        return true
-      },
-      multiple: true,
-    },
+    // sortable: {
+    //   sortDirections: ['ascend', 'descend'],
+    // },
+    // filterable: {
+    // filters: [
+    //   { text: '完成', value: true },
+    //   { text: '未解决', value: false },
+    // ],
+    // filter: (value, record) => {
+    //   return true
+    // },
+    // multiple: true,
+    // },
   },
   {
     title: '发送者',
     dataIndex: 'sender',
-    filterable: {
-      filters: [
-        { text: '设备', value: 'device' },
-        { text: '人员', value: 'employee' },
-      ],
-      filter: (value, record) => {
-        return true
-      },
-      multiple: true,
-    },
+    // filterable: {
+    //   filters: [
+    //     { text: '设备', value: 'device' },
+    //     { text: '人员', value: 'employee' },
+    //   ],
+    //   filter: (value, record) => {
+    //     return true
+    //   },
+    //   multiple: true,
+    // },
   },
   {
     title: '记录时间',
@@ -469,7 +488,8 @@ const tempHumid = reactive({
   temperature: null as number,
   humidity: null as number,
   event_time: null as Date,
-  fanSpeed: null as number,
+  HotFanSpeed: null as number,
+  ColdFanSpeed: null as number,
 })
 
 const intervalId = ref(0)
@@ -486,7 +506,8 @@ const fetchShadow = async () => {
           tempHumid.event_time = eventTime
           tempHumid.temperature = shadow.reported.properties.Temperature
           tempHumid.humidity = shadow.reported.properties.Humidity
-          tempHumid.fanSpeed = shadow.reported.properties.FanSpeed
+          tempHumid.HotFanSpeed = shadow.reported.properties.HotFanSpeed
+          tempHumid.ColdFanSpeed = shadow.reported.properties.ColdFanSpeed
           if (autoChartUpdate.value) fetchChartData()
         }
       })

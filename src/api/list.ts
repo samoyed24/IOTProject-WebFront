@@ -14,6 +14,11 @@ export interface CargoTemplate {
   cargo_name: string
 }
 
+export interface WarehouseProps {
+  warehouseName: string
+  warehouseId: number
+}
+
 export interface PolicyRecord {
   id: string
   number: number
@@ -234,6 +239,28 @@ export function queryDevices(params: any) {
       return qs.stringify(obj)
     },
   })
+}
+
+export function warehouseFetchFunctionStatus(params: any) {
+  return axios.get('dev-api/warehouse/warehouse-get-function-status', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
+    },
+  })
+}
+
+export function warehouseControlPanelGet(params: any) {
+  return axios.get('dev-api/warehouse/warehouse-control-panel-get', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
+    },
+  })
+}
+
+export function warehouseControlPanelSubmit(data: any) {
+  return axios.post('dev-api/warehouse/warehouse-control-panel-update', data)
 }
 
 export function warehouseQueryDevices(params: any) {
