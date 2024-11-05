@@ -167,6 +167,7 @@
           </template>
         </a-tab-pane>
       </a-tabs>
+      <a-result v-else status="404" subtitle="暂未选择设备" />
     </a-drawer>
   </a-spin>
 </template>
@@ -178,7 +179,7 @@ import {
   warehouseControlPanelSubmit,
   warehouseFetchFunctionStatus,
   type WarehouseProps,
-  warehouseQueryDevices
+  warehouseQueryDevices,
 } from '@/api/list'
 import { Message } from '@arco-design/web-vue'
 
@@ -272,7 +273,7 @@ const fetchDevices = async () => {
 }
 
 fetchDevices().then(() => {
-  fetchDeviceControlPanel()
+  if (selectedDeviceId.value) fetchDeviceControlPanel()
 })
 
 const fetchWarehouseFunctionStatus = async () => {

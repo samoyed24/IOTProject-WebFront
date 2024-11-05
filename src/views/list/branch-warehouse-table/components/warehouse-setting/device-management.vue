@@ -148,7 +148,7 @@ const columns = [
 const fetchData = async () => {
   setLoading(true)
   try {
-    const params = { warehouseId: props.warehouseId }
+    const params = { warehouseId: props.warehouseId, showAll: true }
     const { data } = await warehouseQueryDevices(params)
     tableData.value = data.list
   } catch {

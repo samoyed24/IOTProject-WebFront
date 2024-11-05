@@ -24,8 +24,8 @@
             <a-col :span="12" flex="auto">
               <a-spin :loading="statLoading">
                 <!--            <icon-info size="20px" />-->
-                <a-statistic title="实时温度" :value="tempHumid.temperature / 10" :precision="1">
-<!--                  <template #title></template>-->
+                <a-statistic title="实时温度" :value="tempHumid.Temperature / 10" :precision="1">
+                  <!--                  <template #title></template>-->
                   <template #suffix>°C</template>
                 </a-statistic>
               </a-spin>
@@ -33,7 +33,7 @@
             <a-col :span="12" flex="auto">
               <a-spin :loading="statLoading">
                 <!--            <icon-info size="20px" />-->
-                <a-statistic title="实时湿度" :value="tempHumid.humidity / 10" :precision="1">
+                <a-statistic title="实时湿度" :value="tempHumid.Humidity / 10" :precision="1">
                   <template #suffix>%</template>
                 </a-statistic>
               </a-spin>
@@ -67,6 +67,60 @@
             </a-col>
           </a-row>
           <a-row justify="center" :gutter="[12, 30]">
+            <a-col :span="12" flex="10%"></a-col>
+            <a-col :span="12" flex="auto">
+              <a-statistic title="冷端风扇强度系数" :value="tempHumid.ColdFanFactor / 100" :precision="2" />
+            </a-col>
+            <a-col :span="12" flex="auto">
+              <a-statistic title="热端风扇强度系数" :value="tempHumid.HotFanFactor / 100" :precision="2" />
+            </a-col>
+            <a-col :span="12" flex="auto">
+              <a-statistic title="制冷强度系数" :value="tempHumid.ColdIntensityFactor / 100" :precision="2" />
+            </a-col>
+          </a-row>
+          <a-row justify="center" :gutter="[12, 30]">
+            <a-col :span="12" flex="10%"></a-col>
+            <a-col :span="12" flex="auto">
+              <a-statistic title="照明系统">
+                <template #extra>
+                  <div v-if="tempHumid.LightOn">
+                    <div style="font-size: x-large">已开启</div>
+                  </div>
+                  <div v-else>
+                    <div style="font-size: x-large">未开启</div>
+                  </div>
+                </template>
+              </a-statistic>
+            </a-col>
+            <a-col :span="12" flex="auto">
+              <a-statistic title="加湿装置">
+                <template #extra>
+                  <div v-if="tempHumid.WaterOn">
+                    <div style="font-size: x-large">已开启</div>
+                  </div>
+                  <div v-else>
+                    <div style="font-size: x-large">未开启</div>
+                  </div>
+                </template>
+              </a-statistic>
+            </a-col>
+            <a-col :span="12" flex="auto">
+              <a-statistic title="新风系统">
+                <template #extra>
+                  <div v-if="tempHumid.WindOn">
+                    <div style="font-size: x-large">已开启</div>
+                  </div>
+                  <div v-else>
+                    <div style="font-size: x-large">未开启</div>
+                  </div>
+                </template>
+              </a-statistic>
+            </a-col>
+            <!--            <a-col :span="12" flex="auto">-->
+            <!--              <a-statistic title="冷端风扇强度系数" :value="tempHumid.ColdFanFactor" :precision="2" />-->
+            <!--            </a-col>-->
+          </a-row>
+          <a-row justify="center" :gutter="[12, 30]">
             <a-statistic title="最后更新时间" :value="tempHumid.event_time" format="YYYY-MM-DD HH:mm:ss"></a-statistic>
           </a-row>
           <div style="margin-top: 30px; display: flex; flex-direction: row; align-items: center; justify-content: center">
@@ -91,8 +145,8 @@
             <Chart v-if="chartShow" ref="chartInstance" :options="chartOption" height="400px"></Chart>
           </a-spin>
         </div>
+        <a-result v-else status="404" subtitle="暂未选择设备" />
       </a-tab-pane>
-
       <a-tab-pane :key="2">
         <template #title>
           <icon-clock-circle />
@@ -485,11 +539,17 @@ const fetchDevices = async () => {
 }
 
 const tempHumid = reactive({
-  temperature: null as number,
-  humidity: null as number,
+  Temperature: null as number,
+  Humidity: null as number,
   event_time: null as Date,
   HotFanSpeed: null as number,
   ColdFanSpeed: null as number,
+  HotFanFactor: null as number,
+  ColdFanFactor: null as number,
+  ColdIntensityFactor: null as number,
+  LightOn: null as boolean,
+  WaterOn: null as boolean,
+  WindOn: null as boolean,
 })
 
 const intervalId = ref(0)
@@ -503,11 +563,8 @@ const fetchShadow = async () => {
           let dateString = shadow.reported.event_time
           dateString = dateString.replace(/(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z/, '$1-$2-$3 $4:$5:$6 UTC')
           const eventTime = new Date(dateString)
+          Object.assign(tempHumid, shadow.reported.properties)
           tempHumid.event_time = eventTime
-          tempHumid.temperature = shadow.reported.properties.Temperature
-          tempHumid.humidity = shadow.reported.properties.Humidity
-          tempHumid.HotFanSpeed = shadow.reported.properties.HotFanSpeed
-          tempHumid.ColdFanSpeed = shadow.reported.properties.ColdFanSpeed
           if (autoChartUpdate.value) fetchChartData()
         }
       })
