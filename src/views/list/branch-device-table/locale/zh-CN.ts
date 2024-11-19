@@ -17,6 +17,7 @@ export default {
   'branchDeviceTable.form.deviceType.warehouse_sensor': '库房温控',
   'branchDeviceTable.form.deviceType.warehouse_guard': '库房守卫',
   'branchDeviceTable.form.deviceType.transmit': '运输',
+  'branchDeviceTable.form.deviceType.master': '边缘主控',
   'branchDeviceTable.columns.is_online': '在线状态',
   'branchDeviceTable.form.is_online.true': '在线',
   'branchDeviceTable.form.is_online.false': '离线',

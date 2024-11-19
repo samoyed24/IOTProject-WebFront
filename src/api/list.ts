@@ -14,6 +14,15 @@ export interface CargoTemplate {
   cargo_name: string
 }
 
+export interface ControlPanelItem {
+  apply: false
+  smartHumid: false
+  water: false
+  wind: false
+  smartLight: false
+  light: false
+}
+
 export interface WarehouseProps {
   warehouseName: string
   warehouseId: number
@@ -157,9 +166,36 @@ export function getTemplateDetails(data: any) {
   return axios.post('dev-api/bind/get-template-details', data)
 }
 
+export function warehouseUserUpdate(data: any) {
+  return axios.post('dev-api/warehouse/warehouse-user-update', data)
+}
+
+export function warehouseUserGet(params: any) {
+  return axios.get('dev-api/warehouse/warehouse-user-get', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
+    },
+  })
+}
+
+export function warehouseUserDelete(data: any) {
+  return axios.post('dev-api/warehouse/warehouse-user-delete', data)
+}
+
 export function warehouseDeviceBind(data: any) {
   return axios.post('dev-api/warehouse/warehouse-device-bind', data)
 }
+
+export function warehouseAuthInfoGet(params: any) {
+  return axios.get('dev-api/warehouse/warehouse-authinfo-get', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
+    },
+  })
+}
+
 
 export interface ServiceRecord {
   id: number

@@ -31,7 +31,7 @@
 <script setup lang="ts">
 import { nextTick, reactive, ref } from 'vue'
 import { Message, TableColumn } from '@arco-design/web-vue'
-import {warehouseAddAdmin, warehouseCancelAdmin, warehouseGetAdmin, warehouseQueryEmployees} from '@/api/list'
+import { warehouseAddAdmin, warehouseCancelAdmin, warehouseGetAdmin, warehouseQueryEmployees } from '@/api/list'
 
 const props = defineProps({
   warehouseProps: {

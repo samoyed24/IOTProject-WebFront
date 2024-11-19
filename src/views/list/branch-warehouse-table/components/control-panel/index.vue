@@ -7,7 +7,12 @@
       </template>
       <a-form :model="{}">
         <a-form-item label="请选择控制设备">
-          <a-select v-model="selectedDeviceId" :options="devices" :loading="deviceSelectLoading" @change="fetchDeviceControlPanel"></a-select>
+          <a-select
+            v-model="selectedDeviceId"
+            :options="devices"
+            :loading="deviceSelectLoading"
+            @change="fetchDeviceControlPanel"
+          ></a-select>
         </a-form-item>
       </a-form>
       <a-tabs v-if="selectedDeviceId" position="vertical">
@@ -160,12 +165,13 @@
             </a-form-item>
           </a-form>
         </a-tab-pane>
-        <a-tab-pane :key="4" title="门禁">
-          <template #title>
-            <icon-settings />
-            门禁
-          </template>
-        </a-tab-pane>
+<!--        <a-tab-pane :key="4" title="门禁">-->
+<!--          <template #title>-->
+<!--            <icon-settings />-->
+<!--            门禁-->
+<!--          </template>-->
+
+<!--        </a-tab-pane>-->
       </a-tabs>
       <a-result v-else status="404" subtitle="暂未选择设备" />
     </a-drawer>
@@ -175,13 +181,14 @@
 <script setup lang="ts">
 import { defineEmits, defineProps, nextTick, reactive, ref, watch } from 'vue'
 import {
+  type ControlPanelItem,
   warehouseControlPanelGet,
   warehouseControlPanelSubmit,
   warehouseFetchFunctionStatus,
   type WarehouseProps,
-  warehouseQueryDevices,
+  warehouseQueryDevices, warehouseQueryEmployees,
 } from '@/api/list'
-import { Message } from '@arco-design/web-vue'
+import {Message, Modal} from '@arco-design/web-vue'
 
 const props = defineProps({
   warehouseProps: {
@@ -309,9 +316,10 @@ const elementLoading = reactive({
 
 const setLoadingAndSubmit = (key: string) => {
   nextTick(async () => {
-    elementLoading[key] = true
+    const k = key as keyof typeof elementLoading
+    elementLoading[k] = true
     await submitForm()
-    elementLoading[key] = false
+    elementLoading[k] = false
   })
 }
 

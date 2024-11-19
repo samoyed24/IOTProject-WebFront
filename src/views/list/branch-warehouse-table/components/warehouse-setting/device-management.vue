@@ -10,6 +10,7 @@
         <template v-else-if="record.deviceType === 'check'">读取</template>
         <template v-else-if="record.deviceType === 'warehouse_guard'">库房守卫</template>
         <template v-else-if="record.deviceType === 'transmit'">运输</template>
+        <template v-else-if="record.deviceType === 'master'">边缘主控</template>
       </template>
       <template #is_online="{ record }">
         <icon-check-circle-fill v-if="record.is_online" style="color: green" />
@@ -18,7 +19,7 @@
         <template v-else>离线</template>
       </template>
       <template #operation="{ record }">
-        <a-popconfirm content="确定？" @ok="handleUnbind(record.deviceId)" :ok-loading="unbindLoading">
+        <a-popconfirm content="确定？" :ok-loading="unbindLoading" @ok="handleUnbind(record.deviceId)">
           <a-button status="danger">解绑</a-button>
         </a-popconfirm>
       </template>
@@ -74,10 +75,10 @@
 </template>
 
 <script setup lang="ts">
-import { type WarehouseDevice, warehouseDeviceBind, warehouseDeviceInterface, warehouseQueryDevices } from '@/api/list';
-import { Message } from '@arco-design/web-vue';
-import type { FormInstance } from '@arco-design/web-vue/es/form';
-import { defineProps, ref } from 'vue';
+import { type WarehouseDevice, warehouseDeviceBind, warehouseDeviceInterface, warehouseQueryDevices } from '@/api/list'
+import { Message } from '@arco-design/web-vue'
+import type { FormInstance } from '@arco-design/web-vue/es/form'
+import { defineProps, ref } from 'vue'
 
 const props = defineProps({
   warehouseId: {

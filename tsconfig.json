@@ -19,7 +19,8 @@
     "verbatimModuleSyntax": true,
     "jsxImportSource": "vue",
     "skipLibCheck": false,
-    "noImplicitAny": true
+    "noImplicitAny": false,
+    "suppressImplicitAnyIndexErrors": true
   },
   "include": ["src/**/*", "src/**/*.vue"],
   "exclude": ["node_modules"]

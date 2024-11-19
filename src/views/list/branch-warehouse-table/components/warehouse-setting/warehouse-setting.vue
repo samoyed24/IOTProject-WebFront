@@ -28,7 +28,7 @@
           <icon-safe></icon-safe>
           安全管理
         </template>
-        <safety-management></safety-management>
+        <safety-management :warehouse-id="warehouseProps.warehouseId"></safety-management>
       </a-tab-pane>
       <a-tab-pane :key="4">
         <template #title>
