@@ -16,31 +16,31 @@
                   <a-input v-model="formModel.name" placeholder="请输入仓库名称" />
                 </a-form-item>
               </a-col>
-              <a-col :span="8">
-                <a-form-item field="storage" label="存货量">
-                  <a-input-number v-model="formModel.storage" placeholder="请输入仓库存货量" />
-                </a-form-item>
-              </a-col>
-              <a-col :span="12">
-                <a-form-item field="temperature" label="温度">
-                  <a-form-item field="lower" label="下限">
-                    <a-input-number v-model="formModel.temperature_lower" placeholder="请输入温度下限" />
-                  </a-form-item>
-                  <a-form-item field="upper" label="上限">
-                    <a-input-number v-model="formModel.temperature_upper" placeholder="请输入温度上限" />
-                  </a-form-item>
-                </a-form-item>
-              </a-col>
-              <a-col :span="12">
-                <a-form-item field="humidity" label="湿度">
-                  <a-form-item field="lower" label="下限">
-                    <a-input-number v-model="formModel.humidity_lower" placeholder="请输入湿度下限" />
-                  </a-form-item>
-                  <a-form-item field="upper" label="上限">
-                    <a-input-number v-model="formModel.humidity_upper" placeholder="请输入湿度上限" />
-                  </a-form-item>
-                </a-form-item>
-              </a-col>
+<!--              <a-col :span="8">-->
+<!--                <a-form-item field="storage" label="存货量">-->
+<!--                  <a-input-number v-model="formModel.storage" placeholder="请输入仓库存货量" />-->
+<!--                </a-form-item>-->
+<!--              </a-col>-->
+<!--              <a-col :span="12">-->
+<!--                <a-form-item field="temperature" label="温度">-->
+<!--                  <a-form-item field="lower" label="下限">-->
+<!--                    <a-input-number v-model="formModel.temperature_lower" placeholder="请输入温度下限" />-->
+<!--                  </a-form-item>-->
+<!--                  <a-form-item field="upper" label="上限">-->
+<!--                    <a-input-number v-model="formModel.temperature_upper" placeholder="请输入温度上限" />-->
+<!--                  </a-form-item>-->
+<!--                </a-form-item>-->
+<!--              </a-col>-->
+<!--              <a-col :span="12">-->
+<!--                <a-form-item field="humidity" label="湿度">-->
+<!--                  <a-form-item field="lower" label="下限">-->
+<!--                    <a-input-number v-model="formModel.humidity_lower" placeholder="请输入湿度下限" />-->
+<!--                  </a-form-item>-->
+<!--                  <a-form-item field="upper" label="上限">-->
+<!--                    <a-input-number v-model="formModel.humidity_upper" placeholder="请输入湿度上限" />-->
+<!--                  </a-form-item>-->
+<!--                </a-form-item>-->
+<!--              </a-col>-->
             </a-row>
           </a-form>
         </a-col>
@@ -143,6 +143,12 @@
         <template #humidity="{ record }">
           <template v-if="record.humidity.lower">{{ record.humidity.lower }} ~ {{ record.humidity.upper }}</template>
           <template v-else>未设置</template>
+        </template>
+        <template #storage>
+<!--          按钮待实现-->
+          <a-button type="secondary" size="small">
+            查询
+          </a-button>
         </template>
         <template #operations="{ record }">
           <a-button type="primary" size="small" @click="handleWarehouseSetting(record.id, record.name, 4)">
@@ -267,6 +273,7 @@ const columns = computed<TableColumnData[]>(() => [
   {
     title: t('branchWarehouseTable.columns.storage'),
     dataIndex: 'storage',
+    slotName: 'storage',
   },
   {
     title: t('branchWarehouseTable.columns.operations'),

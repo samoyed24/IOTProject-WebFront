@@ -19,9 +19,9 @@
             </a-step>
           </a-steps>
           <keep-alive>
-            <BaseInfo v-if="branchTemplateCreate === 1" @changeStep="changeStep" />
-            <UploadImage v-else-if="branchTemplateCreate === 2" @changeStep="changeStep" />
-            <Success v-else-if="branchTemplateCreate === 3" @changeStep="changeStep" />
+            <BaseInfo v-if="branchTemplateCreate === 1" @change-step="changeStep" />
+            <UploadImage v-else-if="branchTemplateCreate === 2" @change-step="changeStep" />
+            <Success v-else-if="branchTemplateCreate === 3" @change-step="changeStep" />
           </keep-alive>
         </div>
       </a-card>
@@ -30,12 +30,8 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  submitBranchTemplateCreateForm,
-  type BaseInfoModel,
-  type ChannelInfoModel
-} from '@/api/form'
-import type { CargoTemplate } from "@/api/list"
+import { submitBranchTemplateCreateForm, type BaseInfoModel, type ChannelInfoModel } from '@/api/form'
+import type { CargoTemplate } from '@/api/list'
 import useLoading from '@/hooks/loading'
 import { ref } from 'vue'
 import BaseInfo from './components/base-info.vue'
@@ -53,20 +49,26 @@ const submitModel = ref<CargoTemplate>({
   period: 0,
   description: '',
   sample_image: undefined,
-  cargo_name: ''
+  cargo_name: '',
+  temp: null,
+  humid: null,
 })
 const submitForm = async () => {
   setLoading(true)
   try {
-    console.log(submitModel.value)
-    const formData = new FormData
-    formData.append("data", JSON.stringify({
-      cargo_name: submitModel.value.cargo_name,
-      type: submitModel.value.type,
-      description: submitModel.value.description,
-      period: submitModel.value.period
-    }))
-    formData.append("sample", submitModel.value.sample_image)
+    const formData = new FormData()
+    formData.append(
+      'data',
+      JSON.stringify({
+        cargo_name: submitModel.value.cargo_name,
+        type: submitModel.value.type,
+        description: submitModel.value.description,
+        period: submitModel.value.period,
+        temp: submitModel.value.temp,
+        humid: submitModel.value.humid,
+      })
+    )
+    formData.append('sample', submitModel.value.sample_image)
     await submitBranchTemplateCreateForm(formData) // The mock api default success
     branchTemplateCreate.value = 3
     submitModel.value = {} as CargoTemplate // init

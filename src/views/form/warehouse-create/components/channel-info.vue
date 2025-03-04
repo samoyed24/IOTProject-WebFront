@@ -123,6 +123,20 @@
         </a-col>
       </a-row>
     </a-form-item>
+    <a-form-item
+      field="storage"
+      label="库存"
+      :rules="[
+        {
+          required: true,
+          message: '请补充库房库存',
+        },
+      ]"
+    >
+      <a-input-number v-model="formData.storage" placeholder="库存件数" :step="1" :min="1" :max="100000">
+        <template #suffix>件</template>
+      </a-input-number>
+    </a-form-item>
     <a-form-item>
       <!-- <a-button type="primary" @click="onNextClick">
         {{ $t('warehouseCreate.button.next') }}
@@ -158,6 +172,7 @@ const formData = ref<WarehousePropertiesModel>({
     upper: null,
     lower: null,
   },
+  storage: null,
 })
 
 const onNextClick = async () => {

@@ -1,5 +1,5 @@
 export default {
-  'menu.form.branchTemplateCreate': '分支模板创建',
+  'menu.form.branchTemplateCreate': '货物模板创建',
   'branchTemplateCreateForm.branchTemplateCreate.title': '创建货物模板',
   'branchTemplateCreateForm.branchTemplateCreate.title.baseInfo': '填写基本信息',
   'branchTemplateCreateForm.branchTemplateCreate.subTitle.baseInfo': '完善货物基本信息',

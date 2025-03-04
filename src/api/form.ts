@@ -20,6 +20,8 @@ export interface TemplateModel {
   type: string
   description: string
   period: string
+  temp: number
+  humid: number
 }
 
 export interface WarehousePropertiesModel {
@@ -31,7 +33,8 @@ export interface WarehousePropertiesModel {
   humidity: {
     upper: number
     lower: number
-  }
+  },
+  storage: number
 }
 
 export type UnitChannelModel = BaseInfoModel & ChannelInfoModel

@@ -31,8 +31,8 @@
           </template>
         </template>
         <template #operations="{ record }">
-          <a-button size="small" status="normal" type="text" @click="handleAuthInfoShow(record.id)">鉴权信息</a-button>
-          <a-modal :visible="authInfoUser != -1" :footer="false" :title="`${record.name}在库房的鉴权信息`" @cancel="authInfoUser = -1">
+          <a-button size="small" status="normal" type="text" @click="handleAuthInfoShow(record.id, record.name)">鉴权信息</a-button>
+          <a-modal :visible="authInfoUser != -1" :footer="false" :title="`${authShowName}在库房的鉴权信息`" @cancel="authInfoUser = -1">
             <a-form>
               <a-form-item label="人脸信息">
                 <a-upload
@@ -264,7 +264,10 @@ const authUploadStatus = reactive({
   voice_vector: false,
 })
 
-const handleAuthInfoShow = (id: number) => {
+const authShowName = ref(null)
+
+const handleAuthInfoShow = (id: number, name: string) => {
+  authShowName.value = name
   authInfoUser.value = id
   Object.assign(authInfo, generateAuthInfoModel())
   Object.assign(authUploadStatus ,generateUploadStatus())

@@ -29,6 +29,9 @@
       <a-select v-model="formData.type" :placeholder="$t('branchTemplateCreateForm.placeholder.type')">
         <a-option value="vegetable">果蔬</a-option>
         <a-option value="meat">肉类</a-option>
+        <a-option value="snack">冷藏零食</a-option>
+        <a-option value="medical">医药用品</a-option>
+        <a-option value="other">其他</a-option>
       </a-select>
     </a-form-item>
     <a-form-item
@@ -39,13 +42,35 @@
           required: true,
           message: $t('branchTemplateCreateForm.form.error.period.required'),
         },
-         {
-          match: /^\d+$/,
-          message: $t('branchTemplateCreateForm.form.error.period.pattern'),
-        },
       ]"
     >
-      <a-input v-model="formData.period" type="text" :placeholder="$t('branchTemplateCreateForm.placeholder.period')" />
+      <a-input-number v-model="formData.period" :step="1" :min="1" placeholder="请输入保质期（天）">
+        <template #suffix>天</template>
+      </a-input-number>
+    </a-form-item>
+    <a-form-item field="temp" label="建议储存温度">
+      <a-input-number
+        v-model="formData.temp"
+        :precision="1"
+        :step="0.5"
+        :min="-30"
+        :max="100"
+        placeholder="（可选）请输入建议储存温度，-30~100"
+      >
+        <template #suffix>°C</template>
+      </a-input-number>
+    </a-form-item>
+    <a-form-item field="humid" label="建议储存湿度">
+      <a-input-number
+        v-model="formData.humid"
+        :precision="3"
+        :step="0.01"
+        :min="0"
+        :max="1"
+        placeholder="（可选）请输入建议储存湿度，0.000~1.000"
+      >
+        <template #suffix>°C</template>
+      </a-input-number>
     </a-form-item>
     <a-form-item
       field="description"
@@ -59,9 +84,9 @@
       row-class="keep-margin"
     >
       <a-textarea v-model="formData.description" :placeholder="$t('branchTemplateCreateForm.placeholder.description')" />
-<!--      <template #help>-->
-<!--        <span>{{ $t('branchTemplateCreateForm.form.tip.promoteLink') }}</span>-->
-<!--      </template>-->
+      <!--      <template #help>-->
+      <!--        <span>{{ $t('branchTemplateCreateForm.form.tip.promoteLink') }}</span>-->
+      <!--      </template>-->
     </a-form-item>
     <a-form-item>
       <a-button type="primary" @click="onNextClick">
@@ -72,9 +97,9 @@
 </template>
 
 <script lang="ts" setup>
-import type { TemplateModel } from '@/api/form';
-import type { FormInstance } from '@arco-design/web-vue/es/form';
-import { ref } from 'vue';
+import type { TemplateModel } from '@/api/form'
+import type { FormInstance } from '@arco-design/web-vue/es/form'
+import { ref } from 'vue'
 
 const emits = defineEmits(['changeStep'])
 const formRef = ref<FormInstance>()
@@ -83,6 +108,8 @@ const formData = ref<TemplateModel>({
   type: '',
   description: '',
   period: '',
+  temp: null,
+  humid: null,
 })
 
 const onNextClick = async () => {

@@ -35,6 +35,7 @@
           <icon-storage></icon-storage>
           库存设置
         </template>
+        <storage-management></storage-management>
       </a-tab-pane>
       <a-tab-pane :key="5">
         <template #title>
@@ -59,6 +60,7 @@ import { Modal } from '@arco-design/web-vue'
 import BasicParameters from './basic-parameters.vue'
 import DeviceManagement from './device-management.vue'
 import SafetyManagement from './safety-management.vue'
+import StorageManagement from './storage-management.vue'
 
 const drawerVisible = ref(true)
 const activeTab = ref()

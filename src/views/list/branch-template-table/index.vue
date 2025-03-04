@@ -429,16 +429,20 @@ const handleDetailShow = async () => {
     id: 'ID',
     name: '货物名称',
     created_by: '创建者',
-    period: '保质期',
+    period: '保质期（天）',
     created_at: '创建时间',
     description: '货物描述',
     type: '货物种类',
+    temp: '建议储存温度（°C）',
+    humid: '建议储存湿度',
   }
   Object.keys(res.data).forEach((k) => {
-    templateDetails.value.push({
-      label: tagMapping[k],
-      value: res.data[k],
-    })
+    if (res.data[k] !== null) {
+      templateDetails.value.push({
+        label: tagMapping[k],
+        value: res.data[k],
+      })
+    }
   })
   drawerFirstLoading.value = false
 }

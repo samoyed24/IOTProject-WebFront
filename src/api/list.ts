@@ -9,6 +9,8 @@ export interface CargoTemplate {
   type: string
   created_at: string
   period: number
+  temp: number
+  humid: number
   description: string
   sample_image: any
   cargo_name: string
