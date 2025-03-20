@@ -35,7 +35,7 @@
           <icon-storage></icon-storage>
           库存设置
         </template>
-        <storage-management></storage-management>
+        <storage-management :warehouse-id="warehouseProps.warehouseId"></storage-management>
       </a-tab-pane>
       <a-tab-pane :key="5">
         <template #title>

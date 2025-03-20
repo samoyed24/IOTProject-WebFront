@@ -310,6 +310,19 @@ export function warehouseQueryDevices(params: any) {
   })
 }
 
+export function warehouseDeviceShelfGet(params: any) {
+  return axios.get('dev-api/warehouse/warehouse-device-shelf-get', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
+    },
+  })
+}
+
+export function warehouseDeviceShelfSet(data: any) {
+  return axios.post('dev-api/warehouse/warehouse-device-shelf-set', data)
+}
+
 export function warehouseGetEvents(params: any) {
   return axios.get('dev-api/warehouse/warehouse-get-events', {
     params,
@@ -380,6 +393,24 @@ export function warehouseMonitor(token: string, deviceId: string) {
   return fetch(`iotda-api/v5/iot/624907afb1634bad885e26827aceb360/devices/${deviceId}/shadow`, {
     headers: {
       'x-auth-token': token,
+    },
+  })
+}
+
+export function warehouseGetStorage(params: any) {
+  return axios.get('dev-api/warehouse/warehouse-get-storage', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
+    },
+  })
+}
+
+export function warehouseQueryAllCargo(params: any) {
+  return axios.get('dev-api/warehouse/warehouse-query-all-cargo', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
     },
   })
 }

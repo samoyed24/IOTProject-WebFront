@@ -20,12 +20,13 @@
       </template>
       <template #operation="{ record }">
         <a-popconfirm content="确定？" :ok-loading="unbindLoading" @ok="handleUnbind(record.deviceId)">
-          <a-button status="danger">解绑</a-button>
+          <a-button status="danger" :disabled="true">解绑</a-button>
         </a-popconfirm>
       </template>
       <template #is_active="{ record }">
         <a-switch
           v-model="record.is_active"
+          :disabled="true"
           :loading="switchLoading"
           :before-change="
             (e: string | number | boolean) => {

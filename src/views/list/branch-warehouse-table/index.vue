@@ -145,7 +145,7 @@
           <template v-else>未设置</template>
         </template>
         <template #storage>
-<!--          按钮待实现-->
+          <!--          todo 按钮待实现-->
           <a-button type="secondary" size="small">
             查询
           </a-button>
@@ -157,7 +157,7 @@
           <a-button type="primary" status="success" size="small" @click="handleWarehouseSetting(record.id, record.name, 2)">
             {{ $t('branchWarehouseTable.columns.operations.monitor') }}
           </a-button>
-          <a-button type="secondary" status="success" size="small">
+          <a-button type="secondary" status="success" size="small" @click="handleWarehouseSetting(record.id, record.name, 5)">
             {{ $t('branchWarehouseTable.columns.operations.storage') }}
           </a-button>
           <a-button type="secondary" status="success" size="small" @click="handleWarehouseSetting(record.id, record.name, 1)">
@@ -178,6 +178,7 @@
     <warehouse-setting v-if="drawerKey === 1" :warehouse-props="drawerCompProps" @close-event="drawerKey = 0" />
     <warehouse-monitor v-if="drawerKey === 2" :warehouse-props="drawerCompProps" @close-event="drawerKey = 0" />
     <warehouse-admin-setting v-if="drawerKey === 3" :warehouse-props="drawerCompProps" @close-event="drawerKey = 0" />
+    <warehouse-storage v-if="drawerKey == 5" :warehouse-props="drawerCompProps" @close-event="drawerKey = 0" />
     <control-panel v-if="drawerKey === 4" :warehouse-props="drawerCompProps" @close-event="drawerKey = 0" />
   </div>
 </template>
@@ -191,6 +192,7 @@ import type { SelectOptionData } from '@arco-design/web-vue/es/select/interface'
 import type { TableColumnData } from '@arco-design/web-vue/es/table/interface'
 import ControlPanel from '@/views/list/branch-warehouse-table/components/control-panel/index.vue'
 import WarehouseAdminSetting from '@/views/list/branch-warehouse-table/components/warehouse-admin-setting.vue'
+import WarehouseStorage from '@/views/list/branch-warehouse-table/components/warehouse-storage/warehouse-storage.vue'
 import cloneDeep from 'lodash/cloneDeep'
 import Sortable from 'sortablejs'
 import { computed, nextTick, reactive, ref, watch } from 'vue'
