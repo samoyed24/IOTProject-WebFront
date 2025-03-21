@@ -32,7 +32,11 @@
               </a-col>
               <a-col :span="8">
                 <a-form-item field="status" :label="$t('employeeCheckTable.form.status')">
-                  <a-select v-model="formModel.status" :options="statusOptions" :placeholder="$t('employeeCheckTable.form.selectDefault')" />
+                  <a-select
+                    v-model="formModel.status"
+                    :options="statusOptions"
+                    :placeholder="$t('employeeCheckTable.form.selectDefault')"
+                  />
                 </a-form-item>
               </a-col>
             </a-row>
@@ -59,8 +63,7 @@
       <a-divider style="margin-top: 0" />
       <a-row style="margin-bottom: 16px">
         <a-col :span="12">
-          <a-space>
-          </a-space>
+          <a-space></a-space>
         </a-col>
         <a-col :span="12" style="display: flex; align-items: center; justify-content: end">
           <a-button>
@@ -136,28 +139,20 @@
       </a-table>
     </a-card>
     <a-drawer
-        :visible="recordDetailsShow"
-        @cancel="handleDrawerChange(false)"
-        hide-cancel
-        @ok="handleDrawerChange(false)"
-        @open="handleDetailsUpdate"
-        width="30%"
+      :visible="recordDetailsShow"
+      hide-cancel
+      width="30%"
+      @cancel="handleDrawerChange(false)"
+      @ok="handleDrawerChange(false)"
+      @open="handleDetailsUpdate"
     >
       <a-spin :loading="drawerLoading">
-        <a-descriptions :data="detailData" title="质量检测报告" :column="1">
-        </a-descriptions>
-        <a-button v-if="selectedDetail.quality_level != '优良'" @click="handleShowImg(true)">
-          显示图片
-        </a-button>
+        <a-descriptions :data="detailData" title="质量检测报告" :column="1"></a-descriptions>
+        <a-button v-if="selectedDetail.quality_level != '优良'" @click="handleShowImg(true)">显示图片</a-button>
       </a-spin>
-      <a-drawer
-          :visible="showImg"
-          @cancel="handleShowImg(false)"
-          @ok="handleShowImg(false)"
-          width="50%"
-      >
+      <a-drawer :visible="showImg" width="50%" @cancel="handleShowImg(false)" @ok="handleShowImg(false)">
         <a-spin :loading="imgLoading">
-          <a-image :src="detailImgSrc" width="100%"/>
+          <a-image :src="detailImgSrc" width="100%" />
         </a-spin>
       </a-drawer>
     </a-drawer>
@@ -190,8 +185,6 @@ const generateFormModel = () => {
   }
 }
 
-
-
 const { loading, setLoading } = useLoading(true)
 const { t } = useI18n()
 const renderData = ref<PolicyRecord[]>([])
@@ -203,19 +196,18 @@ const showColumns = ref<Column[]>([])
 
 const size = ref<SizeProps>('medium')
 
-
 const detailData = ref<Array<any>>([])
 const recordId = ref(-1)
 const recordDetailsShow = ref(false)
 const drawerLoading = ref(false)
 
 interface CargoQualityRecords {
-  id: number,
-  cargo_name: string,
-  quality_level: string,
-  recorded_by: string,
-  record_time: string,
-  note:string
+  id: number
+  cargo_name: string
+  quality_level: string
+  recorded_by: string
+  record_time: string
+  note: string
 }
 const selectedDetail = ref<CargoQualityRecords>({
   id: 0,
@@ -223,14 +215,12 @@ const selectedDetail = ref<CargoQualityRecords>({
   quality_level: '',
   recorded_by: '',
   record_time: '',
-  note: ''
+  note: '',
 })
 
-
-const detailImgSrc = ref("")
+const detailImgSrc = ref('')
 const showImg = ref(false)
 const imgLoading = ref(false)
-
 
 const basePagination: Pagination = {
   current: 1,
@@ -318,7 +308,7 @@ const filterTypeOptions = computed<SelectOptionData[]>(() => [
 const statusOptions = computed<SelectOptionData[]>(() => [
   {
     label: t('employeeCheckTable.form.status.优良'),
-    value: '优良'
+    value: '优良',
   },
   {
     label: t('employeeCheckTable.form.status.一般'),
@@ -326,8 +316,8 @@ const statusOptions = computed<SelectOptionData[]>(() => [
   },
   {
     label: t('employeeCheckTable.form.status.不合格'),
-    value: "不合格"
-  }
+    value: '不合格',
+  },
 ])
 const fetchData = async (params: PolicyParams = { current: 1, pageSize: 20 }) => {
   setLoading(true)
@@ -346,7 +336,7 @@ const fetchData = async (params: PolicyParams = { current: 1, pageSize: 20 }) =>
 const handleShowImg = (imgShowStatus: boolean) => {
   showImg.value = imgShowStatus
   if (imgShowStatus) detailImgSrc.value = `dev-api/bind/get-record-image?recordId=${recordId.value}`
-  else detailImgSrc.value = ""
+  else detailImgSrc.value = ''
 }
 
 const search = () => {
@@ -369,36 +359,35 @@ const handleSelectDensity = (val: string | number | Record<string, any> | undefi
 }
 
 const handleChange = (checked: boolean | (string | boolean | number)[], column: Column, index: number) => {
-    cloneColumns.value = showColumns.value.filter((item) => item.checked)
+  cloneColumns.value = showColumns.value.filter((item) => item.checked)
 }
 
 const handleDrawerChange = (showStatus: boolean, _record: number | null | undefined = null) => {
   recordDetailsShow.value = showStatus
-  if (_record)
-    recordId.value = _record
-  if (!showStatus)
-    detailData.value = []
+  if (_record) recordId.value = _record
+  if (!showStatus) detailData.value = []
 }
 
 const handleDetailsUpdate = async () => {
   drawerLoading.value = true
   detailData.value = []
-  let data: any = await getRecordDetails({recordId: recordId.value})
+  console.log(recordId.value)
+  let data: any = await getRecordDetails({ recordId: recordId.value.number })
   data = data.data
   selectedDetail.value = data
   const tagMapping: Record<string, string> = {
-    "id": "ID",
-    "cargo_name": "货物名称",
-    "quality_level": "质量等级",
-    "weight": "重量",
-    "recorded_by": "记录者",
-    "record_time": "记录时间",
-    "note": "备注"
+    id: 'ID',
+    cargo_name: '货物名称',
+    quality_level: '质量等级',
+    weight: '重量',
+    recorded_by: '记录者',
+    record_time: '记录时间',
+    note: '备注',
   }
   Object.keys(data).forEach((k) => {
     detailData.value.push({
       label: tagMapping[k],
-      value: data[k]
+      value: data[k],
     })
   })
   // console.log(detailData.value)
@@ -444,7 +433,7 @@ watch(
 
 <script lang="ts">
 export default {
-  name: 'EmployeeCheckTable'
+  name: 'EmployeeCheckTable',
 }
 </script>
 

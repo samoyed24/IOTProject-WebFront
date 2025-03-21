@@ -13,19 +13,21 @@
           <icon-layers />
           库存总览
         </template>
-        <storage-total-view :warehouse-id="warehouseProps.warehouseId"></storage-total-view>
+        <storage-total-view :warehouse-id="warehouseProps.warehouseId" />
       </a-tab-pane>
       <a-tab-pane :key="2">
         <template #title>
           <icon-nav />
           货架检索
         </template>
+        <shelf-view :warehouse-id="warehouseProps.warehouseId" />
       </a-tab-pane>
       <a-tab-pane :key="3">
         <template #title>
           <icon-select-all />
           出入库记录
         </template>
+        <cargo-at-gate-record :warehouse-id="warehouseProps.warehouseId" />
       </a-tab-pane>
     </a-tabs>
   </a-drawer>
@@ -35,6 +37,9 @@
 import { Message } from '@arco-design/web-vue'
 import {defineEmits, defineProps, nextTick, reactive, ref} from 'vue'
 import StorageTotalView from '@/views/list/branch-warehouse-table/components/warehouse-storage/components/storage-total-view/storage-total-view.vue'
+import ShelfView from '@/views/list/branch-warehouse-table/components/warehouse-storage/components/shelf-view/shelf-view.vue'
+import CargoAtGateRecord
+  from "@/views/list/branch-warehouse-table/components/warehouse-storage/components/cargo-at-gate-record/cargo-at-gate-record.vue";
 
 const props = defineProps({
   warehouseProps: {

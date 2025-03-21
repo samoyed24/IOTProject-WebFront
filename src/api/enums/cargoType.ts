@@ -4,5 +4,4 @@ export default {
   'cargoType.snack': '冷藏零食',
   'cargoType.medicine': '医药用品',
   'cargoType.other': '其他',
-  // 'cargoType'.
 }

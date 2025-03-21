@@ -133,6 +133,15 @@ export interface WarehouseParamSubmit {
   extraOptions: ExtraOptions
 }
 
+export interface ShelfData {
+  deviceId: string
+  locCol: number
+  locRow: number
+  shelfCol: number
+  shelfRow: number
+  shelfId: number
+}
+
 export function queryPolicyList(params: PolicyParams) {
   return axios.get<PolicyListRes>('dev-api/api/v1/web-get-records', {
     params,
@@ -197,7 +206,6 @@ export function warehouseAuthInfoGet(params: any) {
     },
   })
 }
-
 
 export interface ServiceRecord {
   id: number
@@ -408,6 +416,51 @@ export function warehouseGetStorage(params: any) {
 
 export function warehouseQueryAllCargo(params: any) {
   return axios.get('dev-api/warehouse/warehouse-query-all-cargo', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
+    },
+  })
+}
+
+export function cargoQueryLocation(params: any) {
+  return axios.get('dev-api/cargo/cargo-query-location', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
+    },
+  })
+}
+
+export function warehouseQueryAllShelves(params: any) {
+  return axios.get('dev-api/warehouse/warehouse-query-all-shelves', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
+    },
+  })
+}
+
+export function warehouseShelfQueryCargo(params: any) {
+  return axios.get('dev-api/warehouse/warehouse-shelf-query-cargo', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
+    },
+  })
+}
+
+export function warehouseGetCargo(params: any) {
+  return axios.get('dev-api/warehouse/warehouse-get-cargo', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
+    },
+  })
+}
+
+export function warehouseQueryAtGateRecords(params: any) {
+  return axios.get('dev-api/warehouse/warehouse-query-at-gate-records', {
     params,
     paramsSerializer: (obj) => {
       return qs.stringify(obj)

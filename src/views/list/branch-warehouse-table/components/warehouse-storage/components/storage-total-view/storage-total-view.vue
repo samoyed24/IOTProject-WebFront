@@ -3,23 +3,23 @@
     <a-row :gutter="24">
       <a-col :span="9">
         <a-form-item label="货物唯一标识码">
-          <a-input placeholder="请输入货物唯一标识码" :v-model="queryStruct.uuid"></a-input>
+          <a-input v-model="queryStruct.uuid" placeholder="请输入货物唯一标识码"></a-input>
         </a-form-item>
       </a-col>
       <a-col :span="9">
         <a-form-item label="货物名称">
-          <a-input placeholder="请输入货物名称" :v-model="queryStruct.cargoName"></a-input>
+          <a-input v-model="queryStruct.cargoName" placeholder="请输入货物名称"></a-input>
         </a-form-item>
       </a-col>
-      <a-col :span="3">
-        <a-button type="primary" long>
+      <a-col :span="2">
+        <a-button type="primary" long @click="fetchData">
           <template #icon>
             <icon-search />
           </template>
           查询
         </a-button>
       </a-col>
-      <a-col :span="3">
+      <a-col :span="2">
         <a-button long @click="fetchData">
           <template #icon>
             <icon-refresh />
@@ -27,8 +27,25 @@
           刷新
         </a-button>
       </a-col>
+      <a-col :span="2">
+        <a-button
+          long
+          @click="
+            () => {
+              queryStruct.cargoName = ''
+              queryStruct.uuid = ''
+              fetchData()
+            }
+          "
+        >
+          <template #icon>
+            <icon-refresh />
+          </template>
+          重置
+        </a-button>
+      </a-col>
     </a-row>
-    <a-table :data="tableData" :columns="cargoColumns" :loading="tableLoading" :pagination="pagination">
+    <a-table :data="tableData" :columns="cargoColumns" :loading="tableLoading" :pagination="pagination" @page-change="onPageChange">
       <template #index="{ rowIndex }">
         {{ rowIndex + 1 + (pagination.current - 1) * pagination.pageSize }}
       </template>
@@ -47,11 +64,9 @@
       <template #cargoType="{ record }">
         {{ cargoType[`cargoType.${record.cargoType}`] }}
       </template>
-      <template #restTime="{ record }">
-        {{record.restTime.day}}天{{record.restTime.hour}}小时
-      </template>
-      <template #storageLocation="">
-        <a-button>
+      <template #restTime="{ record }">{{ record.restTime.day }}天{{ record.restTime.hour }}小时</template>
+      <template #storageLocation="{ record }">
+        <a-button @click="handleCargoLocQuery(record.uuid)">
           <template #icon>
             <icon-search />
           </template>
@@ -76,8 +91,8 @@
 import { Message, Modal } from '@arco-design/web-vue'
 import { nextTick, reactive, ref } from 'vue'
 import type { Pagination } from '@/types/global'
-import { warehouseQueryAllCargo } from '@/api/list'
-import cargoType from "@/api/enums/cargoType";
+import { cargoQueryLocation, warehouseQueryAllCargo } from '@/api/list'
+import cargoType from '@/api/enums/cargoType'
 
 const props = defineProps({
   warehouseId: {
@@ -174,6 +189,34 @@ const fetchData = async () => {
 }
 
 fetchData()
+
+const onPageChange = (current: number) => {
+  pagination.current = current
+  fetchData()
+}
+
+const handleCargoLocQuery = async (cargoUUID: string) => {
+  Message.info('查询中，请稍候...')
+  tableLoading.value = true
+  try {
+    const { data } = await cargoQueryLocation({
+      cargoUUID,
+    })
+    if (data.query_success) {
+      Message.success('查询成功！')
+      Modal.info({
+        title: '货物位置查询结果',
+        content: `该货物当前位于：${data.location.shelfLoc[0]}-${data.location.shelfLoc[1]}-${data.location.cargoLoc[0]}-${data.location.cargoLoc[1]}`,
+      })
+    } else {
+      Message.warning('查询失败，货物可能已入库但不在货架上')
+    }
+  } catch {
+    Message.error('查询失败！')
+  } finally {
+    tableLoading.value = false
+  }
+}
 </script>
 
 <script lang="ts">

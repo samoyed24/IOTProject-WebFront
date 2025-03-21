@@ -154,11 +154,11 @@
           <a-button type="primary" size="small" @click="handleWarehouseSetting(record.id, record.name, 4)">
             控制面板
           </a-button>
-          <a-button type="primary" status="success" size="small" @click="handleWarehouseSetting(record.id, record.name, 2)">
+          <a-button type="secondary" status="success" size="small" @click="handleWarehouseSetting(record.id, record.name, 2)">
             {{ $t('branchWarehouseTable.columns.operations.monitor') }}
           </a-button>
           <a-button type="secondary" status="success" size="small" @click="handleWarehouseSetting(record.id, record.name, 5)">
-            {{ $t('branchWarehouseTable.columns.operations.storage') }}
+            库存与订单
           </a-button>
           <a-button type="secondary" status="success" size="small" @click="handleWarehouseSetting(record.id, record.name, 1)">
             {{ $t('branchWarehouseTable.columns.operations.setting') }}
