@@ -24,7 +24,6 @@ import localeCargoQuery from '@/views/list/cargo-query/locale/zh-CN'
 import localeBranchWarehouseTable from '@/views/list/branch-warehouse-table/locale/zh-CN'
 import localeBranchDeviceTable from '@/views/list/branch-device-table/locale/zh-CN'
 
-
 import localeBasicProfile from '@/views/profile/basic/locale/zh-CN'
 
 import localeDataAnalysis from '@/views/visualization/data-analysis/locale/zh-CN'

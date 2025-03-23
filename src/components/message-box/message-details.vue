@@ -67,7 +67,7 @@ import { type MessageListType, queryMessageList, setMessageStatus } from '@/api/
 import { Message } from '@arco-design/web-vue'
 import { updateList } from '@/components/navbar/index.vue'
 import {computed, reactive, ref, watch} from 'vue'
-import form from '@/router/routes/modules/form'
+// import form from '@/router/routes/modules/form'
 
 const props = defineProps({
   visible: {
