@@ -467,3 +467,25 @@ export function warehouseQueryAtGateRecords(params: any) {
     },
   })
 }
+
+export function warehouseOrderCreate(data: any) {
+  return axios.post('dev-api/warehouse/warehouse-order-create', data)
+}
+
+export function warehouseOrderGetAll(params: any) {
+  return axios.get('dev-api/warehouse/warehouse-order-get-all', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
+    },
+  })
+}
+
+export function warehouseOrderDetail(params: any) {
+  return axios.get('dev-api/warehouse/warehouse-order-detail', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
+    },
+  })
+}

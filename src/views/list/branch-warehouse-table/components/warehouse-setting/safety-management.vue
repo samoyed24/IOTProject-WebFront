@@ -138,18 +138,18 @@
         </template>
       </a-table>
     </a-tab-pane>
-    <a-tab-pane :key="2">
-      <template #title>
-        <icon-fire />
-        防火安全
-      </template>
-    </a-tab-pane>
-    <a-tab-pane :key="3">
-      <template #title>
-        <icon-lock />
-        防盗安全
-      </template>
-    </a-tab-pane>
+<!--    <a-tab-pane :key="2">-->
+<!--      <template #title>-->
+<!--        <icon-fire />-->
+<!--        防火安全-->
+<!--      </template>-->
+<!--    </a-tab-pane>-->
+<!--    <a-tab-pane :key="3">-->
+<!--      <template #title>-->
+<!--        <icon-lock />-->
+<!--        防盗安全-->
+<!--      </template>-->
+<!--    </a-tab-pane>-->
   </a-tabs>
 </template>
 

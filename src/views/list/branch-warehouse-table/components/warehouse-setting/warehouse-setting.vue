@@ -37,18 +37,18 @@
         </template>
         <storage-management :warehouse-id="warehouseProps.warehouseId"></storage-management>
       </a-tab-pane>
-      <a-tab-pane :key="5">
-        <template #title>
-          <icon-archive></icon-archive>
-          订单管理
-        </template>
-      </a-tab-pane>
-      <a-tab-pane :key="6">
-        <template #title>
-          <icon-thunderbolt />
-          能源管理
-        </template>
-      </a-tab-pane>
+<!--      <a-tab-pane :key="5">-->
+<!--        <template #title>-->
+<!--          <icon-archive></icon-archive>-->
+<!--          订单管理-->
+<!--        </template>-->
+<!--      </a-tab-pane>-->
+<!--      <a-tab-pane :key="6">-->
+<!--        <template #title>-->
+<!--          <icon-thunderbolt />-->
+<!--          能源管理-->
+<!--        </template>-->
+<!--      </a-tab-pane>-->
     </a-tabs>
   </a-drawer>
 </template>

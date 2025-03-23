@@ -53,7 +53,15 @@
         </a-button>
       </a-col>
     </a-row>
-    <a-table :data="tableData" :columns="cargoColumns" :loading="tableLoading" :pagination="pagination" @page-change="onPageChange">
+    <a-table
+      v-model:selected-keys="selectedCargoList"
+      :data="tableData"
+      :columns="cargoColumns"
+      :loading="tableLoading"
+      :pagination="pagination"
+      :row-selection="rowSelection"
+      @page-change="onPageChange"
+    >
       <template #index="{ rowIndex }">
         {{ rowIndex + 1 + (pagination.current - 1) * pagination.pageSize }}
       </template>
@@ -73,29 +81,31 @@
         {{ cargoType[`cargoType.${record.cargoType}`] }}
       </template>
       <template #restTime="{ record }">{{ record.restTime.day }}天{{ record.restTime.hour }}小时</template>
-      <template #isWaitingOut="{ record }">
-        {{ record.isWaitingOut ? '是' : '否' }}
-      </template>
-      <template #location="{ record }">
-        <template v-if="record.location">
-          {{ record.location }}
-        </template>
-        <template v-else>
-          <icon-question-circle-fill />
-          未知
-        </template>
-      </template>
-      <!--      <template #operations="">-->
-      <!--        <a-button :status="'warning'">-->
-      <!--          <template #icon>-->
-      <!--            <icon-check />-->
-      <!--          </template>-->
-      <!--          标记待出库-->
-      <!--        </a-button>-->
+      <!--      <template #isWaitingOut="{ record }">-->
+      <!--        {{ record.isWaitingOut ? '是' : '否' }}-->
       <!--      </template>-->
-      <!--    <template #operations="{ record }">-->
-      <!--    </template>-->
+      <template #storageLocation="{ record }">
+        <a-button @click="handleCargoLocQuery(record.uuid)">
+          <template #icon>
+            <icon-search />
+          </template>
+          查询
+        </a-button>
+      </template>
     </a-table>
+    <a-space />
+    <a-button
+      :status="selectedCargoList.length > 0 ? 'success' : 'normal'"
+      :disabled="selectedCargoList.length === 0"
+      long
+      @click="handleSubmitOrder"
+    >
+      <template v-if="selectedCargoList.length > 0" #icon>
+        <icon-check />
+      </template>
+      <template v-if="selectedCargoList.length === 0">请选择订单货物</template>
+      <template v-else>已选{{ selectedCargoList.length }}件，确认并提交订单</template>
+    </a-button>
   </div>
 </template>
 
@@ -103,7 +113,7 @@
 import { Message, Modal } from '@arco-design/web-vue'
 import { nextTick, reactive, ref } from 'vue'
 import type { Pagination } from '@/types/global'
-import { cargoQueryLocation, warehouseQueryAllCargo } from '@/api/list'
+import {cargoQueryLocation, warehouseOrderCreate, warehouseQueryAllCargo} from '@/api/list'
 import cargoType from '@/api/enums/cargoType'
 
 const props = defineProps({
@@ -160,15 +170,14 @@ const cargoColumns = [
     dataIndex: 'restTime',
     slotName: 'restTime',
   },
-  {
-    title: '等待出库',
-    dataIndex: 'isWaitingOut',
-    slotName: 'isWaitingOut',
-  },
+  // {
+  //   title: '等待出库',
+  //   dataIndex: 'isWaitingOut',
+  //   slotName: 'isWaitingOut',
+  // },
   {
     title: '存储位置',
-    dataIndex: 'location',
-    slotName: 'location',
+    slotName: 'storageLocation',
   },
 ]
 
@@ -190,6 +199,7 @@ const fetchData = async () => {
       uuid: queryStruct.uuid,
       filterType: queryStruct.filterType,
       cargoName: queryStruct.cargoName,
+      excludeOut: true,
     }
     const { data } = await warehouseQueryAllCargo(params)
     tableData.splice(0, tableData.length, ...data.list)
@@ -233,11 +243,49 @@ const handleCargoLocQuery = async (cargoUUID: string) => {
     tableLoading.value = false
   }
 }
+
+const rowSelection = reactive({
+  type: 'checkbox',
+  showCheckedAll: true,
+  onlyCurrent: false,
+})
+const selectedCargoList = ref([])
+const modalOkLoading = ref(false)
+const handleSubmitOrder = () => {
+  Modal.confirm({
+    title: '提交订单',
+    content: `您共选择了${selectedCargoList.value.length}件货物。确定提交订单吗？`,
+    onBeforeOk: () => {
+      return submitOrder()
+    },
+    okLoading: modalOkLoading.value,
+  })
+}
+
+const submitOrder = async () => {
+  modalOkLoading.value = true
+  let status = true
+  try {
+    const { data } = await warehouseOrderCreate({
+      warehouseId: props.warehouseId,
+      cargoList: selectedCargoList.value,
+    })
+    Message.success(`创建订单${data.orderId}，共包含${data.orderLength}件货物，${data.failCount}件货物添加失败`)
+  } catch {
+    Message.error('提交订单时发生错误')
+    status = false
+  } finally {
+    selectedCargoList.value.splice(0, selectedCargoList.value.length)
+    modalOkLoading.value = false
+    await fetchData()
+  }
+  return status
+}
 </script>
 
 <script lang="ts">
 export default {
-  name: 'StorageTotalView',
+  name: 'CreateOrder',
 }
 </script>
 
