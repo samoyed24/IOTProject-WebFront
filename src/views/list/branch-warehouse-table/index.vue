@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Breadcrumb :items="['menu.list', 'menu.list.branchWarehouseTable']" />
+    <Breadcrumb :items="['库房管理', '库房管理']" />
     <a-card class="general-card" :title="$t('menu.list.branchWarehouseTable')">
       <a-row>
         <a-col :flex="1">
@@ -16,31 +16,31 @@
                   <a-input v-model="formModel.name" placeholder="请输入仓库名称" />
                 </a-form-item>
               </a-col>
-<!--              <a-col :span="8">-->
-<!--                <a-form-item field="storage" label="存货量">-->
-<!--                  <a-input-number v-model="formModel.storage" placeholder="请输入仓库存货量" />-->
-<!--                </a-form-item>-->
-<!--              </a-col>-->
-<!--              <a-col :span="12">-->
-<!--                <a-form-item field="temperature" label="温度">-->
-<!--                  <a-form-item field="lower" label="下限">-->
-<!--                    <a-input-number v-model="formModel.temperature_lower" placeholder="请输入温度下限" />-->
-<!--                  </a-form-item>-->
-<!--                  <a-form-item field="upper" label="上限">-->
-<!--                    <a-input-number v-model="formModel.temperature_upper" placeholder="请输入温度上限" />-->
-<!--                  </a-form-item>-->
-<!--                </a-form-item>-->
-<!--              </a-col>-->
-<!--              <a-col :span="12">-->
-<!--                <a-form-item field="humidity" label="湿度">-->
-<!--                  <a-form-item field="lower" label="下限">-->
-<!--                    <a-input-number v-model="formModel.humidity_lower" placeholder="请输入湿度下限" />-->
-<!--                  </a-form-item>-->
-<!--                  <a-form-item field="upper" label="上限">-->
-<!--                    <a-input-number v-model="formModel.humidity_upper" placeholder="请输入湿度上限" />-->
-<!--                  </a-form-item>-->
-<!--                </a-form-item>-->
-<!--              </a-col>-->
+              <!--              <a-col :span="8">-->
+              <!--                <a-form-item field="storage" label="存货量">-->
+              <!--                  <a-input-number v-model="formModel.storage" placeholder="请输入仓库存货量" />-->
+              <!--                </a-form-item>-->
+              <!--              </a-col>-->
+              <!--              <a-col :span="12">-->
+              <!--                <a-form-item field="temperature" label="温度">-->
+              <!--                  <a-form-item field="lower" label="下限">-->
+              <!--                    <a-input-number v-model="formModel.temperature_lower" placeholder="请输入温度下限" />-->
+              <!--                  </a-form-item>-->
+              <!--                  <a-form-item field="upper" label="上限">-->
+              <!--                    <a-input-number v-model="formModel.temperature_upper" placeholder="请输入温度上限" />-->
+              <!--                  </a-form-item>-->
+              <!--                </a-form-item>-->
+              <!--              </a-col>-->
+              <!--              <a-col :span="12">-->
+              <!--                <a-form-item field="humidity" label="湿度">-->
+              <!--                  <a-form-item field="lower" label="下限">-->
+              <!--                    <a-input-number v-model="formModel.humidity_lower" placeholder="请输入湿度下限" />-->
+              <!--                  </a-form-item>-->
+              <!--                  <a-form-item field="upper" label="上限">-->
+              <!--                    <a-input-number v-model="formModel.humidity_upper" placeholder="请输入湿度上限" />-->
+              <!--                  </a-form-item>-->
+              <!--                </a-form-item>-->
+              <!--              </a-col>-->
             </a-row>
           </a-form>
         </a-col>
@@ -66,28 +66,35 @@
       <a-row style="margin-bottom: 16px">
         <a-col :span="12">
           <a-space>
-            <a-button type="primary">
+            <a-button
+              type="primary"
+              @click="
+                () => {
+                  router.push('/warehouse/warehouse-create')
+                }
+              "
+            >
               <template #icon>
                 <icon-plus />
               </template>
               {{ $t('branchWarehouseTable.operation.create') }}
             </a-button>
-            <a-upload action="/">
-              <template #upload-button>
-                <a-button>
-                  {{ $t('branchWarehouseTable.operation.import') }}
-                </a-button>
-              </template>
-            </a-upload>
+            <!--            <a-upload action="/">-->
+            <!--              <template #upload-button>-->
+            <!--                <a-button>-->
+            <!--                  {{ $t('branchWarehouseTable.operation.import') }}-->
+            <!--                </a-button>-->
+            <!--              </template>-->
+            <!--            </a-upload>-->
           </a-space>
         </a-col>
         <a-col :span="12" style="display: flex; align-items: center; justify-content: end">
-          <a-button>
-            <template #icon>
-              <icon-download />
-            </template>
-            {{ $t('branchWarehouseTable.operation.download') }}
-          </a-button>
+          <!--          <a-button>-->
+          <!--            <template #icon>-->
+          <!--              <icon-download />-->
+          <!--            </template>-->
+          <!--            {{ $t('branchWarehouseTable.operation.download') }}-->
+          <!--          </a-button>-->
           <a-tooltip :content="$t('branchWarehouseTable.actions.refresh')">
             <div class="action-icon" @click="search"><icon-refresh size="18" /></div>
           </a-tooltip>
@@ -101,26 +108,26 @@
               </a-doption>
             </template>
           </a-dropdown>
-          <a-tooltip :content="$t('branchWarehouseTable.actions.columnSetting')">
-            <a-popover trigger="click" position="bl" @popup-visible-change="popupVisibleChange">
-              <div class="action-icon"><icon-settings size="18" /></div>
-              <template #content>
-                <div id="tableSetting">
-                  <div v-for="(item, index) in showColumns" :key="item.dataIndex" class="setting">
-                    <div style="margin-right: 4px; cursor: move">
-                      <icon-drag-arrow />
-                    </div>
-                    <div>
-                      <a-checkbox v-model="item.checked" @change="handleChange($event, item as TableColumnData, index)"></a-checkbox>
-                    </div>
-                    <div class="title">
-                      {{ item.title === '#' ? '序列号' : item.title }}
-                    </div>
-                  </div>
-                </div>
-              </template>
-            </a-popover>
-          </a-tooltip>
+          <!--          <a-tooltip :content="$t('branchWarehouseTable.actions.columnSetting')">-->
+          <!--            <a-popover trigger="click" position="bl" @popup-visible-change="popupVisibleChange">-->
+          <!--              <div class="action-icon"><icon-settings size="18" /></div>-->
+          <!--              <template #content>-->
+          <!--                <div id="tableSetting">-->
+          <!--                  <div v-for="(item, index) in showColumns" :key="item.dataIndex" class="setting">-->
+          <!--                    <div style="margin-right: 4px; cursor: move">-->
+          <!--                      <icon-drag-arrow />-->
+          <!--                    </div>-->
+          <!--                    <div>-->
+          <!--                      <a-checkbox v-model="item.checked" @change="handleChange($event, item as TableColumnData, index)"></a-checkbox>-->
+          <!--                    </div>-->
+          <!--                    <div class="title">-->
+          <!--                      {{ item.title === '#' ? '序列号' : item.title }}-->
+          <!--                    </div>-->
+          <!--                  </div>-->
+          <!--                </div>-->
+          <!--              </template>-->
+          <!--            </a-popover>-->
+          <!--          </a-tooltip>-->
         </a-col>
       </a-row>
       <a-table
@@ -146,14 +153,10 @@
         </template>
         <template #storage>
           <!--          todo 按钮待实现-->
-          <a-button type="secondary" size="small">
-            查询
-          </a-button>
+          <a-button type="secondary" size="small">查询</a-button>
         </template>
         <template #operations="{ record }">
-          <a-button type="primary" size="small" @click="handleWarehouseSetting(record.id, record.name, 4)">
-            控制面板
-          </a-button>
+          <a-button type="primary" size="small" @click="handleWarehouseSetting(record.id, record.name, 4)">控制面板</a-button>
           <a-button type="secondary" status="success" size="small" @click="handleWarehouseSetting(record.id, record.name, 2)">
             {{ $t('branchWarehouseTable.columns.operations.monitor') }}
           </a-button>
@@ -172,13 +175,7 @@
           >
             管理人员设置
           </a-button>
-          <a-button
-            type="primary"
-            size="small"
-            @click="redirectToDigitalTwins(record.id)"
-          >
-            数字孪生
-          </a-button>
+          <a-button type="primary" size="small" @click="redirectToDigitalTwins(record.id)">数字孪生</a-button>
         </template>
       </a-table>
     </a-card>
@@ -191,7 +188,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Message } from "@arco-design/web-vue"
+import { Message } from '@arco-design/web-vue'
 import { queryWarehouses, type PolicyParams, type PolicyRecord } from '@/api/list'
 import useLoading from '@/hooks/loading'
 import { type Pagination } from '@/types/global'
@@ -206,8 +203,8 @@ import Sortable from 'sortablejs'
 import { computed, nextTick, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
+import router from '@/router'
 import WarehouseSetting from './components/warehouse-setting/warehouse-setting.vue'
-
 
 type SizeProps = 'mini' | 'small' | 'medium' | 'large'
 type Column = TableColumnData & { checked?: true }
@@ -389,7 +386,6 @@ watch(
 const redirectToDigitalTwins = (warehouseId: number) => {
   window.open(`https://52.184.68.16:8080/?warehouse_id=${warehouseId}`)
 }
-
 </script>
 
 <script lang="ts">

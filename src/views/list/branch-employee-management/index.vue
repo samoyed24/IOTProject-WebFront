@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Breadcrumb :items="['menu.list', 'menu.list.branchEmployeeManagement']" />
+    <Breadcrumb :items="['分支管理', '分支员工列表']" />
     <a-card class="general-card" :title="$t('menu.list.branchEmployeeManagement')">
       <a-row>
         <a-col :flex="1">
@@ -73,7 +73,7 @@
               type="primary"
               @click="
                 () => {
-                  router.push('/form/branch-employee-add')
+                  router.push('/management/branch-employee-add')
                 }
               "
             >

@@ -19,7 +19,7 @@ const CARGO: AppRouteRecordRaw = {
       meta: {
         locale: '货物模板创建',
         requiresAuth: true,
-        icon: 'icon-copy',
+        icon: 'icon-plus',
         roles: ['branch-admin'],
       },
     },

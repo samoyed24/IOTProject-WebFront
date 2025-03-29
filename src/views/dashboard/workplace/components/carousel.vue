@@ -13,6 +13,7 @@
 import workplace1 from '@/assets/images/workplace_1.png'
 import workplace2 from '@/assets/images/workplace_2.png'
 import workplace3 from '@/assets/images/workplace_3.png'
+import workplace4 from '@/assets/images/workplace_4.png'
 
 const imageSrc = [
   // '//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/5cc3cd1d994b7ef9db6a1f619a22addd.jpg~tplv-49unhts6dw-image.image',
@@ -23,5 +24,6 @@ const imageSrc = [
   workplace1,
   workplace2,
   workplace3,
+  workplace4,
 ]
 </script>

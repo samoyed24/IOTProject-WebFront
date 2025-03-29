@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Breadcrumb :items="['menu.list', 'menu.list.branchTemplateTable']" />
+    <Breadcrumb :items="['货物管理', '货物模板管理']" />
     <a-card class="general-card" :title="$t('menu.list.branchTemplateTable')">
       <a-row>
         <a-col :flex="1">
@@ -74,7 +74,7 @@
               type="primary"
               @click="
                 () => {
-                  router.push('/form/branch-template-create')
+                  router.push('/cargo/branch-template-create')
                 }
               "
             >
@@ -93,12 +93,12 @@
           </a-space>
         </a-col>
         <a-col :span="12" style="display: flex; align-items: center; justify-content: end">
-          <a-button>
-            <template #icon>
-              <icon-download />
-            </template>
-            {{ $t('branchTemplateTable.operation.download') }}
-          </a-button>
+<!--          <a-button>-->
+<!--            <template #icon>-->
+<!--              <icon-download />-->
+<!--            </template>-->
+<!--            {{ $t('branchTemplateTable.operation.download') }}-->
+<!--          </a-button>-->
           <a-tooltip :content="$t('branchTemplateTable.actions.refresh')">
             <div class="action-icon" @click="search"><icon-refresh size="18" /></div>
           </a-tooltip>
@@ -112,26 +112,26 @@
               </a-doption>
             </template>
           </a-dropdown>
-          <a-tooltip :content="$t('branchTemplateTable.actions.columnSetting')">
-            <a-popover trigger="click" position="bl" @popup-visible-change="popupVisibleChange">
-              <div class="action-icon"><icon-settings size="18" /></div>
-              <template #content>
-                <div id="tableSetting">
-                  <div v-for="(item, index) in showColumns" :key="item.dataIndex" class="setting">
-                    <div style="margin-right: 4px; cursor: move">
-                      <icon-drag-arrow />
-                    </div>
-                    <div>
-                      <a-checkbox v-model="item.checked" @change="handleChange($event, item as TableColumnData, index)"></a-checkbox>
-                    </div>
-                    <div class="title">
-                      {{ item.title === '#' ? '序列号' : item.title }}
-                    </div>
-                  </div>
-                </div>
-              </template>
-            </a-popover>
-          </a-tooltip>
+<!--          <a-tooltip :content="$t('branchTemplateTable.actions.columnSetting')">-->
+<!--            <a-popover trigger="click" position="bl" @popup-visible-change="popupVisibleChange">-->
+<!--              <div class="action-icon"><icon-settings size="18" /></div>-->
+<!--              <template #content>-->
+<!--                <div id="tableSetting">-->
+<!--                  <div v-for="(item, index) in showColumns" :key="item.dataIndex" class="setting">-->
+<!--                    <div style="margin-right: 4px; cursor: move">-->
+<!--                      <icon-drag-arrow />-->
+<!--                    </div>-->
+<!--                    <div>-->
+<!--                      <a-checkbox v-model="item.checked" @change="handleChange($event, item as TableColumnData, index)"></a-checkbox>-->
+<!--                    </div>-->
+<!--                    <div class="title">-->
+<!--                      {{ item.title === '#' ? '序列号' : item.title }}-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </template>-->
+<!--            </a-popover>-->
+<!--          </a-tooltip>-->
         </a-col>
       </a-row>
       <a-table

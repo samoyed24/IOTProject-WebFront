@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Breadcrumb :items="['menu.list', 'menu.list.cargoQuery']" />
+    <Breadcrumb :items="['货物管理', '货物流转记录']" />
     <a-card class="general-card" :title="$t('menu.list.cargoQuery')">
       <a-row>
         <a-col :flex="1">

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Breadcrumb :items="['menu.list', 'menu.list.branchDeviceTable']" />
+    <Breadcrumb :items="['设备管理', '设备管理']" />
     <a-card class="general-card" :title="$t('menu.list.branchDeviceTable')">
       <a-row>
         <a-col :flex="1">
@@ -63,29 +63,29 @@
       <a-divider style="margin-top: 0" />
       <a-row style="margin-bottom: 16px">
         <a-col :span="12">
-          <a-space>
-            <a-button type="primary">
-              <template #icon>
-                <icon-plus />
-              </template>
-              {{ $t('branchDeviceTable.operation.create') }}
-            </a-button>
-            <a-upload action="/">
-              <template #upload-button>
-                <a-button>
-                  {{ $t('branchDeviceTable.operation.import') }}
-                </a-button>
-              </template>
-            </a-upload>
-          </a-space>
+<!--          <a-space>-->
+<!--            <a-button type="primary">-->
+<!--              <template #icon>-->
+<!--                <icon-plus />-->
+<!--              </template>-->
+<!--              {{ $t('branchDeviceTable.operation.create') }}-->
+<!--            </a-button>-->
+<!--            <a-upload action="/">-->
+<!--              <template #upload-button>-->
+<!--                <a-button>-->
+<!--                  {{ $t('branchDeviceTable.operation.import') }}-->
+<!--                </a-button>-->
+<!--              </template>-->
+<!--            </a-upload>-->
+<!--          </a-space>-->
         </a-col>
         <a-col :span="12" style="display: flex; align-items: center; justify-content: end">
-          <a-button>
-            <template #icon>
-              <icon-download />
-            </template>
-            {{ $t('branchDeviceTable.operation.download') }}
-          </a-button>
+<!--          <a-button>-->
+<!--            <template #icon>-->
+<!--              <icon-download />-->
+<!--            </template>-->
+<!--            {{ $t('branchDeviceTable.operation.download') }}-->
+<!--          </a-button>-->
           <a-tooltip :content="$t('branchDeviceTable.actions.refresh')">
             <div class="action-icon" @click="search"><icon-refresh size="18" /></div>
           </a-tooltip>
@@ -99,26 +99,26 @@
               </a-doption>
             </template>
           </a-dropdown>
-          <a-tooltip :content="$t('branchDeviceTable.actions.columnSetting')">
-            <a-popover trigger="click" position="bl" @popup-visible-change="popupVisibleChange">
-              <div class="action-icon"><icon-settings size="18" /></div>
-              <template #content>
-                <div id="tableSetting">
-                  <div v-for="(item, index) in showColumns" :key="item.dataIndex" class="setting">
-                    <div style="margin-right: 4px; cursor: move">
-                      <icon-drag-arrow />
-                    </div>
-                    <div>
-                      <a-checkbox v-model="item.checked" @change="handleChange($event, item as TableColumnData, index)"></a-checkbox>
-                    </div>
-                    <div class="title">
-                      {{ item.title === '#' ? '序列号' : item.title }}
-                    </div>
-                  </div>
-                </div>
-              </template>
-            </a-popover>
-          </a-tooltip>
+<!--          <a-tooltip :content="$t('branchDeviceTable.actions.columnSetting')">-->
+<!--            <a-popover trigger="click" position="bl" @popup-visible-change="popupVisibleChange">-->
+<!--              <div class="action-icon"><icon-settings size="18" /></div>-->
+<!--              <template #content>-->
+<!--                <div id="tableSetting">-->
+<!--                  <div v-for="(item, index) in showColumns" :key="item.dataIndex" class="setting">-->
+<!--                    <div style="margin-right: 4px; cursor: move">-->
+<!--                      <icon-drag-arrow />-->
+<!--                    </div>-->
+<!--                    <div>-->
+<!--                      <a-checkbox v-model="item.checked" @change="handleChange($event, item as TableColumnData, index)"></a-checkbox>-->
+<!--                    </div>-->
+<!--                    <div class="title">-->
+<!--                      {{ item.title === '#' ? '序列号' : item.title }}-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </template>-->
+<!--            </a-popover>-->
+<!--          </a-tooltip>-->
         </a-col>
       </a-row>
       <a-table
@@ -166,11 +166,11 @@
           <icon-close-circle-fill v-else style="color: red" />
           {{ $t(`branchDeviceTable.form.is_warehouse_bound.${record.is_warehouse_bound}`) }}
         </template>
-        <template #operations>
-          <a-button v-permission="['admin']" type="text" size="small">
-            {{ $t('branchDeviceTable.columns.operations.view') }}
-          </a-button>
-        </template>
+<!--        <template #operations>-->
+<!--          <a-button v-permission="['admin']" type="text" size="small">-->
+<!--            {{ $t('branchDeviceTable.columns.operations.view') }}-->
+<!--          </a-button>-->
+<!--        </template>-->
       </a-table>
     </a-card>
   </div>
@@ -273,11 +273,11 @@ const columns = computed<TableColumnData[]>(() => [
     dataIndex: 'is_warehouse_bound',
     slotName: 'is_warehouse_bound',
   },
-  {
-    title: t('branchDeviceTable.columns.operations'),
-    dataIndex: 'operations',
-    slotName: 'operations',
-  },
+  // {
+  //   title: t('branchDeviceTable.columns.operations'),
+  //   dataIndex: 'operations',
+  //   slotName: 'operations',
+  // },
 ])
 const deviceTypeOptions = computed<SelectOptionData[]>(() => [
   {

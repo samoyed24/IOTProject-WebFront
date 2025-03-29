@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Breadcrumb :items="['menu.form', 'menu.form.step']" />
+    <Breadcrumb :items="['分支管理', '分支员工添加']" />
     <a-spin :loading="loading" style="width: 100%">
       <a-card class="general-card">
         <template #title>
