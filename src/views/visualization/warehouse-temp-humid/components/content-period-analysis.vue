@@ -15,6 +15,7 @@ import useLoading from '@/hooks/loading'
 import { queryContentPeriodAnalysis, queryWarehouseTemphumid, type WarehouseDevice } from '@/api/visualization'
 import { type ToolTipFormatterParams } from '@/types/echarts'
 import useChartOption from '@/hooks/chart-option'
+import { Message } from "@arco-design/web-vue";
 
 const tooltipItemsHtmlString = (items: ToolTipFormatterParams[]) => {
   return items
@@ -130,13 +131,13 @@ const fetchData = async () => {
     const { data: chartData } = await queryWarehouseTemphumid(params)
     xAxis.value = chartData.xAxis
 
-      if (el.name === '温度') {
-        temperatureData.value = el.value
-      } else if (el.name === '湿度') {
-        humidityData.value = el.value
-      }
-    })
+    if (el.name === '温度') {
+      temperatureData.value = el.value
+    } else if (el.name === '湿度') {
+      humidityData.value = el.value
+    }
   } catch (err) {
+    Message.error(err)
     // you can report use errorHandler or other
   } finally {
     setLoading(false)

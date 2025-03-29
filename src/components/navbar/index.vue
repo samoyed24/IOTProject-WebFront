@@ -10,45 +10,45 @@
       </a-space>
     </div>
     <ul class="right-side">
-      <li>
-        <a-tooltip :content="$t('settings.search')">
-          <a-button class="nav-btn" type="outline" :shape="'circle'">
-            <template #icon>
-              <icon-search />
-            </template>
-          </a-button>
-        </a-tooltip>
-      </li>
-      <li>
-        <a-tooltip :content="$t('settings.language')">
-          <a-button class="nav-btn" type="outline" :shape="'circle'" @click="setDropDownVisible">
-            <template #icon>
-              <icon-language />
-            </template>
-          </a-button>
-        </a-tooltip>
-        <a-dropdown trigger="click" @select="changeLocale as any">
-          <div ref="triggerBtn" class="trigger-btn"></div>
-          <template #content>
-            <a-doption v-for="item in locales" :key="item.value" :value="item.value">
-              <template #icon>
-                <icon-check v-show="item.value === currentLocale" />
-              </template>
-              {{ item.label }}
-            </a-doption>
-          </template>
-        </a-dropdown>
-      </li>
-      <li>
-        <a-tooltip :content="theme === 'light' ? $t('settings.navbar.theme.toDark') : $t('settings.navbar.theme.toLight')">
-          <a-button class="nav-btn" type="outline" :shape="'circle'" @click="handleToggleTheme">
-            <template #icon>
-              <icon-moon-fill v-if="theme === 'dark'" />
-              <icon-sun-fill v-else />
-            </template>
-          </a-button>
-        </a-tooltip>
-      </li>
+<!--      <li>-->
+<!--        <a-tooltip :content="$t('settings.search')">-->
+<!--          <a-button class="nav-btn" type="outline" :shape="'circle'">-->
+<!--            <template #icon>-->
+<!--              <icon-search />-->
+<!--            </template>-->
+<!--          </a-button>-->
+<!--        </a-tooltip>-->
+<!--      </li>-->
+<!--      <li>-->
+<!--        <a-tooltip :content="$t('settings.language')">-->
+<!--          <a-button class="nav-btn" type="outline" :shape="'circle'" @click="setDropDownVisible">-->
+<!--            <template #icon>-->
+<!--              <icon-language />-->
+<!--            </template>-->
+<!--          </a-button>-->
+<!--        </a-tooltip>-->
+<!--        <a-dropdown trigger="click" @select="changeLocale as any">-->
+<!--          <div ref="triggerBtn" class="trigger-btn"></div>-->
+<!--          <template #content>-->
+<!--            <a-doption v-for="item in locales" :key="item.value" :value="item.value">-->
+<!--              <template #icon>-->
+<!--                <icon-check v-show="item.value === currentLocale" />-->
+<!--              </template>-->
+<!--              {{ item.label }}-->
+<!--            </a-doption>-->
+<!--          </template>-->
+<!--        </a-dropdown>-->
+<!--      </li>-->
+<!--      <li>-->
+<!--        <a-tooltip :content="theme === 'light' ? $t('settings.navbar.theme.toDark') : $t('settings.navbar.theme.toLight')">-->
+<!--          <a-button class="nav-btn" type="outline" :shape="'circle'" @click="handleToggleTheme">-->
+<!--            <template #icon>-->
+<!--              <icon-moon-fill v-if="theme === 'dark'" />-->
+<!--              <icon-sun-fill v-else />-->
+<!--            </template>-->
+<!--          </a-button>-->
+<!--        </a-tooltip>-->
+<!--      </li>-->
       <li>
         <a-tooltip :content="$t('settings.navbar.alerts')">
           <div class="message-box-trigger">
@@ -81,75 +81,75 @@
           </a-button>
         </a-tooltip>
       </li>
-      <li>
-        <a-tooltip :content="$t('settings.title')">
-          <a-button class="nav-btn" type="outline" :shape="'circle'" @click="setVisible">
-            <template #icon>
-              <icon-settings />
-            </template>
-          </a-button>
-        </a-tooltip>
-      </li>
+<!--      <li>-->
+<!--        <a-tooltip :content="$t('settings.title')">-->
+<!--          <a-button class="nav-btn" type="outline" :shape="'circle'" @click="setVisible">-->
+<!--            <template #icon>-->
+<!--              <icon-settings />-->
+<!--            </template>-->
+<!--          </a-button>-->
+<!--        </a-tooltip>-->
+<!--      </li>-->
       <li>
         <a-dropdown trigger="click">
           <a-avatar :size="32" :style="{ marginRight: '8px' }">
             <img alt="avatar" :src="avatar" />
           </a-avatar>
           <template #content>
-            <a-doption>
-              <a-space @click="switchGit">
-                <icon-github />
-                <span>开源地址</span>
-              </a-space>
-            </a-doption>
-            <a-doption>
-              <a-space @click="switchRoles">
-                <icon-tag />
-                <span>
-                  {{ $t('messageBox.switchRoles') }}
-                </span>
-              </a-space>
-            </a-doption>
-            <a-doption>
-              <a-space @click="$router.push({ name: 'info' })">
-                <icon-user />
-                <span>
-                  {{ $t('messageBox.userCenter') }}
-                </span>
-              </a-space>
-            </a-doption>
-            <a-doption>
-              <a-space @click="$router.push({ name: 'setting' })">
-                <icon-settings />
-                <span>
-                  {{ $t('messageBox.userSettings') }}
-                </span>
-              </a-space>
-            </a-doption>
-            <a-doption>
-              <a-space @click="open('/shop-vite')">
-                <icon-tag />
-                <span>shop vite 付费版本</span>
-              </a-space>
-            </a-doption>
-            <a-doption>
-              <a-space @click="open('/admin-plus')">
-                <icon-tag />
-                <span>admin plus 付费版本</span>
-              </a-space>
-            </a-doption>
-            <a-doption>
-              <a-space @click="open('/admin-pro')">
-                <icon-tag />
-                <span>admin pro 付费版本</span>
-              </a-space>
-            </a-doption>
-            <a-doption>
-              <a-space @click="open('/vue-admin-better')">
-                <icon-tag />
-                <span>admin better 开源版</span>
-              </a-space>
-            </a-doption>
+<!--            <a-doption>-->
+<!--              <a-space @click="switchGit">-->
+<!--                <icon-github />-->
+<!--                <span>开源地址</span>-->
+<!--              </a-space>-->
+<!--            </a-doption>-->
+<!--            <a-doption>-->
+<!--              <a-space @click="switchRoles">-->
+<!--                <icon-tag />-->
+<!--                <span>-->
+<!--                  {{ $t('messageBox.switchRoles') }}-->
+<!--                </span>-->
+<!--              </a-space>-->
+<!--            </a-doption>-->
+<!--            <a-doption>-->
+<!--              <a-space @click="$router.push({ name: 'info' })">-->
+<!--                <icon-user />-->
+<!--                <span>-->
+<!--                  {{ $t('messageBox.userCenter') }}-->
+<!--                </span>-->
+<!--              </a-space>-->
+<!--            </a-doption>-->
+<!--            <a-doption>-->
+<!--              <a-space @click="$router.push({ name: 'setting' })">-->
+<!--                <icon-settings />-->
+<!--                <span>-->
+<!--                  {{ $t('messageBox.userSettings') }}-->
+<!--                </span>-->
+<!--              </a-space>-->
+<!--            </a-doption>-->
+<!--            <a-doption>-->
+<!--              <a-space @click="open('/shop-vite')">-->
+<!--                <icon-tag />-->
+<!--                <span>shop vite 付费版本</span>-->
+<!--              </a-space>-->
+<!--            </a-doption>-->
+<!--            <a-doption>-->
+<!--              <a-space @click="open('/admin-plus')">-->
+<!--                <icon-tag />-->
+<!--                <span>admin plus 付费版本</span>-->
+<!--              </a-space>-->
+<!--            </a-doption>-->
+<!--            <a-doption>-->
+<!--              <a-space @click="open('/admin-pro')">-->
+<!--                <icon-tag />-->
+<!--                <span>admin pro 付费版本</span>-->
+<!--              </a-space>-->
+<!--            </a-doption>-->
+<!--            <a-doption>-->
+<!--              <a-space @click="open('/vue-admin-better')">-->
+<!--                <icon-tag />-->
+<!--                <span>admin better 开源版</span>-->
+<!--              </a-space>-->
+<!--            </a-doption>-->
             <a-doption>
               <a-space @click="handleLogout">
                 <icon-export />
@@ -185,7 +185,7 @@ const { changeLocale, currentLocale }: any = useLocale()
 const { isFullscreen, toggle: toggleFullScreen } = useFullscreen()
 const locales = [...LOCALE_OPTIONS]
 const avatar = computed(() => {
-  return userStore.avatar
+  return 'https://th.bing.com/th/id/R.2e4a52126f09800d89085ec106ec3a47?rik=fQBLEP%2fl2ooYtA&riu=http%3a%2f%2fgetdrawings.com%2ffree-icon%2fperson-icon-clipart-68.png&ehk=vrkNnhbm5RlhnUMq7n9uGNGMx9KLuciISaZMmV%2bye7E%3d&risl=&pid=ImgRaw&r=0'
 })
 const theme = computed(() => {
   return appStore.theme

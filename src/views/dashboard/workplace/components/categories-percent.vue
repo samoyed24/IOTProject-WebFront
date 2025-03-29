@@ -8,7 +8,7 @@
       }"
     >
       <template #title>
-        {{ $t('workplace.categoriesPercent') }}
+        库存类型占比
       </template>
       <Chart height="310px" :option="chartOption" />
     </a-card>
@@ -18,15 +18,26 @@
 <script lang="ts" setup>
 import useLoading from '@/hooks/loading'
 import useChartOption from '@/hooks/chart-option'
+import {reactive} from "vue";
+import {branchQueryTypeStatistics} from "@/api/dashboard";
 
-const { loading } = useLoading()
+const statistics = reactive({
+  totalCargo: 0,
+  vegetable: 0,
+  meat: 0,
+  snack: 0,
+  medicine: 0,
+  other: 0,
+})
+
+const { loading } = useLoading(true)
 const { chartOption } = useChartOption((isDark) => {
   // echarts support https://echarts.apache.org/zh/theme-builder.html
   // It's not used here
   return {
     legend: {
       left: 'center',
-      data: ['纯文本', '图文类', '视频类'],
+      data: ['果蔬', '肉类', '冷藏零食', '医药用品', '其他'],
       bottom: 0,
       icon: 'circle',
       itemWidth: 8,
@@ -48,7 +59,7 @@ const { chartOption } = useChartOption((isDark) => {
           left: 'center',
           top: '40%',
           style: {
-            text: '内容量',
+            text: '货物总数',
             textAlign: 'center',
             fill: isDark ? '#ffffffb3' : '#4E5969',
             fontSize: 14,
@@ -59,7 +70,7 @@ const { chartOption } = useChartOption((isDark) => {
           left: 'center',
           top: '50%',
           style: {
-            text: '928,531',
+            text: statistics.totalCargo,
             textAlign: 'center',
             fill: isDark ? '#ffffffb3' : '#1D2129',
             fontSize: 16,
@@ -84,24 +95,38 @@ const { chartOption } = useChartOption((isDark) => {
         },
         data: [
           {
-            value: [148564],
-            name: '纯文本',
+            value: [statistics.vegetable],
+            name: '果蔬',
             itemStyle: {
               color: isDark ? '#3D72F6' : '#249EFF',
             },
           },
           {
-            value: [334271],
-            name: '图文类',
+            value: [statistics.meat],
+            name: '肉类',
             itemStyle: {
               color: isDark ? '#A079DC' : '#313CA9',
             },
           },
           {
-            value: [445694],
-            name: '视频类',
+            value: [statistics.medicine],
+            name: '医药用品',
             itemStyle: {
               color: isDark ? '#6CAAF5' : '#21CCFF',
+            },
+          },
+          {
+            value: [statistics.snack],
+            name: '冷藏零食',
+            itemStyle: {
+              color: isDark ? '#2E9FA3' : '#18B0C8',
+            },
+          },
+          {
+            value: [statistics.other],
+            name: '其他',
+            itemStyle: {
+              color: isDark ? '#2C5DAA' : '#2068D6',
             },
           },
         ],
@@ -109,6 +134,20 @@ const { chartOption } = useChartOption((isDark) => {
     ],
   }
 })
+
+const fetchData = async () => {
+  loading.value = true
+  try {
+    const { data } = await branchQueryTypeStatistics()
+    Object.assign(statistics, data)
+  } catch {
+    //
+  } finally {
+    loading.value = false
+  }
+}
+
+fetchData()
 </script>
 
 <style scoped lang="less"></style>

@@ -8,7 +8,7 @@
     <div style="margin-bottom: -1rem">
       <a-row :gutter="8">
         <a-col v-for="link in links" :key="link.text" :span="8" class="wrapper">
-          <div class="icon">
+          <div class="icon" @click="handleRouterPush(link.router)">
             <component :is="link.icon" />
           </div>
           <a-typography-paragraph class="text">
@@ -21,20 +21,20 @@
 </template>
 
 <script lang="ts" setup>
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
 const links = [
-  {
-    text: 'workplace.contentManagement',
-    icon: 'icon-storage',
-  },
-  {
-    text: 'workplace.contentStatistical',
-    icon: 'icon-file',
-  },
-  {
-    text: 'workplace.advanced',
-    icon: 'icon-settings',
-  },
+  { text: '库房管理', icon: 'icon-home', router: 'branchWarehouseTable' },
 ]
+
+const handleRouterPush = (name: string) => {
+  // alert(1)
+  router.push({
+    name,
+  })
+}
 </script>
 
 <style lang="less" scoped>

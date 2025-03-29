@@ -4,6 +4,8 @@ export default {
   'cargoQuery.form.uuid.placeholder': '请输入货物唯一标识码',
   'cargoQuery.form.action.create': '创建货物',
   'cargoQuery.form.action.quality': '质检',
+  'cargoQuery.form.action.in_ware': '入库至',
+  'cargoQuery.form.action.out_ware': '出库自',
   'cargoQuery.form.search': '查询',
   'cargoQuery.form.reset': '重置',
   'cargoQuery.form.selectDefault': '全部',

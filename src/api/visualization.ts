@@ -69,7 +69,8 @@ export interface DataOverviewRes {
 
 export interface WarehouseDevice {
   warehouseId: number
-  pastHours: number
+  pastHours ?: number
+  pastDays: number
 }
 
 export interface WarehouseProps {

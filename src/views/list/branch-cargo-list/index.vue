@@ -324,8 +324,8 @@ const handleViewRouter = (uuid: string) => {
   router.push({
     name: 'cargoQuery',
     query: {
-      uuid
-    }
+      uuid,
+    },
   })
 }
 

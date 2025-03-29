@@ -102,11 +102,6 @@
         <template #action="{ record }">
           {{ $t(`cargoQuery.form.action.${record.action}`) }}
         </template>
-        <template #operations>
-          <a-button type="text" size="small">
-            {{ $t('cargoQuery.columns.operations.view') }}
-          </a-button>
-        </template>
       </a-table>
     </a-card>
   </div>
@@ -197,9 +192,8 @@ const columns = computed<TableColumnData[]>(() => [
     slotName: 'action'
   },
   {
-    title: t('cargoQuery.columns.operations'),
-    dataIndex: 'operations',
-    slotName: 'operations',
+    title: '备注',
+    dataIndex: 'addition',
   },
 ])
 

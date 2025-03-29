@@ -172,6 +172,13 @@
           >
             管理人员设置
           </a-button>
+          <a-button
+            type="primary"
+            size="small"
+            @click="redirectToDigitalTwins(record.id)"
+          >
+            数字孪生
+          </a-button>
         </template>
       </a-table>
     </a-card>
@@ -184,6 +191,7 @@
 </template>
 
 <script lang="ts" setup>
+import { Message } from "@arco-design/web-vue"
 import { queryWarehouses, type PolicyParams, type PolicyRecord } from '@/api/list'
 import useLoading from '@/hooks/loading'
 import { type Pagination } from '@/types/global'
@@ -199,6 +207,7 @@ import { computed, nextTick, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import WarehouseSetting from './components/warehouse-setting/warehouse-setting.vue'
+
 
 type SizeProps = 'mini' | 'small' | 'medium' | 'large'
 type Column = TableColumnData & { checked?: true }
@@ -376,6 +385,11 @@ watch(
   },
   { deep: true, immediate: true }
 )
+
+const redirectToDigitalTwins = (warehouseId: number) => {
+  window.open(`https://52.184.68.16:8080/?warehouse_id=${warehouseId}`)
+}
+
 </script>
 
 <script lang="ts">

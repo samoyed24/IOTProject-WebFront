@@ -595,6 +595,7 @@ const fetchChartData = async () => {
   chartOption.series[1].data = humid
   chartShow.value = true
   chartLoading.value = false
+  console.log(chartOption)
 }
 
 fetchChartData()
