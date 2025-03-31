@@ -39,6 +39,10 @@
           未完成
         </div>
       </template>
+      <template #doneTime="{ record }">
+        <span v-if="record.doneTime">{{ record.doneTime }}</span>
+        <span v-else>未完成</span>
+      </template>
       <template #operations="{ record }">
 <!--      <template #operations>-->
         <a-button @click="handleViewDetails(record.id)">查看详情</a-button>
@@ -53,7 +57,7 @@
 import { Message, Modal } from '@arco-design/web-vue'
 import { nextTick, reactive, ref } from 'vue'
 import type { Pagination } from '@/types/global'
-import { cargoQueryLocation, warehouseOrderGetAll, warehouseQueryAllCargo, warehouseQueryAtGateRecords } from '@/api/list'
+import { cargoQueryLocation, warehouseOrderGetAll } from '@/api/list'
 import cargoType from '@/api/enums/cargoType'
 import OrderDetails from '@/views/list/branch-warehouse-table/components/warehouse-storage/components/order-management/order-view/order-details/order-details.vue'
 
@@ -101,6 +105,11 @@ const cargoColumns = [
   {
     title: '订单是否完成',
     slotName: 'orderComplete',
+  },
+  {
+    title: '订单完成时间',
+    dataIndex: 'doneTime',
+    slotName: 'doneTime',
   },
   {
     title: '操作',

@@ -98,14 +98,15 @@ import autoOrder, {
 } from '@/api/warehouse/autoOrder/autoOrder'
 import { Message, Modal } from '@arco-design/web-vue'
 import AutoOrderConfirm from '@/views/list/branch-warehouse-table/components/warehouse-storage/components/order-management/create-automatic/order-request-form/auto-order-confirm.vue'
-import {useRouter} from "vue-router";
-import router from "@/router";
+import { useRouter } from "vue-router";
 
 const props = defineProps({
   warehouseId: {
     type: Number,
   },
 })
+
+const emits = defineEmits(['onOrderSubmitted'])
 
 const requestOn = ref(false)
 const setRequest = (on: boolean) => {
@@ -218,13 +219,20 @@ const handleOrderCheck = async () => {
   }
 }
 
+const afterOrderSubmit = () => {
+  emits('onOrderSubmitted')
+}
+
 const handleConfirmClose = (confirm: boolean) => {
   confirmOn.value = false
   finalOrders.value = []
   if (confirm) {
     orderRequest.value = []
+    afterOrderSubmit()
   }
 }
+
+
 </script>
 
 <script lang="ts">

@@ -7,7 +7,7 @@
     @close="handleClose"
     @cancel="handleClose"
   >
-    <a-tabs :direction="'vertical'">
+    <a-tabs destroy-on-hide :direction="'vertical'">
       <a-tab-pane :key="1">
         <template #title>
           <icon-layers />

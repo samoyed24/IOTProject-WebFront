@@ -262,6 +262,12 @@ const handleSubmitOrder = () => {
   })
 }
 
+const emits = defineEmits(['onOrderSubmitted'])
+
+const afterOrderSubmit = () => {
+  emits('onOrderSubmitted')
+}
+
 const submitOrder = async () => {
   modalOkLoading.value = true
   let status = true
@@ -271,6 +277,7 @@ const submitOrder = async () => {
       cargoList: selectedCargoList.value,
     })
     Message.success(`创建订单${data.orderId}，共包含${data.orderLength}件货物，${data.failCount}件货物添加失败`)
+    afterOrderSubmit()
   } catch {
     Message.error('提交订单时发生错误')
     status = false
@@ -281,6 +288,7 @@ const submitOrder = async () => {
   }
   return status
 }
+
 </script>
 
 <script lang="ts">

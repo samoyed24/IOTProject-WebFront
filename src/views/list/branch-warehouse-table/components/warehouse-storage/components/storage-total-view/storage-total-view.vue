@@ -81,7 +81,7 @@
           {{ record.location }}
         </template>
         <template v-else>
-          <icon-question-circle-fill />
+          <icon-question-circle-fill style="color: gray" />
           未知
         </template>
       </template>

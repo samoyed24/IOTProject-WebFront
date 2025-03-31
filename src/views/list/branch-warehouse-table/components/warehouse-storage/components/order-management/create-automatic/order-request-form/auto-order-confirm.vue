@@ -16,7 +16,7 @@ import { type PropType, ref } from 'vue'
 import { type FinalOrder } from '@/api/warehouse/autoOrder/autoOrder'
 import { Message, Modal } from '@arco-design/web-vue'
 import cargoType from '@/api/enums/cargoType'
-import {warehouseOrderCreate} from "@/api/list";
+import { warehouseOrderCreate } from '@/api/list'
 
 const modalVisible = ref(true)
 

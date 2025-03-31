@@ -489,3 +489,12 @@ export function warehouseOrderDetail(params: any) {
     },
   })
 }
+
+export function branchGetAllOrders(params: any) {
+  return axios.get('dev-api/management/branch-get-all-orders', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
+    },
+  })
+}
