@@ -113,7 +113,7 @@
 import { Message, Modal } from '@arco-design/web-vue'
 import { nextTick, reactive, ref } from 'vue'
 import type { Pagination } from '@/types/global'
-import {cargoQueryLocation, warehouseOrderCreate, warehouseQueryAllCargo} from '@/api/list'
+import { cargoQueryLocation, warehouseOrderCreate, warehouseQueryAllCargo } from '@/api/list'
 import cargoType from '@/api/enums/cargoType'
 
 const props = defineProps({

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <Breadcrumb :items="['分支管理', '分支员工列表']" />
-    <a-card class="general-card" :title="$t('menu.list.branchEmployeeManagement')">
+    <a-card class="general-card" :title="'分支员工列表'">
       <a-row>
         <a-col :flex="1">
           <a-form :model="formModel" :label-col-props="{ span: 6 }" :wrapper-col-props="{ span: 18 }" label-align="left">
@@ -126,26 +126,26 @@
               </a-doption>
             </template>
           </a-dropdown>
-          <a-tooltip :content="$t('branchEmployeeManagement.actions.columnSetting')">
-            <a-popover trigger="click" position="bl" @popup-visible-change="popupVisibleChange">
-              <div class="action-icon"><icon-settings size="18" /></div>
-              <template #content>
-                <div id="tableSetting">
-                  <div v-for="(item, index) in showColumns" :key="item.dataIndex" class="setting">
-                    <div style="margin-right: 4px; cursor: move">
-                      <icon-drag-arrow />
-                    </div>
-                    <div>
-                      <a-checkbox v-model="item.checked" @change="handleChange($event, item as TableColumnData, index)"></a-checkbox>
-                    </div>
-                    <div class="title">
-                      {{ item.title === '#' ? '序列号' : item.title }}
-                    </div>
-                  </div>
-                </div>
-              </template>
-            </a-popover>
-          </a-tooltip>
+<!--          <a-tooltip :content="$t('branchEmployeeManagement.actions.columnSetting')">-->
+<!--            <a-popover trigger="click" position="bl" @popup-visible-change="popupVisibleChange">-->
+<!--              <div class="action-icon"><icon-settings size="18" /></div>-->
+<!--              <template #content>-->
+<!--                <div id="tableSetting">-->
+<!--                  <div v-for="(item, index) in showColumns" :key="item.dataIndex" class="setting">-->
+<!--                    <div style="margin-right: 4px; cursor: move">-->
+<!--                      <icon-drag-arrow />-->
+<!--                    </div>-->
+<!--                    <div>-->
+<!--                      <a-checkbox v-model="item.checked" @change="handleChange($event, item as TableColumnData, index)"></a-checkbox>-->
+<!--                    </div>-->
+<!--                    <div class="title">-->
+<!--                      {{ item.title === '#' ? '序列号' : item.title }}-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </template>-->
+<!--            </a-popover>-->
+<!--          </a-tooltip>-->
         </a-col>
       </a-row>
       <a-table
@@ -299,11 +299,11 @@ const columns = computed<TableColumnData[]>(() => [
     title: t('branchEmployeeManagement.columns.email'),
     dataIndex: 'email',
   },
-  {
-    title: t('branchEmployeeManagement.columns.operations'),
-    dataIndex: 'operations',
-    slotName: 'operations',
-  },
+  // {
+  //   title: t('branchEmployeeManagement.columns.operations'),
+  //   dataIndex: 'operations',
+  //   slotName: 'operations',
+  // },
 ])
 const positionOptions = computed<SelectOptionData[]>(() => [
   {

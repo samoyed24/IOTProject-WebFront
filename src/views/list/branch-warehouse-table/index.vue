@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <Breadcrumb :items="['库房管理', '库房管理']" />
-    <a-card class="general-card" :title="$t('menu.list.branchWarehouseTable')">
+    <a-card class="general-card" title="库房管理">
       <a-row>
         <a-col :flex="1">
           <a-form :model="formModel" :label-col-props="{ span: 6 }" :wrapper-col-props="{ span: 18 }" label-align="left">
@@ -151,37 +151,37 @@
           <template v-if="record.humidity.lower">{{ record.humidity.lower }} ~ {{ record.humidity.upper }}</template>
           <template v-else>未设置</template>
         </template>
-        <template #storage>
-          <!--          todo 按钮待实现-->
-          <a-button type="secondary" size="small">查询</a-button>
-        </template>
+<!--        <template #storage>-->
+<!--          <a-button type="secondary" size="small">查询</a-button>-->
+<!--        </template>-->
         <template #operations="{ record }">
-          <a-button type="primary" size="small" @click="handleWarehouseSetting(record.id, record.name, 4)">控制面板</a-button>
           <a-button type="secondary" status="success" size="small" @click="handleWarehouseSetting(record.id, record.name, 2)">
             {{ $t('branchWarehouseTable.columns.operations.monitor') }}
           </a-button>
           <a-button type="secondary" status="success" size="small" @click="handleWarehouseSetting(record.id, record.name, 5)">
             库存与订单
           </a-button>
-          <a-button type="secondary" status="success" size="small" @click="handleWarehouseSetting(record.id, record.name, 1)">
+          <a-button type="secondary" status="warning" size="small" @click="handleWarehouseSetting(record.id, record.name, 4)">控制面板</a-button>
+
+          <a-button type="secondary" status="warning" size="small" @click="handleWarehouseSetting(record.id, record.name, 1)">
             {{ $t('branchWarehouseTable.columns.operations.setting') }}
           </a-button>
-          <a-button
-            v-permission="['branch-admin']"
-            type="secondary"
-            status="warning"
-            size="small"
-            @click="handleWarehouseSetting(record.id, record.name, 3)"
-          >
-            管理人员设置
-          </a-button>
+<!--          <a-button-->
+<!--            v-permission="['branch-admin']"-->
+<!--            type="secondary"-->
+<!--            status="warning"-->
+<!--            size="small"-->
+<!--            @click="handleWarehouseSetting(record.id, record.name, 3)"-->
+<!--          >-->
+<!--            管理人员设置-->
+<!--          </a-button>-->
           <a-button type="primary" size="small" @click="redirectToDigitalTwins(record.id)">数字孪生</a-button>
         </template>
       </a-table>
     </a-card>
     <warehouse-setting v-if="drawerKey === 1" :warehouse-props="drawerCompProps" @close-event="drawerKey = 0" />
     <warehouse-monitor v-if="drawerKey === 2" :warehouse-props="drawerCompProps" @close-event="drawerKey = 0" />
-    <warehouse-admin-setting v-if="drawerKey === 3" :warehouse-props="drawerCompProps" @close-event="drawerKey = 0" />
+<!--    <warehouse-admin-setting v-if="drawerKey === 3" :warehouse-props="drawerCompProps" @close-event="drawerKey = 0" />-->
     <warehouse-storage v-if="drawerKey == 5" :warehouse-props="drawerCompProps" @close-event="drawerKey = 0" />
     <control-panel v-if="drawerKey === 4" :warehouse-props="drawerCompProps" @close-event="drawerKey = 0" />
   </div>
@@ -196,7 +196,7 @@ import WarehouseMonitor from '@/views/list/branch-warehouse-table/components/war
 import type { SelectOptionData } from '@arco-design/web-vue/es/select/interface'
 import type { TableColumnData } from '@arco-design/web-vue/es/table/interface'
 import ControlPanel from '@/views/list/branch-warehouse-table/components/control-panel/index.vue'
-import WarehouseAdminSetting from '@/views/list/branch-warehouse-table/components/warehouse-admin-setting.vue'
+import WarehouseAdminSetting from '@/views/list/branch-warehouse-table/components/warehouse-setting/warehouse-admin-setting.vue'
 import WarehouseStorage from '@/views/list/branch-warehouse-table/components/warehouse-storage/warehouse-storage.vue'
 import cloneDeep from 'lodash/cloneDeep'
 import Sortable from 'sortablejs'
@@ -279,7 +279,11 @@ const columns = computed<TableColumnData[]>(() => [
     slotName: 'humidity',
   },
   {
-    title: t('branchWarehouseTable.columns.storage'),
+    title: '存货量(件)',
+    dataIndex: 'currentCargo',
+  },
+  {
+    title: '最大容量(件)',
     dataIndex: 'storage',
     slotName: 'storage',
   },

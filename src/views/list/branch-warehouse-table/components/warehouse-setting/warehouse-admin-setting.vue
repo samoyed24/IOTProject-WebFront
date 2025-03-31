@@ -1,31 +1,31 @@
 <template>
-  <a-drawer
-    width="50%"
-    :visible="drawerVisible"
-    :title="`${props.warehouseProps.warehouseName} - 管理人员设置`"
-    unmount-on-close
-    @cancel="handleDrawerClose"
-  >
-    <a-form-item label="添加人员">
-      <a-auto-complete
-        v-model="searchContent"
-        :data="employeeData"
-        placeholder="请输入手机号进行添加，支持姓名/手机号/邮箱模糊搜索"
-        @search="handleSearch"
-      />
+  <!--  <a-drawer-->
+  <!--    width="50%"-->
+  <!--    :visible="drawerVisible"-->
+  <!--    :title="`${props.warehouseProps.warehouseName} - 管理人员设置`"-->
+  <!--    unmount-on-close-->
+  <!--    @cancel="handleDrawerClose"-->
+  <!--  >-->
+  <a-form-item label="添加人员">
+    <a-auto-complete
+      v-model="searchContent"
+      :data="employeeData"
+      placeholder="请输入手机号进行添加，支持姓名/手机号/邮箱模糊搜索"
+      @search="handleSearch"
+    />
 
-      <a-button type="primary" :loading="addLoading" @click="handleAddAdmin">
-        <template #icon><icon-user-add /></template>
-      </a-button>
-    </a-form-item>
-    <a-table :columns="tableColumns" :data="tableData" :loading="tableLoading">
-      <template #operations="{ record }">
-        <a-popconfirm content="确认？" :popup-visible="popUpVisible" @ok="handleCancelAdmin(record.id)">
-          <a-button type="secondary" status="danger" size="small" :loading="cancelButtonLoading == record.id">取消</a-button>
-        </a-popconfirm>
-      </template>
-    </a-table>
-  </a-drawer>
+    <a-button type="primary" :loading="addLoading" @click="handleAddAdmin">
+      <template #icon><icon-user-add /></template>
+    </a-button>
+  </a-form-item>
+  <a-table :columns="tableColumns" :data="tableData" :loading="tableLoading">
+    <template #operations="{ record }">
+      <a-popconfirm content="确认？" :popup-visible="popUpVisible" @ok="handleCancelAdmin(record.id)">
+        <a-button type="secondary" status="danger" size="small" :loading="cancelButtonLoading == record.id">取消</a-button>
+      </a-popconfirm>
+    </template>
+  </a-table>
+  <!--  </a-drawer>-->
 </template>
 
 <script setup lang="ts">

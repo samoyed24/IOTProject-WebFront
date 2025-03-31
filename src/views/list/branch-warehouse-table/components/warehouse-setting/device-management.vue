@@ -42,12 +42,12 @@
       </template>
       添加设备
     </a-button>
-    <a-button :long="true" type="primary" status="success">
-      <template #icon>
-        <icon-refresh></icon-refresh>
-      </template>
-      同步设备
-    </a-button>
+<!--    <a-button :long="true" type="primary" status="success">-->
+<!--      <template #icon>-->
+<!--        <icon-refresh></icon-refresh>-->
+<!--      </template>-->
+<!--      同步设备-->
+<!--    </a-button>-->
     <a-modal
       title="添加设备"
       :visible="modalVisible"

@@ -3,9 +3,7 @@
     <Breadcrumb :items="['库房管理', '库房注册']" />
     <a-spin :loading="loading" style="width: 100%">
       <a-card class="general-card">
-        <template #title>
-          {{ $t('warehouseCreate.step.title') }}
-        </template>
+        <template #title>库房注册</template>
         <div class="wrapper">
           <a-steps v-model:current="step" style="width: 580px" line-less class="steps">
             <a-step :description="$t('warehouseCreate.step.subTitle.baseInfo')">

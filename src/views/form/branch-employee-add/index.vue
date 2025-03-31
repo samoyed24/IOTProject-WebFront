@@ -4,7 +4,7 @@
     <a-spin :loading="loading" style="width: 100%">
       <a-card class="general-card">
         <template #title>
-          {{ $t('branchEmployeeAdd.step.title') }}
+          分支员工添加
         </template>
         <div class="wrapper">
           <a-steps v-model:current="step" style="width: 580px" line-less class="steps">

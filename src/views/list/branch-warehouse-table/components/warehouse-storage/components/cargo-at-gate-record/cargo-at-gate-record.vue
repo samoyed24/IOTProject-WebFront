@@ -14,7 +14,16 @@
       </template>
       刷新
     </a-button>
-    <a-table :data="tableData" :columns="cargoColumns" :loading="tableLoading" :pagination="pagination" @page-change="onPageChange">
+    <a-table
+      :data="tableData"
+      :columns="cargoColumns"
+      :loading="tableLoading"
+      :pagination="pagination"
+      :scrollbar="true"
+      :scroll="{ x: 0, y: 300 }"
+      column-resizable
+      @page-change="onPageChange"
+    >
       <template #index="{ rowIndex }">
         {{ rowIndex + 1 + (pagination.current - 1) * pagination.pageSize }}
       </template>
@@ -59,10 +68,12 @@ const cargoColumns = [
     title: '#',
     dataIndex: 'index',
     slotName: 'index',
+    width: 100,
   },
   {
     title: '货物唯一标识码',
     dataIndex: 'uuid',
+    width: 400,
   },
   {
     title: '货物名称',

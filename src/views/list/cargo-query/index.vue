@@ -33,76 +33,83 @@
         </a-col>
       </a-row>
       <a-divider style="margin-top: 0" />
-      <a-row style="margin-bottom: 16px">
-        <a-col :span="12">
-        </a-col>
-        <a-col :span="12" style="display: flex; align-items: center; justify-content: end">
-          <a-button>
-            <template #icon>
-              <icon-download />
-            </template>
-            {{ $t('cargoQuery.operation.download') }}
-          </a-button>
-          <a-tooltip :content="$t('cargoQuery.actions.refresh')">
-            <div class="action-icon" @click="search"><icon-refresh size="18" /></div>
-          </a-tooltip>
-          <a-dropdown @select="handleSelectDensity">
-            <a-tooltip :content="$t('cargoQuery.actions.density')">
-              <div class="action-icon"><icon-line-height size="18" /></div>
+      <div v-if="formModel.uuid">
+        <a-row style="margin-bottom: 16px">
+          <a-col :span="12">
+          </a-col>
+          <a-col :span="12" style="display: flex; align-items: center; justify-content: end">
+            <a-button>
+              <template #icon>
+                <icon-download />
+              </template>
+              {{ $t('cargoQuery.operation.download') }}
+            </a-button>
+            <a-tooltip :content="$t('cargoQuery.actions.refresh')">
+              <div class="action-icon" @click="search"><icon-refresh size="18" /></div>
             </a-tooltip>
-            <template #content>
-              <a-doption v-for="item in densityList" :key="item.value" :value="item.value" :class="{ active: item.value === size }">
-                <span>{{ item.name }}</span>
-              </a-doption>
-            </template>
-          </a-dropdown>
-          <a-tooltip :content="$t('cargoQuery.actions.columnSetting')">
-            <a-popover trigger="click" position="bl" @popup-visible-change="popupVisibleChange">
-              <div class="action-icon"><icon-settings size="18" /></div>
+            <a-dropdown @select="handleSelectDensity">
+              <a-tooltip :content="$t('cargoQuery.actions.density')">
+                <div class="action-icon"><icon-line-height size="18" /></div>
+              </a-tooltip>
               <template #content>
-                <div id="tableSetting">
-                  <div v-for="(item, index) in showColumns" :key="item.dataIndex" class="setting">
-                    <div style="margin-right: 4px; cursor: move">
-                      <icon-drag-arrow />
-                    </div>
-                    <div>
-                      <a-checkbox v-model="item.checked" @change="handleChange($event, item as TableColumnData, index)"></a-checkbox>
-                    </div>
-                    <div class="title">
-                      {{ item.title === '#' ? '序列号' : item.title }}
+                <a-doption v-for="item in densityList" :key="item.value" :value="item.value" :class="{ active: item.value === size }">
+                  <span>{{ item.name }}</span>
+                </a-doption>
+              </template>
+            </a-dropdown>
+            <a-tooltip :content="$t('cargoQuery.actions.columnSetting')">
+              <a-popover trigger="click" position="bl" @popup-visible-change="popupVisibleChange">
+                <div class="action-icon"><icon-settings size="18" /></div>
+                <template #content>
+                  <div id="tableSetting">
+                    <div v-for="(item, index) in showColumns" :key="item.dataIndex" class="setting">
+                      <div style="margin-right: 4px; cursor: move">
+                        <icon-drag-arrow />
+                      </div>
+                      <div>
+                        <a-checkbox v-model="item.checked" @change="handleChange($event, item as TableColumnData, index)"></a-checkbox>
+                      </div>
+                      <div class="title">
+                        {{ item.title === '#' ? '序列号' : item.title }}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </template>
-            </a-popover>
-          </a-tooltip>
-        </a-col>
-      </a-row>
-      <a-table
-        row-key="id"
-        :loading="loading"
-        :pagination="pagination"
-        :columns="cloneColumns as TableColumnData[]"
-        :data="renderData"
-        :bordered="false"
-        :size="size"
-        @page-change="onPageChange"
-      >
-        <template #index="{ rowIndex }">
-          {{ rowIndex + 1 + (pagination.current - 1) * pagination.pageSize }}
+                </template>
+              </a-popover>
+            </a-tooltip>
+          </a-col>
+        </a-row>
+        <a-table
+            row-key="id"
+            :loading="loading"
+            :pagination="pagination"
+            :columns="cloneColumns as TableColumnData[]"
+            :data="renderData"
+            :bordered="false"
+            :size="size"
+            @page-change="onPageChange"
+        >
+          <template #index="{ rowIndex }">
+            {{ rowIndex + 1 + (pagination.current - 1) * pagination.pageSize }}
+          </template>
+          <!--        <template #contentType="{ record }">-->
+          <!--          <a-space>-->
+          <!--            {{ $t(`cargoQuery.form.contentType.${record.contentType}`) }}-->
+          <!--          </a-space>-->
+          <!--        </template>-->
+          <!--        <template #filterType="{ record }">-->
+          <!--          {{ $t(`cargoQuery.form.filterType.${record.filterType}`) }}-->
+          <!--        </template>-->
+          <template #action="{ record }">
+            {{ $t(`cargoQuery.form.action.${record.action}`) }}
+          </template>
+        </a-table>
+      </div>
+      <a-result v-else :status="null" title="请在上方输入货物唯一标识码" subtitle="点击查询键进行货物流转记录查询">
+        <template #icon>
+          <icon-search />
         </template>
-<!--        <template #contentType="{ record }">-->
-<!--          <a-space>-->
-<!--            {{ $t(`cargoQuery.form.contentType.${record.contentType}`) }}-->
-<!--          </a-space>-->
-<!--        </template>-->
-<!--        <template #filterType="{ record }">-->
-<!--          {{ $t(`cargoQuery.form.filterType.${record.filterType}`) }}-->
-<!--        </template>-->
-        <template #action="{ record }">
-          {{ $t(`cargoQuery.form.action.${record.action}`) }}
-        </template>
-      </a-table>
+      </a-result>
     </a-card>
   </div>
 </template>

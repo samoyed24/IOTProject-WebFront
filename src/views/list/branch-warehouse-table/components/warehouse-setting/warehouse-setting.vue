@@ -37,6 +37,13 @@
         </template>
         <storage-management :warehouse-id="warehouseProps.warehouseId"></storage-management>
       </a-tab-pane>
+      <a-tab-pane :key="5">
+        <template #title>
+          <icon-user />
+          管理人员设置
+        </template>
+        <warehouse-admin-setting :warehouse-props="warehouseProps" />
+      </a-tab-pane>
 <!--      <a-tab-pane :key="5">-->
 <!--        <template #title>-->
 <!--          <icon-archive></icon-archive>-->
@@ -57,6 +64,7 @@
 import { defineEmits, defineProps, ref } from 'vue'
 import { Modal } from '@arco-design/web-vue'
 
+import WarehouseAdminSetting from '@/views/list/branch-warehouse-table/components/warehouse-setting/warehouse-admin-setting.vue'
 import BasicParameters from './basic-parameters.vue'
 import DeviceManagement from './device-management.vue'
 import SafetyManagement from './safety-management.vue'

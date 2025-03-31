@@ -4,7 +4,7 @@
     <a-spin :loading="loading" style="width: 100%">
       <a-card class="general-card">
         <template #title>
-          {{ $t('branchTemplateCreateForm.branchTemplateCreate.title') }}
+          货物模板创建
         </template>
         <div class="wrapper">
           <a-steps v-model:current="branchTemplateCreate" style="width: 580px" line-less class="steps">

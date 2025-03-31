@@ -18,133 +18,135 @@
             <a-select v-model="selectedDeviceId" :options="devices" :loading="deviceSelectLoading" @change="fetchShadow"></a-select>
           </a-form-item>
         </a-form>
-        <div v-if="selectedDeviceId">
-          <a-row justify="center" :gutter="[12, 30]">
-            <a-col :span="12" flex="20%"></a-col>
-            <a-col :span="12" flex="auto">
-              <a-spin :loading="statLoading">
-                <!--            <icon-info size="20px" />-->
-                <a-statistic title="实时温度" :value="tempHumid.Temperature / 10" :precision="1">
-                  <!--                  <template #title></template>-->
-                  <template #suffix>°C</template>
+        <a-scrollbar v-if="selectedDeviceId" style="height: 450px; width: 100%; overflow: auto">
+          <div style="height: 450px; width: 99%">
+            <a-row justify="center" :gutter="[12, 30]">
+              <a-col :span="12" flex="20%"></a-col>
+              <a-col :span="12" flex="auto">
+                <a-spin :loading="statLoading">
+                  <!--            <icon-info size="20px" />-->
+                  <a-statistic title="实时温度" :value="tempHumid.Temperature / 10" :precision="1">
+                    <!--                  <template #title></template>-->
+                    <template #suffix>°C</template>
+                  </a-statistic>
+                </a-spin>
+              </a-col>
+              <a-col :span="12" flex="auto">
+                <a-spin :loading="statLoading">
+                  <!--            <icon-info size="20px" />-->
+                  <a-statistic title="实时湿度" :value="tempHumid.Humidity / 10" :precision="1">
+                    <template #suffix>%</template>
+                  </a-statistic>
+                </a-spin>
+              </a-col>
+              <!--            <a-col :span="12" flex="auto">-->
+              <!--              <a-spin :loading="statLoading">-->
+              <!--                &lt;!&ndash;            <icon-info size="20px" />&ndash;&gt;-->
+              <!--                <a-statistic title="风扇转速" :value="tempHumid.fanSpeed">-->
+              <!--                  <template #suffix>转/分</template>-->
+              <!--                </a-statistic>-->
+              <!--              </a-spin>-->
+              <!--            </a-col>-->
+            </a-row>
+            <a-row justify="center" :gutter="[12, 30]">
+              <a-col :span="12" flex="20%"></a-col>
+              <a-col :span="12" flex="auto">
+                <a-spin :loading="statLoading">
+                  <!--            <icon-info size="20px" />-->
+                  <a-statistic title="热端风扇转速" :value="tempHumid.HotFanSpeed">
+                    <template #suffix>转/分</template>
+                  </a-statistic>
+                </a-spin>
+              </a-col>
+              <a-col :span="12" flex="auto">
+                <a-spin :loading="statLoading">
+                  <!--            <icon-info size="20px" />-->
+                  <a-statistic title="冷端风扇转速" :value="tempHumid.ColdFanSpeed">
+                    <template #suffix>转/分</template>
+                  </a-statistic>
+                </a-spin>
+              </a-col>
+            </a-row>
+            <a-row justify="center" :gutter="[12, 30]">
+              <a-col :span="12" flex="10%"></a-col>
+              <a-col :span="12" flex="auto">
+                <a-statistic title="冷端风扇强度系数" :value="tempHumid.ColdFanFactor / 100" :precision="2" />
+              </a-col>
+              <a-col :span="12" flex="auto">
+                <a-statistic title="热端风扇强度系数" :value="tempHumid.HotFanFactor / 100" :precision="2" />
+              </a-col>
+              <a-col :span="12" flex="auto">
+                <a-statistic title="制冷强度系数" :value="tempHumid.ColdIntensityFactor / 100" :precision="2" />
+              </a-col>
+            </a-row>
+            <a-row justify="center" :gutter="[12, 30]">
+              <a-col :span="12" flex="10%"></a-col>
+              <a-col :span="12" flex="auto">
+                <a-statistic title="照明系统">
+                  <template #extra>
+                    <div v-if="tempHumid.LightOn">
+                      <div style="font-size: x-large">已开启</div>
+                    </div>
+                    <div v-else>
+                      <div style="font-size: x-large">未开启</div>
+                    </div>
+                  </template>
                 </a-statistic>
-              </a-spin>
-            </a-col>
-            <a-col :span="12" flex="auto">
-              <a-spin :loading="statLoading">
-                <!--            <icon-info size="20px" />-->
-                <a-statistic title="实时湿度" :value="tempHumid.Humidity / 10" :precision="1">
-                  <template #suffix>%</template>
+              </a-col>
+              <a-col :span="12" flex="auto">
+                <a-statistic title="加湿装置">
+                  <template #extra>
+                    <div v-if="tempHumid.WaterOn">
+                      <div style="font-size: x-large">已开启</div>
+                    </div>
+                    <div v-else>
+                      <div style="font-size: x-large">未开启</div>
+                    </div>
+                  </template>
                 </a-statistic>
-              </a-spin>
-            </a-col>
-            <!--            <a-col :span="12" flex="auto">-->
-            <!--              <a-spin :loading="statLoading">-->
-            <!--                &lt;!&ndash;            <icon-info size="20px" />&ndash;&gt;-->
-            <!--                <a-statistic title="风扇转速" :value="tempHumid.fanSpeed">-->
-            <!--                  <template #suffix>转/分</template>-->
-            <!--                </a-statistic>-->
-            <!--              </a-spin>-->
-            <!--            </a-col>-->
-          </a-row>
-          <a-row justify="center" :gutter="[12, 30]">
-            <a-col :span="12" flex="20%"></a-col>
-            <a-col :span="12" flex="auto">
-              <a-spin :loading="statLoading">
-                <!--            <icon-info size="20px" />-->
-                <a-statistic title="热端风扇转速" :value="tempHumid.HotFanSpeed">
-                  <template #suffix>转/分</template>
+              </a-col>
+              <a-col :span="12" flex="auto">
+                <a-statistic title="新风系统">
+                  <template #extra>
+                    <div v-if="tempHumid.WindOn">
+                      <div style="font-size: x-large">已开启</div>
+                    </div>
+                    <div v-else>
+                      <div style="font-size: x-large">未开启</div>
+                    </div>
+                  </template>
                 </a-statistic>
-              </a-spin>
-            </a-col>
-            <a-col :span="12" flex="auto">
-              <a-spin :loading="statLoading">
-                <!--            <icon-info size="20px" />-->
-                <a-statistic title="冷端风扇转速" :value="tempHumid.ColdFanSpeed">
-                  <template #suffix>转/分</template>
-                </a-statistic>
-              </a-spin>
-            </a-col>
-          </a-row>
-          <a-row justify="center" :gutter="[12, 30]">
-            <a-col :span="12" flex="10%"></a-col>
-            <a-col :span="12" flex="auto">
-              <a-statistic title="冷端风扇强度系数" :value="tempHumid.ColdFanFactor / 100" :precision="2" />
-            </a-col>
-            <a-col :span="12" flex="auto">
-              <a-statistic title="热端风扇强度系数" :value="tempHumid.HotFanFactor / 100" :precision="2" />
-            </a-col>
-            <a-col :span="12" flex="auto">
-              <a-statistic title="制冷强度系数" :value="tempHumid.ColdIntensityFactor / 100" :precision="2" />
-            </a-col>
-          </a-row>
-          <a-row justify="center" :gutter="[12, 30]">
-            <a-col :span="12" flex="10%"></a-col>
-            <a-col :span="12" flex="auto">
-              <a-statistic title="照明系统">
-                <template #extra>
-                  <div v-if="tempHumid.LightOn">
-                    <div style="font-size: x-large">已开启</div>
-                  </div>
-                  <div v-else>
-                    <div style="font-size: x-large">未开启</div>
-                  </div>
-                </template>
-              </a-statistic>
-            </a-col>
-            <a-col :span="12" flex="auto">
-              <a-statistic title="加湿装置">
-                <template #extra>
-                  <div v-if="tempHumid.WaterOn">
-                    <div style="font-size: x-large">已开启</div>
-                  </div>
-                  <div v-else>
-                    <div style="font-size: x-large">未开启</div>
-                  </div>
-                </template>
-              </a-statistic>
-            </a-col>
-            <a-col :span="12" flex="auto">
-              <a-statistic title="新风系统">
-                <template #extra>
-                  <div v-if="tempHumid.WindOn">
-                    <div style="font-size: x-large">已开启</div>
-                  </div>
-                  <div v-else>
-                    <div style="font-size: x-large">未开启</div>
-                  </div>
-                </template>
-              </a-statistic>
-            </a-col>
-            <!--            <a-col :span="12" flex="auto">-->
-            <!--              <a-statistic title="冷端风扇强度系数" :value="tempHumid.ColdFanFactor" :precision="2" />-->
-            <!--            </a-col>-->
-          </a-row>
-          <a-row justify="center" :gutter="[12, 30]">
-            <a-statistic title="最后更新时间" :value="tempHumid.event_time" format="YYYY-MM-DD HH:mm:ss"></a-statistic>
-          </a-row>
-          <div style="margin-top: 30px; display: flex; flex-direction: row; align-items: center; justify-content: center">
-            <a-radio-group v-model="timeSelect" type="button" @update:model-value="fetchChartData">
-              <a-radio :value="0.016">1分钟</a-radio>
-              <a-radio :value="0.083">5分钟</a-radio>
-              <a-radio :value="0.333">20分钟</a-radio>
-              <a-radio :value="2">2小时</a-radio>
-              <a-radio :value="6">6小时</a-radio>
-              <a-radio :value="12">12小时</a-radio>
-              <a-radio :value="24">24小时</a-radio>
-              <a-radio :value="72">3天</a-radio>
-              <a-radio :value="168">7天</a-radio>
-            </a-radio-group>
+              </a-col>
+              <!--            <a-col :span="12" flex="auto">-->
+              <!--              <a-statistic title="冷端风扇强度系数" :value="tempHumid.ColdFanFactor" :precision="2" />-->
+              <!--            </a-col>-->
+            </a-row>
+            <a-row justify="center" :gutter="[12, 30]">
+              <a-statistic title="最后更新时间" :value="tempHumid.event_time" format="YYYY-MM-DD HH:mm:ss"></a-statistic>
+            </a-row>
+            <div style="margin-top: 30px; display: flex; flex-direction: row; align-items: center; justify-content: center">
+              <a-radio-group v-model="timeSelect" type="button" @update:model-value="fetchChartData">
+                <a-radio :value="0.016">1分钟</a-radio>
+                <a-radio :value="0.083">5分钟</a-radio>
+                <a-radio :value="0.333">20分钟</a-radio>
+                <a-radio :value="2">2小时</a-radio>
+                <a-radio :value="6">6小时</a-radio>
+                <a-radio :value="12">12小时</a-radio>
+                <a-radio :value="24">24小时</a-radio>
+                <a-radio :value="72">3天</a-radio>
+                <a-radio :value="168">7天</a-radio>
+              </a-radio-group>
 
-            <a-switch v-model="autoChartUpdate">
-              <template #unchecked>自动更新关闭</template>
-              <template #checked>自动更新开启</template>
-            </a-switch>
+              <a-switch v-model="autoChartUpdate">
+                <template #unchecked>自动更新关闭</template>
+                <template #checked>自动更新开启</template>
+              </a-switch>
+            </div>
+            <a-spin :loading="chartLoading" style="width: 100%">
+              <Chart v-if="chartShow" ref="chartInstance" :options="chartOption" height="400px"></Chart>
+            </a-spin>
           </div>
-          <a-spin :loading="chartLoading" style="width: 100%">
-            <Chart v-if="chartShow" ref="chartInstance" :options="chartOption" height="400px"></Chart>
-          </a-spin>
-        </div>
+        </a-scrollbar>
         <a-result v-else status="404" subtitle="暂未选择设备" />
       </a-tab-pane>
       <a-tab-pane :key="2">
@@ -153,129 +155,132 @@
           <!--            </icon-clock-circle>-->
           事件记录
         </template>
-        <a-card class="general-card" title="">
-          <a-row>
-            <a-col :flex="1">
-              <a-form :model="formModel" :label-col-props="{ span: 6 }" :wrapper-col-props="{ span: 18 }" label-align="left">
-                <a-row :gutter="16">
-                  <a-col :span="8">
-                    <a-form-item field="is_resolved" label="状态">
-                      <a-select v-model="formModel.is_resolved" placeholder="事件是否解决" @change="search">
-                        <a-option :value="true">完成</a-option>
-                        <a-option :value="false">未解决</a-option>
-                      </a-select>
-                    </a-form-item>
-                  </a-col>
-                  <a-col :span="8">
-                    <a-form-item field="level" label="等级">
-                      <a-select v-model="formModel.level" placeholder="事件等级" @change="search">
-                        <a-option :value="0">
-                          <template #icon>
-                            <icon-info-circle-fill style="color: gray"></icon-info-circle-fill>
-                          </template>
-                          一般事件
-                        </a-option>
-                        <a-option :value="1">
-                          <template #icon>
-                            <icon-info-circle-fill style="color: #0040bf"></icon-info-circle-fill>
-                          </template>
-                          提醒事件
-                        </a-option>
-                        <a-option :value="2">
-                          <template #icon>
-                            <icon-info-circle-fill style="color: orange"></icon-info-circle-fill>
-                          </template>
-                          警告事件
-                        </a-option>
-                        <a-option :value="3">
-                          <template #icon>
-                            <icon-info-circle-fill style="color: red"></icon-info-circle-fill>
-                          </template>
-                          严重事件
-                        </a-option>
-                      </a-select>
-                    </a-form-item>
-                  </a-col>
-                  <a-col :span="8">
-                    <a-form-item field="title" label="类型">
-                      <a-select v-model="formModel.title" placeholder="事件类型" @change="search">
-                        <a-option>库房环境预警</a-option>
-                        <a-option>库房安全预警</a-option>
-                        <a-option>库房参数改变</a-option>
-                      </a-select>
-                    </a-form-item>
-                  </a-col>
-                </a-row>
-              </a-form>
-            </a-col>
-            <a-divider style="height: 40px" direction="vertical" />
-            <a-col :span="12" :flex="'40px'" style="text-align: right">
-              <a-button @click="reset">
-                <template #icon>
-                  <icon-refresh />
-                </template>
-                {{ $t('branchWarehouseTable.form.reset') }}
-              </a-button>
-              <!-- <a-tooltip :content="$t('branchWarehouseTable.actions.refresh')">
+        <!--        <a-card title="">-->
+        <a-row>
+          <a-col :flex="1">
+            <a-form :model="formModel" :label-col-props="{ span: 6 }" :wrapper-col-props="{ span: 18 }" label-align="left">
+              <a-row :gutter="16">
+                <a-col :span="8">
+                  <a-form-item field="is_resolved" label="状态">
+                    <a-select v-model="formModel.is_resolved" placeholder="事件是否解决" @change="search">
+                      <a-option :value="true">完成</a-option>
+                      <a-option :value="false">未解决</a-option>
+                    </a-select>
+                  </a-form-item>
+                </a-col>
+                <a-col :span="8">
+                  <a-form-item field="level" label="等级">
+                    <a-select v-model="formModel.level" placeholder="事件等级" @change="search">
+                      <a-option :value="0">
+                        <template #icon>
+                          <icon-info-circle-fill style="color: gray"></icon-info-circle-fill>
+                        </template>
+                        一般事件
+                      </a-option>
+                      <a-option :value="1">
+                        <template #icon>
+                          <icon-info-circle-fill style="color: #0040bf"></icon-info-circle-fill>
+                        </template>
+                        提醒事件
+                      </a-option>
+                      <a-option :value="2">
+                        <template #icon>
+                          <icon-info-circle-fill style="color: orange"></icon-info-circle-fill>
+                        </template>
+                        警告事件
+                      </a-option>
+                      <a-option :value="3">
+                        <template #icon>
+                          <icon-info-circle-fill style="color: red"></icon-info-circle-fill>
+                        </template>
+                        严重事件
+                      </a-option>
+                    </a-select>
+                  </a-form-item>
+                </a-col>
+                <a-col :span="8">
+                  <a-form-item field="title" label="类型">
+                    <a-select v-model="formModel.title" placeholder="事件类型" @change="search">
+                      <a-option>库房环境预警</a-option>
+                      <a-option>库房安全预警</a-option>
+                      <a-option>库房参数改变</a-option>
+                    </a-select>
+                  </a-form-item>
+                </a-col>
+              </a-row>
+            </a-form>
+          </a-col>
+          <a-divider style="height: 40px" direction="vertical" />
+          <a-col :span="12" :flex="'40px'" style="text-align: right">
+            <a-button @click="reset">
+              <template #icon>
+                <icon-refresh />
+              </template>
+              {{ $t('branchWarehouseTable.form.reset') }}
+            </a-button>
+            <!-- <a-tooltip :content="$t('branchWarehouseTable.actions.refresh')">
                 <div class="action-icon" @click="search"><icon-refresh size="18" /></div>
               </a-tooltip> -->
-            </a-col>
-          </a-row>
-          <a-table
-            row-key="id"
-            :loading="loading"
-            :pagination="pagination"
-            :columns="cloneColumns as TableColumnData[]"
-            :data="renderData"
-            :bordered="false"
-            size="medium"
-            @page-change="onPageChange"
-          >
-            <template #name-filter="{ filterValue, setFilterValue, handleFilterConfirm, handleFilterReset }">
-              <div class="custom-filter">
-                <a-space direction="vertical">
-                  <a-input :model-value="filterValue[0]" @input="(value: any) => setFilterValue([value])" />
-                  <div class="custom-filter-footer">
-                    <a-button @click="handleFilterConfirm">Confirm</a-button>
-                    <a-button @click="handleFilterReset">Reset</a-button>
-                  </div>
-                </a-space>
-              </div>
+          </a-col>
+        </a-row>
+        <a-table
+          row-key="id"
+          :loading="loading"
+          :pagination="pagination"
+          :columns="cloneColumns as TableColumnData[]"
+          :data="renderData"
+          :bordered="false"
+          :scrollbar="true"
+          :scroll="{ y: 400 }"
+          column-resize
+          size="medium"
+          @page-change="onPageChange"
+        >
+          <template #name-filter="{ filterValue, setFilterValue, handleFilterConfirm, handleFilterReset }">
+            <div class="custom-filter">
+              <a-space direction="vertical">
+                <a-input :model-value="filterValue[0]" @input="(value: any) => setFilterValue([value])" />
+                <div class="custom-filter-footer">
+                  <a-button @click="handleFilterConfirm">Confirm</a-button>
+                  <a-button @click="handleFilterReset">Reset</a-button>
+                </div>
+              </a-space>
+            </div>
+          </template>
+          <template #level="{ record }">
+            <template v-if="record.level == 0">
+              <icon-info-circle-fill style="color: gray" />
+              一般事件
             </template>
-            <template #level="{ record }">
-              <template v-if="record.level == 0">
-                <icon-info-circle-fill style="color: gray" />
-                一般事件
-              </template>
-              <template v-else-if="record.level == 1">
-                <icon-info-circle-fill style="color: #0040bf" />
-                提醒事件
-              </template>
-              <template v-else-if="record.level == 2">
-                <icon-info-circle-fill style="color: orange" />
-                警告事件
-              </template>
-              <template v-else-if="record.level == 3">
-                <icon-info-circle-fill style="color: red" />
-                严重事件
-              </template>
+            <template v-else-if="record.level == 1">
+              <icon-info-circle-fill style="color: #0040bf" />
+              提醒事件
             </template>
-            <template #is_resolved="{ record }">
-              <template v-if="!record.is_resolved">
-                <icon-question-circle-fill />
-                未解决
-              </template>
-              <template v-else>
-                <icon-check-circle-fill style="color: green" />
-                完成
-              </template>
+            <template v-else-if="record.level == 2">
+              <icon-info-circle-fill style="color: orange" />
+              警告事件
             </template>
-            <template #operations="{ record }">
-              <a-button v-if="!record.is_resolved" type="text" @click="handleResolveMark(record.id)">标记解决</a-button>
-              <a-button v-else type="text" :disabled="record.level < 2" @click="handleShowDetails(record.id)">详情</a-button>
+            <template v-else-if="record.level == 3">
+              <icon-info-circle-fill style="color: red" />
+              严重事件
             </template>
-          </a-table>
-        </a-card>
+          </template>
+          <template #is_resolved="{ record }">
+            <template v-if="!record.is_resolved">
+              <icon-question-circle-fill />
+              未解决
+            </template>
+            <template v-else>
+              <icon-check-circle-fill style="color: green" />
+              完成
+            </template>
+          </template>
+          <template #operations="{ record }">
+            <a-button v-if="!record.is_resolved" type="text" @click="handleResolveMark(record.id)">标记解决</a-button>
+            <a-button v-else type="text" :disabled="record.level < 2" @click="handleShowDetails(record.id)">详情</a-button>
+          </template>
+        </a-table>
+        <!--        </a-card>-->
       </a-tab-pane>
     </a-tabs>
     <EventMarkResolved
@@ -464,6 +469,7 @@ const columns = computed<TableColumnData[]>(() => [
   {
     title: '记录时间',
     dataIndex: 'time',
+    width: 200,
   },
   {
     title: '操作',
