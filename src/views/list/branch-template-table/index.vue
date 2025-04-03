@@ -167,7 +167,7 @@
             <!--                src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/ea8b09190046da0ea7e070d83c5d1731.svg~tplv-49unhts6dw-image.image"-->
             <!--              />-->
             <!--            </a-avatar>-->
-            {{ $t(`branchTemplateTable.form.type.${record.type}`) }}
+            {{ cargoType[`cargoType.${record.type}`] }}
           </a-space>
         </template>
         <template #filterType="{ record }">
@@ -254,6 +254,7 @@ import Sortable from 'sortablejs'
 import { computed, nextTick, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
+import cargoType from "../../../api/enums/cargoType";
 
 const router = useRouter()
 
@@ -362,6 +363,18 @@ const typeOptions = computed<SelectOptionData[]>(() => [
   {
     label: t('branchTemplateTable.form.type.meat'),
     value: 'meat',
+  },
+  {
+    label: '冷藏零食',
+    value: 'snack',
+  },
+  {
+    label: '医药用品',
+    value: 'medicine',
+  },
+  {
+    label: '其他',
+    value: 'other',
   },
 ])
 const filterTypeOptions = computed<SelectOptionData[]>(() => [

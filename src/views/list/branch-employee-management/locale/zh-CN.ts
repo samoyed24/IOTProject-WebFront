@@ -4,7 +4,7 @@ export default {
   'branchEmployeeManagement.form.id.placeholder': '请输入员工代号',
   'branchEmployeeManagement.form.name': '员工姓名',
   'branchEmployeeManagement.form.name.placeholder': '请输入员工姓名',
-  'branchEmployeeManagement.form.telephone': "电话号码",
+  'branchEmployeeManagement.form.telephone': '电话号码',
   'branchEmployeeManagement.form.telephone.placeholder': '请输入电话号码',
   'branchEmployeeManagement.form.email': '电子邮箱',
   'branchEmployeeManagement.form.email.placeholder': '请输入电子邮箱',

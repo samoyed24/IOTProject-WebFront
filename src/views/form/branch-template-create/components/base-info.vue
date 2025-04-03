@@ -30,7 +30,7 @@
         <a-option value="vegetable">果蔬</a-option>
         <a-option value="meat">肉类</a-option>
         <a-option value="snack">冷藏零食</a-option>
-        <a-option value="medical">医药用品</a-option>
+        <a-option value="medicine">医药用品</a-option>
         <a-option value="other">其他</a-option>
       </a-select>
     </a-form-item>

@@ -37,6 +37,7 @@ const links = [
   { text: '设备管理', icon: 'icon-settings', router: 'branchDeviceTable' },
   { text: '分支员工', icon: 'icon-user', router: 'BranchEmployeeManagement' },
   { text: '库房管理', icon: 'icon-home', router: 'branchWarehouseTable' },
+  { text: '订单管理', icon: 'icon-file', router: 'orderManagement' },
 ]
 
 const handleRouterPush = (name: string) => {

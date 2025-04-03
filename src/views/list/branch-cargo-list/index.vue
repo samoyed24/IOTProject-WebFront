@@ -127,7 +127,7 @@
         </template>
         <template #type="{ record }">
           <a-space>
-            {{ $t(`branchCargoList.form.type.${record.type}`) }}
+            {{ cargoType[`cargoType.${record.type}`] }}
           </a-space>
         </template>
         <template #filterType="{ record }">
@@ -158,7 +158,8 @@ import cloneDeep from 'lodash/cloneDeep'
 import Sortable from 'sortablejs'
 import { computed, nextTick, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from "vue-router"
+import { useRouter } from 'vue-router'
+import cargoType from '../../../api/enums/cargoType'
 
 type SizeProps = 'mini' | 'small' | 'medium' | 'large'
 type Column = TableColumnData & { checked?: true }
