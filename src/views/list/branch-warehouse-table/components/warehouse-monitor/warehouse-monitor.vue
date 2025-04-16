@@ -387,7 +387,7 @@ const search = () => {
 search()
 
 const onPageChange = (current: number) => {
-  fetchData({ ...basePagination, current })
+  fetchData({ ...basePagination, current, ...formModel.value,})
 }
 
 const columns = computed<TableColumnData[]>(() => [

@@ -39,7 +39,7 @@
                   accept=".jpg, .jpeg"
                   :show-file-list="false"
                   action="dev-api/warehouse/user-authinfo-update"
-                  :data="{ item: 'face_recognition', employee: record.id }"
+                  :data="{ item: 'face_recognition', employee: authInfoUser }"
                   :disabled="authUploadStatus.face_recognition"
                   @success="
                     (resp) => {
@@ -87,7 +87,7 @@
                   accept=".mp3, .wav"
                   :show-file-list="false"
                   action="dev-api/warehouse/user-authinfo-update"
-                  :data="{ item: 'voice_vector', employee: record.id }"
+                  :data="{ item: 'voice_vector', employee: authInfoUser }"
                   :disabled="authUploadStatus.voice_vector"
                   @success="
                     (resp) => {
