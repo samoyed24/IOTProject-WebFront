@@ -1,5 +1,5 @@
 export default {
-  'login.form.title': '登录 Vue Admin Arco',
+  'login.form.title': '登录智慧冷链管理平台',
   'login.form.userName.errMsg': '用户名不能为空',
   'login.form.password.errMsg': '密码不能为空',
   'login.form.login.errMsg': '登录出错，轻刷新重试',
@@ -10,10 +10,10 @@ export default {
   'login.form.forgetPassword': '忘记密码',
   'login.form.login': '登录',
   'login.form.register': '注册账号',
-  'login.banner.slogan1': '开箱即用的高质量模板',
-  'login.banner.subSlogan1': '丰富的的页面模板，覆盖大多数典型业务场景',
-  'login.banner.slogan2': '内置了常见问题的解决方案',
-  'login.banner.subSlogan2': '国际化，路由配置，状态管理应有尽有',
-  'login.banner.slogan3': '接入可视化增强工具AUX',
-  'login.banner.subSlogan3': '实现灵活的区块式开发',
+  'login.banner.slogan1': '开箱即用的冷链仓储管理平台',
+  'login.banner.subSlogan1': '涵盖订单、货物、库房多要素协同管理',
+  'login.banner.slogan2': '推动冷链物流企业数智化转型',
+  'login.banner.subSlogan2': '实现降本增效',
+  'login.banner.slogan3': '配备微信小程序协助生产',
+  'login.banner.subSlogan3': '实现多端互通',
 }
