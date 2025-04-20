@@ -59,6 +59,9 @@
       :columns="cargoColumns"
       :loading="tableLoading"
       :pagination="pagination"
+      :scrollbar="true"
+      :scroll="{ x: 0, y: 300 }"
+      :column-resizable="true"
       :row-selection="rowSelection"
       @page-change="onPageChange"
     >
@@ -164,6 +167,7 @@ const cargoColumns = [
   {
     title: '入库时间',
     dataIndex: 'enterTime',
+    width: '200',
   },
   {
     title: '剩余存储时长',

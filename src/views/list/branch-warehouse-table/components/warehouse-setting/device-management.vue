@@ -1,6 +1,14 @@
 <template>
   <div>
-    <a-table :columns="columns" :loading="tableLoading" :data="tableData" :pagination="false">
+    <a-table
+      :columns="columns"
+      :loading="tableLoading"
+      :data="tableData"
+      :pagination="false"
+      :scrollbar="true"
+      :scroll="{ x: 0, y: 300 }"
+      column-resizable
+    >
       <template #index="{ rowIndex }">
         {{ rowIndex + 1 }}
       </template>

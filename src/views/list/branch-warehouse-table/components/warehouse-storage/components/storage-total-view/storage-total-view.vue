@@ -53,7 +53,16 @@
         </a-button>
       </a-col>
     </a-row>
-    <a-table :data="tableData" :columns="cargoColumns" :loading="tableLoading" :pagination="pagination" @page-change="onPageChange">
+    <a-table
+      :data="tableData"
+      :columns="cargoColumns"
+      :loading="tableLoading"
+      :pagination="pagination"
+      :scrollbar="true"
+      :scroll="{ x: 0, y: 300 }"
+      column-resizable
+      @page-change="onPageChange"
+    >
       <template #index="{ rowIndex }">
         {{ rowIndex + 1 + (pagination.current - 1) * pagination.pageSize }}
       </template>
@@ -154,6 +163,7 @@ const cargoColumns = [
   {
     title: '入库时间',
     dataIndex: 'enterTime',
+    width: '200',
   },
   {
     title: '剩余存储时长',

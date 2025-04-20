@@ -15,10 +15,19 @@
       </template>
       刷新
     </a-button>
-    <a-table :data="tableData" :columns="cargoColumns" :loading="tableLoading" :pagination="pagination" @page-change="onPageChange">
-<!--      <template #index="{ rowIndex }">-->
-<!--        {{ rowIndex + 1 + (pagination.current - 1) * pagination.pageSize }}-->
-<!--      </template>-->
+    <a-table
+      :data="tableData"
+      :columns="cargoColumns"
+      :loading="tableLoading"
+      :pagination="pagination"
+      :scrollbar="true"
+      :scroll="{ x: 0, y: 300 }"
+      :column-resizable="true"
+      @page-change="onPageChange"
+    >
+      <!--      <template #index="{ rowIndex }">-->
+      <!--        {{ rowIndex + 1 + (pagination.current - 1) * pagination.pageSize }}-->
+      <!--      </template>-->
       <template #isIn="{ record }">
         <div v-if="record.isIn">
           <span class="circle pass" />
@@ -44,7 +53,7 @@
         <span v-else>未完成</span>
       </template>
       <template #operations="{ record }">
-<!--      <template #operations>-->
+        <!--      <template #operations>-->
         <a-button @click="handleViewDetails(record.id)">查看详情</a-button>
         <a-button @click="Message.warning('TODO 待实现')">打印订单</a-button>
       </template>
@@ -93,6 +102,7 @@ const cargoColumns = [
   {
     title: '下单时间',
     dataIndex: 'createdAt',
+    width: '200',
   },
   {
     title: '订单货物总数',
@@ -114,6 +124,7 @@ const cargoColumns = [
   {
     title: '操作',
     slotName: 'operations',
+    width: '300',
   },
 ]
 const tableLoading = ref(true)
