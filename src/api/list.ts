@@ -190,6 +190,10 @@ export function warehouseUserGet(params: any) {
   })
 }
 
+export function markFeedbackResolved(data: any) {
+  return axios.post('dev-api/management/mark-feedback-resolved', data)
+}
+
 export function warehouseUserDelete(data: any) {
   return axios.post('dev-api/warehouse/warehouse-user-delete', data)
 }
@@ -253,6 +257,24 @@ export function warehouseParamsUpdate(data: WarehouseParamSubmit) {
 
 export function queryBranchCargoList(params: any) {
   return axios.get('dev-api/management/branch-cargo-get', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
+    },
+  })
+}
+
+export function getCustomerFeedback(params: any) {
+  return axios.get('dev-api/management/get-customer-feedback', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj)
+    },
+  })
+}
+
+export function getFeedbackDetails(params: any) {
+  return axios.get('dev-api/management/get-feedback-details', {
     params,
     paramsSerializer: (obj) => {
       return qs.stringify(obj)

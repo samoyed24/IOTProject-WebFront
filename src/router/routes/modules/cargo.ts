@@ -57,6 +57,18 @@ const CARGO: AppRouteRecordRaw = {
         hideInMenu: false,
       },
     },
+    {
+      path: 'traceFeedback', // The midline path complies with SEO specifications
+      name: 'traceFeedback',
+      component: () => import('@/views/list/branch-trace-feedback/index.vue'),
+      meta: {
+        locale: '货物溯源反馈',
+        requiresAuth: true,
+        icon: 'icon-message',
+        roles: ['branch-admin'],
+        hideInMenu: false,
+      },
+    },
   ],
 }
 
