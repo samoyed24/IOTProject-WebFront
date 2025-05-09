@@ -1,13 +1,13 @@
 <template>
   <div>
     <a-table
-      :columns="columns"
-      :loading="tableLoading"
-      :data="tableData"
-      :pagination="false"
-      :scrollbar="true"
-      :scroll="{ x: 0, y: 300 }"
-      column-resizable
+        :columns="columns"
+        :loading="tableLoading"
+        :data="tableData"
+        :pagination="false"
+        :scrollbar="true"
+        :scroll="{ x: 0, y: 300 }"
+        column-resizable
     >
       <template #index="{ rowIndex }">
         {{ rowIndex + 1 }}
@@ -33,10 +33,10 @@
       </template>
       <template #is_active="{ record }">
         <a-switch
-          v-model="record.is_active"
-          :disabled="true"
-          :loading="switchLoading"
-          :before-change="
+            v-model="record.is_active"
+            :disabled="true"
+            :loading="switchLoading"
+            :before-change="
             (e: string | number | boolean) => {
               handleSwitch(e as boolean, record.deviceId)
             }
@@ -50,26 +50,26 @@
       </template>
       添加设备
     </a-button>
-<!--    <a-button :long="true" type="primary" status="success">-->
-<!--      <template #icon>-->
-<!--        <icon-refresh></icon-refresh>-->
-<!--      </template>-->
-<!--      同步设备-->
-<!--    </a-button>-->
+    <!--    <a-button :long="true" type="primary" status="success">-->
+    <!--      <template #icon>-->
+    <!--        <icon-refresh></icon-refresh>-->
+    <!--      </template>-->
+    <!--      同步设备-->
+    <!--    </a-button>-->
     <a-modal
-      title="添加设备"
-      :visible="modalVisible"
-      width="50%"
-      :ok-loading="okLoading"
-      @cancel="modalVisible = false"
-      @close="modalVisible = false"
-      @ok="submitForm"
+        title="添加设备"
+        :visible="modalVisible"
+        width="50%"
+        :ok-loading="okLoading"
+        @cancel="modalVisible = false"
+        @close="modalVisible = false"
+        @ok="submitForm"
     >
       <a-form ref="formRef" :model="deviceAdd">
         <a-form-item
-          field="deviceId"
-          label="设备唯一标识"
-          :rules="[
+            field="deviceId"
+            label="设备唯一标识"
+            :rules="[
             {
               required: true,
               message: '请输入设备唯一标识',

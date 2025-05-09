@@ -17,7 +17,7 @@
         <a-input :model-value="formData.contact" />
       </a-form-item>
       <a-form-item label="反馈内容">
-        <a-textarea :model-value="formData.contact" style="height: 200px" />
+        <a-textarea :model-value="formData.content" style="height: 200px" />
       </a-form-item>
       <a-form-item>
         <a-popconfirm :on-before-ok="markResolved" content="是否确定？">
